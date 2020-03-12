@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Previsão do Tempo</title>
+    <!-- <link rel="stylesheet" href="./css/reset.css"> -->
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <div class="container">
+        <button class="btn-modal">Cadastar Cidade</button>
+        <div class="modal">
+            <div class="modal-content">
+                <header class="modal-header">
+                    <span>Cadastar cidade/Atualizar Cidade</span>
+                    <span class="close-modal">&times;</span>
+                </header>
+                <div class="modal-body">
+                    <div>
+                        <label for="ibge">Código IBGE:</label>
+                        <input list="cidades_IBGE" type="text" name="ibge" id="ibge">
+                    </div>
+                    <div>
+                        <label for="nome">Nome de Cidade:</label>
+                        <input type="text" name="nome" id="nome">
+                    </div>
+                    <div>
+                        <label for="estado">Estado (Sigla):</label>
+                        <input type="text" name="estado" id="estado">
+                    </div>
+                    <div>
+                        <label for="populacao">População Estimada:</label>
+                        <input type="text" name="populacao" id="populacao">
+                    </div>
+                    <div>
+                        <label for="observacao">Observação:</label>
+                        <input type="text" name="observacao" id="observacao">
+                    </div>
+                    <button class="submit">Enviar dados</button>
+                </div>
+            </div>
+        </div>
+        <button class="listar">Listar</button>
+        <table class="table">
+            <thead>
+                <th>Nome</th>
+                <th>Estado</th>
+                <th>IBGE</th>
+                <th>População</th>
+                <th>Observação</th>
+                <th colspan="1">Opções</th>
+                <th>Temperatura (ºC)</th>
+            </thead>
+            <tbody>
+                
+            </tbody>
+        </table>
+    </div>
+    <datalist id="cidades_IBGE"></datalist>
+    <script src="https://assets.hgbrasil.com/weather/js/hg-weather-1.0.js" type="text/javascript"></script>
+    <script src="./js/modal.js"></script>
+    <script src="./js/cadastro-class.js"></script>
+    <script src="./js/BD.class.js"></script>
+    <script src="./js/main.js"></script>
+    <script src="./js/datalist.js"></script>
+    <script src="./js/temp.js"></script>
+</body>
+</html>

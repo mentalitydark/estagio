@@ -1,0 +1,135 @@
+div.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+div.modal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 0;
+    border: 1px solid #888;
+    width: 40%;
+    box-shadow: 0 4px 5px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.19);
+    animation-name: animatetop;
+    animation-duration: 0.5s;
+}
+@keyframes animatetop {
+    from {top: -300px; opacity: 0}
+    to {top: 0; opacity: 1}
+}
+span.close-modal {
+    color: #fff!important;
+    float: right;
+    font-size: 21px;
+    font-weight: bold;
+}
+span.close-modal:hover,
+span.close-modal:focus {
+    color: black!important;
+    text-decoration: none;
+    cursor: pointer;
+}
+header.modal-header {
+    padding: 4px 15px;
+    background-color: #6c757d;
+    color: white;
+    font-size: 21px;
+}
+div.modal-body, div.modal-body > div {
+    padding: 2px 16px;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: 400;
+    width: 95%;
+}
+div.modal-body {
+    align-items: center;   
+}
+div.modal-body>div>input {
+    border-radius: 0.5em;
+    border: 1px solid rgba(0, 0, 0, 0.19);
+    height: 20px;
+}
+button.submit {
+    margin: 5px 0px;
+    width: 50%;
+    text-align: center;
+    padding: .375em .75em;
+    vertical-align: middle;
+    background-color: #28a745;
+    border-radius: 0.5em;
+    color: #fff;
+    cursor: pointer;
+    border: 1px solid transparent;
+}
+
+div.container {
+    display: flex;
+    flex-direction: column;
+    margin: auto 5px;
+    align-items: center;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: 400;
+    font-size: 1.1em;
+}
+div.container > button {
+    margin: 5px 0px;
+    width: 30%;
+    text-align: center;
+    padding: .375em .75em;
+    vertical-align: middle;
+    background-color: #007bff;
+    border-radius: 0.5em;
+    color: #fff;
+    cursor: pointer;
+    border: 1px solid transparent;
+}
+button.edit {
+    margin: 2px 2px;
+    width: 4em;
+    text-align: center;
+    padding: .375em .75em;
+    vertical-align: middle;
+    background-color: #ffc107;
+    border-radius: 0.5em;
+    color: #212529;
+    cursor: pointer;
+    border: 1px solid transparent;
+}
+button.delet {
+    margin: 2px 2px;
+    width: 4.5em;
+    text-align: center;
+    padding: .375em .75em;
+    vertical-align: middle;
+    background-color: #dc3545;
+    border-radius: 0.5em;
+    color: #fff;
+    cursor: pointer;
+    border: 1px solid transparent;
+}
+table {
+    font-family: 'Times New Roman', Times, serif;
+    color: #212529;
+    border: 1px solid transparent;
+    border-collapse: collapse;
+    border-spacing: 0px;
+}
+td,th {
+    border-bottom: 1px solid rgba(0,0,0,0.5);
+}
+td.temp {
+    text-align: center;
+}
+td:nth-child(2) {
+    text-align: center;
+}
