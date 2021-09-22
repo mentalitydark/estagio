@@ -7,8 +7,11 @@ html, body {
 }
 body {
     display: flex;
-    justify-content: center
+    justify-content: center;
+    align-items: center
 }
 canvas {
     border: 1px solid #383838;
+    width: 75vw;
+    height: calc(75vw * 0.56);
 }
