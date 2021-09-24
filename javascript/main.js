@@ -1,13 +1,32 @@
 "use strict";
+// import
+import fps from "./function/fps.js";
+import Player from "./class/player.js";
+// -----------
+
 // const
 const canvas = document.querySelector("#canvas");
 const context = canvas.getContext("2d");
+const player = new Player("Maou");
 // -----------
+
 // let
-let oldTimeStamp;
+let keys = {
+};
 // -----------
+
 // resources
+
 // -----------
+
+// inputs
+document.addEventListener("keydown", (event) => {
+    keys[event.key] = true;
+});
+document.addEventListener("keyup", (event) => {
+    keys[event.key] = false;
+});
+// ----------
 document.addEventListener("DOMContentLoaded", () => {
     window.requestAnimationFrame(gameLoop);
 });
@@ -17,21 +36,29 @@ function gameLoop(timeStamp) {
     render(timeStamp);
 }
 function update() {
-
+    if(keys.ArrowUp) player.moveY(-1);
+    if(keys.ArrowDown) player.moveY(1);
+    if(keys.ArrowRight) player.moveX(1);
+    if(keys.ArrowLeft) player.moveX(-1);
+    player.sprint(keys.Shift);
+    
+    // Colisões
+    player.PositionX = Math.max(0, player.Position.x);
+    player.PositionX = Math.max(0, Math.min(canvas.width - player.Mask.width, player.Position.x));
+    player.PositionY = Math.max(0, player.Position.y);
+    player.PositionY = Math.max(0, Math.min(canvas.height - player.Mask.height, player.Position.y));
 }
 function render(timeStamp) {
-    // FPS
-    const seconds = (timeStamp - oldTimeStamp) / 1000;
-    oldTimeStamp = timeStamp;
-    const fps = Math.round(1/seconds);
-    // -----------
+    context.fillStyle = "#383838";
+    context.font = "25px Free Pixel";
     context.save();
     context.clearRect(0, 0, canvas.width, canvas.height);
-    context.fillRect(590, 310, 50, 50);
+    // Código
+    player.draw(context);
+
+    // ----------
     context.restore();
     // FPS Render
-    context.fillStyle = "#383838";
-    context.font = "25px Arial";
-    context.fillText("FPS: "+ fps, 10, 30);
+    context.fillText("FPS: "+ fps(timeStamp), 10, 30);
     // ----------
 }
