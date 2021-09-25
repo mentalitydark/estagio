@@ -1,22 +1,40 @@
 "use strict";
 // import
-import fps from "./function/fps.js";
-import Player from "./class/player.js";
+import fps from "./function/Fps.js";
+import Player from "./class/Player.js";
+import Block from "./class/Block.js";
+import Collision from "./function/Collision.js";
 // -----------
 
 // const
 const canvas = document.querySelector("#canvas");
 const context = canvas.getContext("2d");
-const player = new Player("Maou");
 // -----------
 
 // let
-let keys = {
-};
+let keys = {};
+let blocks_Render = [];
+let blocks_Collision = [];
 // -----------
 
-// resources
+// objetos
+const player = new Player("Maou");
 
+const block1 = new Block(50, 300, 100, 50);
+blocks_Render.push(block1);
+blocks_Collision.push(block1);
+
+const block2 = new Block(400, 100, 100, 200);
+blocks_Render.push(block2);
+blocks_Collision.push(block2);
+
+const block3 = new Block(300, 100, 100, 10);
+blocks_Render.push(block3);
+blocks_Collision.push(block3);
+
+const block4 = new Block(600, 400, 1, 1);
+blocks_Render.push(block4);
+blocks_Collision.push(block4);
 // -----------
 
 // inputs
@@ -43,10 +61,13 @@ function update() {
     player.sprint(keys.Shift);
     
     // Colisões
-    player.PositionX = Math.max(0, player.Position.x);
-    player.PositionX = Math.max(0, Math.min(canvas.width - player.Mask.width, player.Position.x));
-    player.PositionY = Math.max(0, player.Position.y);
-    player.PositionY = Math.max(0, Math.min(canvas.height - player.Mask.height, player.Position.y));
+    player.position.x = Math.max(0, player.Position.x);
+    player.position.x = Math.max(0, Math.min(canvas.width - player.Mask.width, player.Position.x));
+    player.position.y = Math.max(0, player.Position.y);
+    player.position.y = Math.max(0, Math.min(canvas.height - player.Mask.height, player.Position.y));
+    blocks_Collision.forEach( block => {
+        Collision(player, block);
+    });
 }
 function render(timeStamp) {
     context.fillStyle = "#383838";
@@ -55,7 +76,9 @@ function render(timeStamp) {
     context.clearRect(0, 0, canvas.width, canvas.height);
     // Código
     player.draw(context);
-
+    blocks_Render.forEach( block => {
+        block.draw(context);
+    });
     // ----------
     context.restore();
     // FPS Render
