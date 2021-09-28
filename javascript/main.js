@@ -4,11 +4,14 @@ import fps from "./function/Fps.js";
 import Player from "./class/Player.js";
 import Block from "./class/Block.js";
 import Collision from "./function/Collision.js";
+import Camera from "./class/Camera.js";
+import World from "./class/World.js";
 // -----------
 
 // const
 const canvas = document.querySelector("#canvas");
 const context = canvas.getContext("2d");
+const world_bg = new Image();
 // -----------
 
 // let
@@ -19,22 +22,24 @@ let blocks_Collision = [];
 
 // objetos
 const player = new Player("Maou");
+const camera = new Camera((player.Position.x-canvas.width+16)/2, (player.Position.y-canvas.height+16)/2, canvas.width, canvas.height);
+const world = new World(1500, 1500, world_bg);
 
-const block1 = new Block(50, 300, 100, 50);
-blocks_Render.push(block1);
-blocks_Collision.push(block1);
-
-const block2 = new Block(400, 100, 100, 200);
-blocks_Render.push(block2);
-blocks_Collision.push(block2);
-
-const block3 = new Block(300, 100, 100, 10);
-blocks_Render.push(block3);
-blocks_Collision.push(block3);
-
-const block4 = new Block(600, 400, 1, 1);
-blocks_Render.push(block4);
-blocks_Collision.push(block4);
+const blocks = [
+    new Block(0, 0, world.width, 1),
+    new Block(world.width, 0, 1, world.height),
+    new Block(0, world.height, world.width, 1),
+    new Block(0, 0, 1, world.height),
+    new Block(50, 300, 100, 50),
+    new Block(400, 100, 100, 200),
+    new Block(300, 100, 100, 10),
+    new Block(600, 400, 1, 1),
+    new Block(600, 445, 1000, 10),
+];
+blocks.forEach( block => {
+    blocks_Render.push(block);
+    blocks_Collision.push(block);
+});
 // -----------
 
 // inputs
@@ -59,21 +64,27 @@ function update() {
     if(keys.ArrowRight) player.moveX(1);
     if(keys.ArrowLeft) player.moveX(-1);
     player.sprint(keys.Shift);
+
+    // Movimentação da Camera
+    if(player.Position.y < camera.topBorder()) camera.y = player.Position.y-camera.height * 0.5;
+    if(player.Position.x > camera.rightBorder()) camera.x = player.Position.x-camera.width * 0.5;
+    if(player.Position.y > camera.bottomBorder()) camera.y = player.Position.y-camera.height * 0.5;
+    if(player.Position.x < camera.leftBorder()) camera.x = player.Position.x-camera.width * 0.5;
     
     // Colisões
     player.position.x = Math.max(0, player.Position.x);
-    player.position.x = Math.max(0, Math.min(canvas.width - player.Mask.width, player.Position.x));
+    player.position.x = Math.max(0, Math.min(world.width - player.Mask.width, player.Position.x));
     player.position.y = Math.max(0, player.Position.y);
-    player.position.y = Math.max(0, Math.min(canvas.height - player.Mask.height, player.Position.y));
+    player.position.y = Math.max(0, Math.min(world.height - player.Mask.height, player.Position.y));
     blocks_Collision.forEach( block => {
         Collision(player, block);
     });
 }
 function render(timeStamp) {
     context.fillStyle = "#383838";
-    context.font = "25px Free Pixel";
     context.save();
-    context.clearRect(0, 0, canvas.width, canvas.height);
+    context.translate(-camera.x, -camera.y);
+    context.clearRect(player.Position.x-canvas.width/2, player.Position.y-canvas.height/2, 900, 600);
     // Código
     player.draw(context);
     blocks_Render.forEach( block => {
@@ -82,6 +93,8 @@ function render(timeStamp) {
     // ----------
     context.restore();
     // FPS Render
+    context.fillStyle = "rgba(0,0,0,0.3)";
+    context.font = "1000 25px Free Pixel";
     context.fillText("FPS: "+ fps(timeStamp), 10, 30);
     // ----------
 }
