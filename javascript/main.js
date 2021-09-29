@@ -1,11 +1,16 @@
+/* eslint-disable no-import-assign */
 "use strict";
 // import
 import fps from "./function/Fps.js";
+import {Collision, BorderCollision} from "./function/Collision.js";
+import movePlayer from "./function/KeysPress.js";
+import LoadHandler from "./function/LoadHandler.js";
 import Player from "./class/Player.js";
 import Block from "./class/Block.js";
-import Collision from "./function/Collision.js";
 import Camera from "./class/Camera.js";
 import World from "./class/World.js";
+import * as GLOBAL from "./util/global.js";
+
 // -----------
 
 // const
@@ -18,6 +23,14 @@ const world_bg = new Image();
 let keys = {};
 let blocks_Render = [];
 let blocks_Collision = [];
+// -----------
+
+// src
+world_bg.src = "../img/world/map.png";
+GLOBAL.assetsToLoad.push(world_bg);
+GLOBAL.assetsToLoad.forEach(asset => {
+    asset.addEventListener("load", LoadHandler(asset));
+});
 // -----------
 
 // objetos
@@ -34,7 +47,7 @@ const blocks = [
     new Block(400, 100, 100, 200),
     new Block(300, 100, 100, 10),
     new Block(600, 400, 1, 1),
-    new Block(600, 445, 1000, 10),
+    new Block(600, 445, 800, 10),
 ];
 blocks.forEach( block => {
     blocks_Render.push(block);
@@ -48,6 +61,14 @@ document.addEventListener("keydown", (event) => {
 });
 document.addEventListener("keyup", (event) => {
     keys[event.key] = false;
+    switch (event.key) {
+    case "Escape":
+        GLOBAL.gameState = GLOBAL.gameState == GLOBAL.PLAYING ? GLOBAL.PAUSED : GLOBAL.PLAYING;
+        break;
+    case "Enter":
+        GLOBAL.gameState = GLOBAL.PLAYING;
+        break;
+    }
 });
 // ----------
 document.addEventListener("DOMContentLoaded", () => {
@@ -55,15 +76,20 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 function gameLoop(timeStamp) {
     window.requestAnimationFrame(gameLoop, canvas);
-    update();
+    switch (gameState) {
+    case LOADING:
+        console.log("loading...");
+        break;
+    case PLAYING:
+        update();
+        break;
+    case PAUSED:
+        break;
+    }
     render(timeStamp);
 }
 function update() {
-    if(keys.ArrowUp) player.moveY(-1);
-    if(keys.ArrowDown) player.moveY(1);
-    if(keys.ArrowRight) player.moveX(1);
-    if(keys.ArrowLeft) player.moveX(-1);
-    player.sprint(keys.Shift);
+    movePlayer(player, keys);
 
     // Movimentação da Camera
     if(player.Position.y < camera.topBorder()) camera.y = player.Position.y-camera.height * 0.5;
@@ -72,10 +98,7 @@ function update() {
     if(player.Position.x < camera.leftBorder()) camera.x = player.Position.x-camera.width * 0.5;
     
     // Colisões
-    player.position.x = Math.max(0, player.Position.x);
-    player.position.x = Math.max(0, Math.min(world.width - player.Mask.width, player.Position.x));
-    player.position.y = Math.max(0, player.Position.y);
-    player.position.y = Math.max(0, Math.min(world.height - player.Mask.height, player.Position.y));
+    BorderCollision(player, world);
     blocks_Collision.forEach( block => {
         Collision(player, block);
     });
