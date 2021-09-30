@@ -1,43 +1,43 @@
-/* eslint-disable no-import-assign */
 "use strict";
-// import
-import fps from "./function/Fps.js";
-import {Collision, BorderCollision} from "./function/Collision.js";
-import movePlayer from "./function/KeysPress.js";
-import LoadHandler from "./function/LoadHandler.js";
+import {GAME_update, GAME_render} from "./function/Playing.js";
+import {MENU_update, MENU_render} from "./function/StartMenu.js";
+import {addToLoad, loadEvent, loadedAssets, assetsToLoad} from "./function/LoadImgs.js";
 import Player from "./class/Player.js";
 import Block from "./class/Block.js";
 import Camera from "./class/Camera.js";
 import World from "./class/World.js";
-import * as GLOBAL from "./util/global.js";
-
 // -----------
 
 // const
 const canvas = document.querySelector("#canvas");
 const context = canvas.getContext("2d");
 const world_bg = new Image();
+const sprites = new Image();
+const START_MENU = 1;
+const PAUSED = 2;
+const PLAYING = 3;
 // -----------
 
 // let
+let LOADING = true;
 let keys = {};
-let blocks_Render = [];
+let blocks_renderGame = [];
 let blocks_Collision = [];
+let gameState = 1;
 // -----------
 
-// src
+// Image Load
 world_bg.src = "../img/world/map.png";
-GLOBAL.assetsToLoad.push(world_bg);
-GLOBAL.assetsToLoad.forEach(asset => {
-    asset.addEventListener("load", LoadHandler(asset));
-});
+sprites.src = "../img/sprites/char.png";
+addToLoad(world_bg);
+addToLoad(sprites);
+loadEvent();
 // -----------
 
 // objetos
 const player = new Player("Maou");
 const camera = new Camera((player.Position.x-canvas.width+16)/2, (player.Position.y-canvas.height+16)/2, canvas.width, canvas.height);
 const world = new World(1500, 1500, world_bg);
-
 const blocks = [
     new Block(0, 0, world.width, 1),
     new Block(world.width, 0, 1, world.height),
@@ -50,7 +50,7 @@ const blocks = [
     new Block(600, 445, 800, 10),
 ];
 blocks.forEach( block => {
-    blocks_Render.push(block);
+    blocks_renderGame.push(block);
     blocks_Collision.push(block);
 });
 // -----------
@@ -63,61 +63,33 @@ document.addEventListener("keyup", (event) => {
     keys[event.key] = false;
     switch (event.key) {
     case "Escape":
-        GLOBAL.gameState = GLOBAL.gameState == GLOBAL.PLAYING ? GLOBAL.PAUSED : GLOBAL.PLAYING;
+        gameState = gameState === PLAYING ? PAUSED : PLAYING;
         break;
     case "Enter":
-        GLOBAL.gameState = GLOBAL.PLAYING;
+        gameState = PLAYING;
         break;
     }
 });
 // ----------
+
 document.addEventListener("DOMContentLoaded", () => {
     window.requestAnimationFrame(gameLoop);
 });
 function gameLoop(timeStamp) {
     window.requestAnimationFrame(gameLoop, canvas);
-    switch (gameState) {
-    case LOADING:
-        console.log("loading...");
-        break;
-    case PLAYING:
-        update();
-        break;
-    case PAUSED:
-        break;
+    if(loadedAssets === assetsToLoad.length) LOADING = true;
+    if(LOADING) {
+        switch (gameState) {
+        case START_MENU:
+            MENU_update(context);
+            MENU_render(context, canvas);
+            break;
+        case PLAYING:
+            GAME_update(player, keys, camera, blocks_Collision, world);
+            GAME_render(timeStamp, context, player, camera, blocks_renderGame, canvas);
+            break;
+        case PAUSED:
+            break;
+        }
     }
-    render(timeStamp);
-}
-function update() {
-    movePlayer(player, keys);
-
-    // Movimentação da Camera
-    if(player.Position.y < camera.topBorder()) camera.y = player.Position.y-camera.height * 0.5;
-    if(player.Position.x > camera.rightBorder()) camera.x = player.Position.x-camera.width * 0.5;
-    if(player.Position.y > camera.bottomBorder()) camera.y = player.Position.y-camera.height * 0.5;
-    if(player.Position.x < camera.leftBorder()) camera.x = player.Position.x-camera.width * 0.5;
-    
-    // Colisões
-    BorderCollision(player, world);
-    blocks_Collision.forEach( block => {
-        Collision(player, block);
-    });
-}
-function render(timeStamp) {
-    context.fillStyle = "#383838";
-    context.save();
-    context.translate(-camera.x, -camera.y);
-    context.clearRect(player.Position.x-canvas.width/2, player.Position.y-canvas.height/2, 900, 600);
-    // Código
-    player.draw(context);
-    blocks_Render.forEach( block => {
-        block.draw(context);
-    });
-    // ----------
-    context.restore();
-    // FPS Render
-    context.fillStyle = "rgba(0,0,0,0.3)";
-    context.font = "1000 25px Free Pixel";
-    context.fillText("FPS: "+ fps(timeStamp), 10, 30);
-    // ----------
 }
