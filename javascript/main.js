@@ -2,7 +2,7 @@
 import {GAME_update, GAME_render} from "./function/Playing.js";
 import {MENU_update, MENU_render} from "./function/StartMenu.js";
 import {addToLoad, loadEvent, loadedAssets, assetsToLoad} from "./function/LoadImgs.js";
-import Player from "./class/Player.js";
+import Player from "./class/player.js";
 import Block from "./class/Block.js";
 import Camera from "./class/Camera.js";
 import World from "./class/World.js";
