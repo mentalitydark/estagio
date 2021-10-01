@@ -1,7 +1,7 @@
 import {movePlayer} from "./Events.js";
 import {Collision, BorderCollision} from "./Collision.js";
 import {save, load} from "../util/IndexedDB.js";
-import fps from "./Fps.js";
+import fps from "./fps.js";
 let Vignette = true;
 let i = 0;
 let loading = false;
