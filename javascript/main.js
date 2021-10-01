@@ -6,8 +6,10 @@ import Player from "./class/Player.js";
 import Block from "./class/Block.js";
 import Camera from "./class/Camera.js";
 import World from "./class/World.js";
+import {exists} from "./util/IndexedDB.js";
 // -----------
 
+const a = exists();
 // const
 const canvas = document.querySelector("#canvas");
 const context = canvas.getContext("2d");
@@ -67,6 +69,14 @@ document.addEventListener("keyup", (event) => {
         break;
     case "Enter":
         gameState = PLAYING;
+        break;
+    case "p":
+        if(gameState === PLAYING)
+            keys["p"] = true;
+        break;
+    case "o":
+        if(gameState === PLAYING)
+            keys["o"] = true;
         break;
     }
 });
