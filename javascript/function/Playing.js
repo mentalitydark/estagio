@@ -1,12 +1,10 @@
 import {movePlayer} from "./Events.js";
 import {Collision, BorderCollision} from "./Collision.js";
-import {save, load} from "../util/IndexedDB.js";
+import {load, save} from "./IndexedDB.js";
 import fps from "./fps.js";
 let Vignette = true;
 let i = 0;
-let loading = false;
-let loadInfos;
-export function GAME_update(player, keys, camera, blocks_Collision, world) {
+export async function GAME_update(player, keys, camera, blocks_Collision, world) {
     movePlayer(player, keys);
     // Movimentação da Camera
     if(player.Position.y < camera.topBorder()) camera.y = player.Position.y-camera.height * 0.5;
@@ -19,22 +17,15 @@ export function GAME_update(player, keys, camera, blocks_Collision, world) {
         Collision(player, block);
     });
     // Save & Load
-    if(keys["p"]) {
-        keys["p"] = false;
+    if(keys.p) {
+        keys.p = false;
         save(player);
     }
-    if(keys["o"]) {
-        if(loading == false) {
-            loadInfos = load();
-            loading = true;
-            Vignette = true;
-        }
-        if(loadInfos.readyState === "done") {
-            keys["o"] = false;
-            player.position.x = loadInfos.result.player.x;
-            player.position.y = loadInfos.result.player.y;
-            loading = false;
-        }
+    if(keys.o) {
+        keys.o = false;
+        Vignette = true;
+        load(player);
+        
     }
 }
 export function GAME_render(timeStamp, context, player, camera, blocks_renderGame, canvas) {

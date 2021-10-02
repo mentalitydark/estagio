@@ -1,16 +1,18 @@
 "use strict";
 import {GAME_update, GAME_render} from "./function/Playing.js";
 import {MENU_update, MENU_render} from "./function/StartMenu.js";
+import {PAUSED_update, PAUSED_render} from "./function/Paused.js";
 import {addToLoad, loadEvent, loadedAssets, assetsToLoad} from "./function/LoadImgs.js";
 import Player from "./class/player.js";
 import Block from "./class/Block.js";
 import Camera from "./class/Camera.js";
 import World from "./class/World.js";
-import {exists} from "./util/IndexedDB.js";
+import {load} from "./function/IndexedDB.js";
+import {keyMap, changeKey} from "./util/KeyMap.js";
 // -----------
 
-const a = exists();
 // const
+// TODO Organizar em um arquivo separado
 const canvas = document.querySelector("#canvas");
 const context = canvas.getContext("2d");
 const world_bg = new Image();
@@ -21,6 +23,7 @@ const PLAYING = 3;
 // -----------
 
 // let
+// TODO Organizar em um arquivo separado
 let LOADING = true;
 let keys = {};
 let blocks_renderGame = [];
@@ -40,6 +43,7 @@ loadEvent();
 const player = new Player("Maou");
 const camera = new Camera((player.Position.x-canvas.width+16)/2, (player.Position.y-canvas.height+16)/2, canvas.width, canvas.height);
 const world = new World(1500, 1500, world_bg);
+// TODO Organizar em um arquivo separado
 const blocks = [
     new Block(0, 0, world.width, 1),
     new Block(world.width, 0, 1, world.height),
@@ -64,17 +68,19 @@ document.addEventListener("keydown", (event) => {
 document.addEventListener("keyup", (event) => {
     keys[event.key] = false;
     switch (event.key) {
-    case "Escape":
+    case keyMap.Escape:
         gameState = gameState === PLAYING ? PAUSED : PLAYING;
         break;
-    case "Enter":
+    case keyMap.Enter:
         gameState = PLAYING;
+        changeKey("Enter", null);
+        load(player);
         break;
-    case "p":
+    case keyMap.p:
         if(gameState === PLAYING)
             keys["p"] = true;
         break;
-    case "o":
+    case keyMap.o:
         if(gameState === PLAYING)
             keys["o"] = true;
         break;
@@ -99,6 +105,8 @@ function gameLoop(timeStamp) {
             GAME_render(timeStamp, context, player, camera, blocks_renderGame, canvas);
             break;
         case PAUSED:
+            PAUSED_update(context);
+            PAUSED_render(context, canvas);
             break;
         }
     }

@@ -62,4 +62,8 @@ export default class Player {
     centerY() {
         return this.position.y + this.halfHeight();
     }
+    saveLoader(save) {
+        this.position.x = save.player.x;
+        this.position.y = save.player.y;
+    }
 }
