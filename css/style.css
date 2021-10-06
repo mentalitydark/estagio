@@ -1,6 +1,6 @@
 @font-face {
     font-family: "Free Pixel";
-    src: url("./../fonts/FreePixel.ttf") format("truetype");
+    src: url("./../font/FreePixel.ttf") format("truetype");
 }
 html, body {
     margin: 0;
