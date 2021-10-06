@@ -32,8 +32,8 @@ let gameState = 1;
 // -----------
 
 // Image Load
-world_bg.src = "./../img/world/Mapa.png";
-sprites.src = "./../img/sprites/Player.png";
+world_bg.src = "./img/world/Mapa.png";
+sprites.src = "./img/sprites/Player.png";
 addToLoad(world_bg);
 addToLoad(sprites);
 loadEvent();
