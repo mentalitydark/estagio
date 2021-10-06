@@ -1,5 +1,15 @@
 import Block from "../class/Block.js";
-export let Blocks = [];
+export let Variables = {
+    "gameState": 1,
+    "START_MENU": 1,
+    "PAUSED": 2,
+    "PLAYING": 3,
+    "LOADING": true,
+    "Blocks": []
+};
+export function changeVariable(variable, value) {
+    Variables[variable] = value;
+}
 const limits = [
     new Block(0, -1, 2000, 0),
     new Block(2000, 0, 2001, 1500),
@@ -13,4 +23,4 @@ const village = [
     new Block(1694, 1374, 1695 , 1500),
     new Block(1694, 1152, 2000, 1153),
 ];
-Blocks = Blocks.concat(Blocks, limits, village);
+Variables.Blocks = Variables.Blocks.concat(Variables.Blocks, limits, village);
