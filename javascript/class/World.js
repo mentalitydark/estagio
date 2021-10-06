@@ -7,4 +7,8 @@ export default class World {
     get width() { return this._width; }
     get height() { return this._height; }
     get img() { return this.img; }
+
+    draw(context) {
+        context.drawImage(this._img, 0, 0);
+    }
 }

@@ -1,9 +1,9 @@
 export default class Block {
-    constructor(x, y, width, height) {
+    constructor(x, y, endX, endY) {
         this._x = x;
         this._y = y;
-        this._width = width;
-        this._height = height;
+        this._width = endX - x;
+        this._height = endY - y;
         this._color = "rgba(0,0,0,0.5)";
         this._visible = true;
     }

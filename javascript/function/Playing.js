@@ -28,7 +28,7 @@ export async function GAME_update(player, keys, camera, blocks_Collision, world)
         
     }
 }
-export function GAME_render(timeStamp, context, player, camera, blocks_renderGame, canvas) {
+export function GAME_render(timeStamp, context, world, player, camera, blocks_renderGame, canvas) {
     if(Vignette) {
         i = vignette(context, canvas, i);
     } else {
@@ -37,6 +37,7 @@ export function GAME_render(timeStamp, context, player, camera, blocks_renderGam
         context.translate(-camera.x, -camera.y);
         context.clearRect(player.Position.x-canvas.width/2, player.Position.y-canvas.height/2, 900, 600);
         // Código
+        world.draw(context);
         player.draw(context);
         blocks_renderGame.forEach( block => {
             block.draw(context);

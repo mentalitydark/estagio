@@ -1,18 +1,27 @@
 export default class Player {
-    constructor(name) {
+    constructor(name, sprite) {
         this._name = name;
         this._mask = {
-            width: 16,
-            height: 16
+            width: 14,
+            height: 18
         };
         this.position = {
             x: 0,
             y: 0
         };
-        this._life = this.position.x;
+        this._life = 10;
         this._quests = [];
         this._sprites = [];
         this._speed = 1;
+        this.sprites = {
+            img: sprite,
+            src: sprite.src,
+            imgX: 0,
+            imgY: 0,
+            width: sprite.width,
+            height: sprite.height,
+            frameAnimation: 0
+        };
     }
     // Get
     get Name() {
@@ -45,7 +54,11 @@ export default class Player {
         this.position.y += y * this._speed;
     }
     draw(context) {
-        context.fillRect(this.position.x, this.position.y, this._mask.width, this._mask.height);
+        context.drawImage(
+            this.sprites.img,
+            this.sprites.imgX,  this.sprites.imgY, this._mask.width, this._mask.height,
+            this.position.x, this.position.y, this._mask.width, this._mask.height
+        );
     }
     sprint(press) {
         if (press) this._speed = 2; else this._speed = 1;
