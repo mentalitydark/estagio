@@ -41,7 +41,7 @@ loadEvent();
 
 // objetos
 const player = new Player("Maou", sprites);
-const camera = new Camera((player.Position.x-canvas.width+16)/2, (player.Position.y-canvas.height+16)/2, canvas.width, canvas.height);
+const camera = new Camera((player.Position.x-canvas.width)/4, (player.Position.y-canvas.height)/4, canvas.width, canvas.height);
 const world = new World(2000, 1500, world_bg);
 // TODO Organizar em um arquivo separado
 Blocks.forEach( block => {
@@ -80,7 +80,8 @@ document.addEventListener("keyup", (event) => {
 document.addEventListener("DOMContentLoaded", () => {
     window.requestAnimationFrame(gameLoop);
 });
-// context.imageSmoothingEnabled = false;
+context.imageSmoothingEnabled = false;
+context.scale(2, 2);
 function gameLoop(timeStamp) {
     window.requestAnimationFrame(gameLoop, canvas);
     if(loadedAssets === assetsToLoad.length) LOADING = true;

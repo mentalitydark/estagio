@@ -7,10 +7,10 @@ let i = 0;
 export async function GAME_update(player, keys, camera, blocks_Collision, world) {
     movePlayer(player, keys);
     // Movimentação da Camera
-    if(player.Position.y < camera.topBorder()) camera.y = player.Position.y-camera.height * 0.5;
-    if(player.Position.x > camera.rightBorder()) camera.x = player.Position.x-camera.width * 0.5;
-    if(player.Position.y > camera.bottomBorder()) camera.y = player.Position.y-camera.height * 0.5;
-    if(player.Position.x < camera.leftBorder()) camera.x = player.Position.x-camera.width * 0.5;
+    if(player.Position.y < camera.topBorder()) camera.y = player.Position.y-camera.height * 0.25;
+    if(player.Position.x > camera.rightBorder()) camera.x = player.Position.x-camera.width * 0.25;
+    if(player.Position.y > camera.bottomBorder()) camera.y = player.Position.y-camera.height * 0.25;
+    if(player.Position.x < camera.leftBorder()) camera.x = player.Position.x-camera.width * 0.25;
     // Colisões
     BorderCollision(player, world);
     blocks_Collision.forEach( block => {
@@ -45,9 +45,15 @@ export function GAME_render(timeStamp, context, world, player, camera, blocks_re
         // ----------
         context.restore();
         // FPS renderGame
-        context.fillStyle = "rgba(0,0,0,1)";
-        context.font = "1000 25px Free Pixel";
-        context.fillText("FPS: "+ fps(timeStamp), 10, 30);
+        const fpsText = fps(timeStamp);
+        context.fillStyle = "#e5ed04";
+        context.strokeStyle = "rgb(0, 0, 0)";
+        context.lineWidth = 1.5;
+        context.font = "12px Free Pixel";
+        context.strokeText("FPS: "+ fpsText, 2, 10);
+        context.stroke();
+        context.fillText("FPS: "+ fpsText, 2, 10);
+        context.fill();
         // ----------
     }
 }
@@ -55,7 +61,6 @@ export function GAME_render(timeStamp, context, world, player, camera, blocks_re
 function vignette(context, canvas, i) {
     context.fillStyle = "#000";
     context.fillRect(0, 0, canvas.width, i*15);
-    context.fillRect(0, canvas.height-i*15, canvas.width, i*15);
     i++;
     if(i == 20) {
         Vignette = false;
