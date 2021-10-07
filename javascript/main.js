@@ -17,7 +17,7 @@ const canvas = document.querySelector("#canvas");
 const context = canvas.getContext("2d");
 const world_bg = new Image();
 const sprites = new Image();
-const FreePixel = new FontFace("Free Pixel", "url('./../font/FreePixel.ttf')");
+const FreePixel = new FontFace("Free Pixel", "url('./font/FreePixel.ttf')");
 // -----------
 
 // let
