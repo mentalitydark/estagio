@@ -2,7 +2,7 @@
 import {GAME_update, GAME_render} from "./function/Playing.js";
 import {MENU_update, MENU_render} from "./function/StartMenu.js";
 import {PAUSED_update, PAUSED_render, backgroundTrue} from "./function/Paused.js";
-import {addToLoad, loadEvent, loadedAssets, assetsToLoad} from "./function/LoadImgs.js";
+import {addToLoad, loadEvent, loadedAssets, assetsToLoad} from "./function/LoadAssets.js";
 import Player from "./class/player.js";
 import Camera from "./class/Camera.js";
 import World from "./class/World.js";
@@ -17,6 +17,7 @@ const canvas = document.querySelector("#canvas");
 const context = canvas.getContext("2d");
 const world_bg = new Image();
 const sprites = new Image();
+const FreePixel = new FontFace("Free Pixel", "url('./../font/FreePixel.ttf')");
 // -----------
 
 // let
@@ -25,6 +26,7 @@ let keys = {};
 let keysUp = {};
 let blocks_renderGame = [];
 let blocks_Collision = [];
+let loadFont = true;
 // -----------
 
 // Image Load
@@ -32,6 +34,7 @@ world_bg.src = "./img/world/Mapa.png";
 sprites.src = "./img/sprites/Player.png";
 addToLoad(world_bg);
 addToLoad(sprites);
+addToLoad(FreePixel);
 loadEvent();
 // -----------
 
@@ -82,7 +85,13 @@ context.imageSmoothingEnabled = false;
 context.scale(2, 2);
 function gameLoop(timeStamp) {
     window.requestAnimationFrame(gameLoop, canvas);
-    if(loadedAssets === assetsToLoad.length) Variables.LOADING = true;
+    if(loadedAssets === assetsToLoad.length) {
+        if(loadFont) {
+            document.fonts.add(FreePixel);
+            loadFont = false;
+        }
+        Variables.LOADING = true;
+    }
     if(Variables.LOADING) {
         switch (Variables.gameState) {
         case Variables.START_MENU:
