@@ -6,8 +6,8 @@ export default class Player {
             height: 18
         };
         this.position = {
-            x: 0,
-            y: 0
+            x: 1838,
+            y: 1349
         };
         this._life = 10;
         this._quests = [];

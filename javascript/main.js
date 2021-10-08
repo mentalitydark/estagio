@@ -7,7 +7,7 @@ import Player from "./class/player.js";
 import Camera from "./class/Camera.js";
 import World from "./class/World.js";
 import {load} from "./function/IndexedDB.js";
-import {keyMap, changeKey} from "./util/KeyMap.js";
+import {keyMap} from "./util/KeyMap.js";
 import {Variables, changeVariable} from "./util/Variables.js";
 // -----------
 
@@ -51,28 +51,22 @@ Variables.Blocks.forEach( block => {
 
 // inputs
 document.addEventListener("keydown", (event) => {
-    keys[event.key] = true;
+    keys[event.key.toLowerCase()] = true;
 });
 document.addEventListener("keyup", (event) => {
-    keys[event.key] = false;
-    if(Variables.gameState === Variables.PAUSED)
-        keysUp[event.key] = true;
-    switch (event.key) {
-    case keyMap.Escape:
-        Variables.gameState === Variables.PLAYING ? changeVariable("gameState", Variables.PAUSED) : changeVariable("gameState", Variables.PLAYING);
+    const key = event.key.toLowerCase();
+    keys[key] = false;
+    if(Variables.gameState === Variables.PAUSED) keysUp[key] = true;
+    switch (key) {
+    case keyMap.escape:
+        if(Variables.gameState === Variables.PLAYING || Variables.gameState === Variables.PAUSED)
+            Variables.gameState === Variables.PLAYING ? changeVariable("gameState", Variables.PAUSED) : changeVariable("gameState", Variables.PLAYING);
         break;
-    case keyMap.Enter:
-        Variables.gameState = Variables.PLAYING;
-        changeKey("Enter", null);
-        load(player);
-        break;
-    case keyMap.p:
-        if(Variables.gameState === Variables.PLAYING)
-            keys["p"] = true;
-        break;
-    case keyMap.o:
-        if(Variables.gameState === Variables.PLAYING)
-            keys["o"] = true;
+    case keyMap.enter:
+        if(Variables.gameState === Variables.START_MENU) {
+            Variables.gameState = Variables.PLAYING;
+            load(player);
+        }
         break;
     }
 });
@@ -80,9 +74,9 @@ document.addEventListener("keyup", (event) => {
 
 document.addEventListener("DOMContentLoaded", () => {
     window.requestAnimationFrame(gameLoop);
+    context.imageSmoothingEnabled = false;
+    context.scale(2, 2);
 });
-context.imageSmoothingEnabled = false;
-context.scale(2, 2);
 function gameLoop(timeStamp) {
     window.requestAnimationFrame(gameLoop, canvas);
     if(loadedAssets === assetsToLoad.length) {

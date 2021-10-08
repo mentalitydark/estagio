@@ -4,22 +4,23 @@ let bg = true;
 let select = 0;
 export function backgroundTrue() {
     bg = true;
+    select = 0;
 }
 export function PAUSED_update(keysUp, player) {
-    if(keysUp.ArrowUp) {
-        keysUp.ArrowUp = false;
+    if(keysUp.arrowup) {
+        keysUp.arrowup = false;
         select--;
-        if(select <= 0)
-            select = 0;
-    }
-    if(keysUp.ArrowDown) {
-        keysUp.ArrowDown = false;
-        select++;
-        if(select >= 3)
+        if(select < 0)
             select = 3;
     }
-    if(keysUp.Enter) {
-        keysUp.Enter = false;
+    if(keysUp.arrowdown) {
+        keysUp.arrowdown = false;
+        select++;
+        if(select > 3)
+            select = 0;
+    }
+    if(keysUp.enter) {
+        keysUp.enter = false;
         switch (select) {
         case 0:
             save(player);
@@ -31,6 +32,7 @@ export function PAUSED_update(keysUp, player) {
         case 2:
             break;
         case 3:
+            changeVariable("gameState", Variables.PLAYING);
             break;
         }
     }

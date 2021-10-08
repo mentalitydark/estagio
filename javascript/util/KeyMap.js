@@ -1,6 +1,6 @@
 export let keyMap = {
-    "Escape": "Escape",
-    "Enter": "Enter",
+    "escape": "escape",
+    "enter": "enter",
     "o": "o",
     "p": "p"
 };
