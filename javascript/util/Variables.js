@@ -1,11 +1,13 @@
 import Block from "../class/Block.js";
+import NPC from "../class/NPC.js";
 export let Variables = {
     "gameState": 1,
     "START_MENU": 1,
     "PAUSED": 2,
     "PLAYING": 3,
     "LOADING": true,
-    "Blocks": []
+    "Blocks": [],
+    "NPCs": []
 };
 export function changeVariable(variable, value) {
     Variables[variable] = value;
@@ -24,3 +26,5 @@ const village = [
     new Block(1694, 1152, 2000, 1153),
 ];
 Variables.Blocks = Variables.Blocks.concat(Variables.Blocks, limits, village);
+
+Variables.NPCs.push(new NPC("Teste", {x: 1900, y: 1450}, "map", "sprite", "quest", "dialogs"));

@@ -1,6 +1,8 @@
 import {movePlayer} from "./Events.js";
 import {Collision, BorderCollision} from "./Collision.js";
+import Dialog from "./Dialog.js";
 import {load, save} from "./IndexedDB.js";
+import {Variables} from "./../util/Variables.js";
 import fps from "./fps.js";
 let Vignette = true;
 let i = 0;
@@ -15,6 +17,10 @@ export async function GAME_update(player, keys, camera, blocks_Collision, world)
     BorderCollision(player, world);
     blocks_Collision.forEach( block => {
         Collision(player, block);
+    });
+    Variables.NPCs.forEach( NPC => {
+        Collision(player, NPC);
+        Dialog(player, NPC);
     });
     // Save & Load
     if(keys.p) {
@@ -41,6 +47,9 @@ export function GAME_render(timeStamp, context, world, player, camera, blocks_re
         player.draw(context);
         blocks_renderGame.forEach( block => {
             block.draw(context);
+        });
+        Variables.NPCs.forEach(NPC => {
+            NPC.draw(context);
         });
         // ----------
         context.restore();

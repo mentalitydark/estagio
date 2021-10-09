@@ -1,7 +1,7 @@
 "use strict";
 import {GAME_update, GAME_render} from "./function/Playing.js";
 import {MENU_update, MENU_render} from "./function/StartMenu.js";
-import {PAUSED_update, PAUSED_render, backgroundTrue} from "./function/Paused.js";
+import {PAUSED_update, PAUSED_render, resetVariables_PAUSED} from "./function/Paused.js";
 import {addToLoad, loadEvent, loadedAssets, assetsToLoad} from "./function/LoadAssets.js";
 import Player from "./class/player.js";
 import Camera from "./class/Camera.js";
@@ -95,7 +95,7 @@ function gameLoop(timeStamp) {
         case Variables.PLAYING:
             GAME_update(player, keys, camera, blocks_Collision, world);
             GAME_render(timeStamp, context, world, player, camera, blocks_renderGame, canvas);
-            backgroundTrue();
+            resetVariables_PAUSED();
             break;
         case Variables.PAUSED:
             PAUSED_update(keysUp, player);
