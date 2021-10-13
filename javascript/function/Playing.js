@@ -1,38 +1,33 @@
 import {movePlayer} from "./Events.js";
 import {Collision, BorderCollision} from "./Collision.js";
-import Dialog from "./Dialog.js";
-import {load, save} from "./IndexedDB.js";
-import {Variables} from "./../util/Variables.js";
+import {DialogDetect, DialogRender} from "./Dialog.js";
+import {Variables, changeVariable} from "./../util/Variables.js";
 import fps from "./fps.js";
 let Vignette = true;
 let i = 0;
 export async function GAME_update(player, keys, camera, blocks_Collision, world) {
-    movePlayer(player, keys);
-    // Movimentação da Camera
-    if(player.Position.y < camera.topBorder()) camera.y = player.Position.y-camera.height * 0.25;
-    if(player.Position.x > camera.rightBorder()) camera.x = player.Position.x-camera.width * 0.25;
-    if(player.Position.y > camera.bottomBorder()) camera.y = player.Position.y-camera.height * 0.25;
-    if(player.Position.x < camera.leftBorder()) camera.x = player.Position.x-camera.width * 0.25;
-    // Colisões
-    BorderCollision(player, world);
-    blocks_Collision.forEach( block => {
-        Collision(player, block);
-    });
+    if(!Variables["dialog"]){
+        movePlayer(player, keys);
+        // Movimentação da Camera
+        if(player.Position.y < camera.topBorder()) camera.y = player.Position.y-camera.height * 0.25;
+        if(player.Position.x > camera.rightBorder()) camera.x = player.Position.x-camera.width * 0.25;
+        if(player.Position.y > camera.bottomBorder()) camera.y = player.Position.y-camera.height * 0.25;
+        if(player.Position.x < camera.leftBorder()) camera.x = player.Position.x-camera.width * 0.25;
+        // Colisões
+        BorderCollision(player, world);
+        blocks_Collision.forEach( block => {
+            Collision(player, block);
+        });
+    }
     Variables.NPCs.forEach( NPC => {
         Collision(player, NPC);
-        Dialog(player, NPC);
+        if(DialogDetect(player, NPC)) {
+            if(keys.enter) {
+                keys.enter = false;
+                changeVariable("dialog", !Variables.dialog);
+            }
+        }
     });
-    // Save & Load
-    if(keys.p) {
-        keys.p = false;
-        save(player);
-    }
-    if(keys.o) {
-        keys.o = false;
-        Vignette = true;
-        load(player);
-        
-    }
 }
 export function GAME_render(timeStamp, context, world, player, camera, blocks_renderGame, canvas) {
     if(Vignette) {
@@ -53,6 +48,10 @@ export function GAME_render(timeStamp, context, world, player, camera, blocks_re
         });
         // ----------
         context.restore();
+        // Dialog
+        if(Variables.dialog) {
+            DialogRender(context);
+        }
         // FPS renderGame
         const fpsText = fps(timeStamp);
         context.fillStyle = "#e5ed04";
