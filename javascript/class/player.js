@@ -13,6 +13,7 @@ export default class Player {
         this._quests = [];
         this._sprites = [];
         this._speed = 1;
+        this._level = 0;
         this.sprites = {
             img: sprite,
             src: sprite.src,
@@ -45,8 +46,18 @@ export default class Player {
     get Speed() {
         return this._speed;
     }
+    get Level() {
+        return this._level;
+    }
 
     // Functions
+    checkLevel(lvl) {
+        if(this._level >= lvl) return "true";
+        else return "false";
+    }
+    levelUp(lvl) {
+        this._level+= lvl;
+    }
     moveX(x) {
         this.position.x += x * this._speed;
     }

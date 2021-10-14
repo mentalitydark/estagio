@@ -1,22 +1,30 @@
 export default class NPC {
     constructor(name, position, map, sprite, quest, dialogs, market = null) {
         this._name = name;
-        this._position = {
+        this.position = {
             x: position.x,
             y: position.y
         };
         this._map = map;
-        this._sprite = sprite;
+        this.sprites = {
+            img: sprite,
+            src: sprite.src,
+            imgX: 0,
+            imgY: 0,
+            width: sprite.width,
+            height: sprite.height,
+            frameAnimation: 0
+        };
         this._quest = quest;
         this._dialogs = dialogs;
         this._market = market;
         this._mask = {
-            width: 16,
-            height: 16
+            width: 14,
+            height: 18
         };
         this._dialogMask = {
-            width: 50,
-            height: 50
+            width: 40,
+            height: 40
         };
     }
     get Name() { return this._name; }
@@ -29,10 +37,11 @@ export default class NPC {
     get Mask() { return this._mask; }
 
     draw(context) {
-        context.fillStyle = "blue";
-        context.fillRect(this._position.x, this._position.y, this._mask.width, this._mask.height);
-        context.fillStyle = "rgba(255,255,255,0.3)";
-        context.fillRect(this.dialogCenterX()-this._dialogMask.width/2, this.dialogCenterY()-this._dialogMask.height/2, this._dialogMask.width, this._dialogMask.height);
+        context.drawImage(
+            this.sprites.img,
+            this.sprites.imgX,  this.sprites.imgY, this._mask.width, this._mask.height,
+            this.position.x, this.position.y, this._mask.width, this._mask.height
+        );
     }
     halfWidth() {
         return this._mask.width/2;
@@ -41,10 +50,10 @@ export default class NPC {
         return this._mask.height/2;
     }
     centerX() {
-        return this.Position.x + this.halfWidth();
+        return this.position.x + this.halfWidth();
     }
     centerY() {
-        return this.Position.y + this.halfHeight();
+        return this.position.y + this.halfHeight();
     }
     dialogHalfWidth() {
         return this._dialogMask.width/2;
@@ -53,9 +62,9 @@ export default class NPC {
         return this._dialogMask.height/2;
     }
     dialogCenterX() {
-        return this.Position.x + this.halfWidth();
+        return this.position.x + this.halfWidth();
     }
     dialogCenterY() {
-        return this.Position.y + this.halfHeight();
+        return this.position.y + this.halfHeight();
     }
 }

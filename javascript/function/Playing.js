@@ -1,6 +1,6 @@
 import {movePlayer} from "./Events.js";
 import {Collision, BorderCollision} from "./Collision.js";
-import {DialogDetect, DialogRender} from "./Dialog.js";
+import {DialogDetect, DialogRender, DialogSelectOptions, resetDialog} from "./Dialog.js";
 import {Variables, changeVariable} from "./../util/Variables.js";
 import fps from "./fps.js";
 let Vignette = true;
@@ -18,16 +18,21 @@ export async function GAME_update(player, keys, camera, blocks_Collision, world)
         blocks_Collision.forEach( block => {
             Collision(player, block);
         });
+    } else {
+        DialogSelectOptions(keys, player);
     }
     Variables.NPCs.forEach( NPC => {
         Collision(player, NPC);
         if(DialogDetect(player, NPC)) {
             if(keys.enter) {
                 keys.enter = false;
-                changeVariable("dialog", !Variables.dialog);
+                changeVariable("dialog", true);
+                resetDialog();
             }
         }
     });
+    if(keys.p)
+        player.levelUp(20);
 }
 export function GAME_render(timeStamp, context, world, player, camera, blocks_renderGame, canvas) {
     if(Vignette) {
