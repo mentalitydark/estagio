@@ -1,3 +1,4 @@
+import { changeVariable } from "./../util/Variables.js";
 export function Collision(player, block) {
     const catX = player.centerX() - block.centerX();
     const catY = player.centerY() - block.centerY();
@@ -6,18 +7,22 @@ export function Collision(player, block) {
     if(Math.abs(catX) < sumHalfWidth && Math.abs(catY) < sumHalfHeight) {
         const overlapX = sumHalfWidth - Math.abs(catX);
         const overlapY = sumHalfHeight - Math.abs(catY);
-        if(overlapX >= overlapY) {
-            if(catY > 0) {
-                player.position.y += overlapY;
+        if(block.collision) {
+            if(overlapX >= overlapY) {
+                if(catY > 0) {
+                    player.position.y += overlapY;
+                } else {
+                    player.position.y -= overlapY;
+                }
             } else {
-                player.position.y -= overlapY;
+                if(catX > 0) {
+                    player.position.x += overlapX;
+                } else {
+                    player.position.x -= overlapX;
+                }
             }
         } else {
-            if(catX > 0) {
-                player.position.x += overlapX;
-            } else {
-                player.position.x -= overlapX;
-            }
+            changeVariable(["Worlds", "select"], block.to);
         }
     }
 }

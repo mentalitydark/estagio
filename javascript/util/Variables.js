@@ -1,30 +1,13 @@
 import Block from "../class/Block.js";
 import NPC from "../class/NPC.js";
 import Player from "./../class/player.js";
+import World from "./../class/world.js";
 import {addToLoad} from "./../function/LoadAssets.js";
-
-const limits = [
-    new Block(0, -1, 2000, 0),
-    new Block(2000, 0, 2001, 1500),
-    new Block(2000, 1500, 0, 1501),
-    new Block(0, 1500, -1, 0),
-];
-const village = [
-    new Block(1694, 1152, 1695, 1344),
-    new Block(1694, 1343, 1759 , 1344),
-    new Block(1694, 1374, 1759, 1375),
-    new Block(1694, 1374, 1695 , 1500),
-    new Block(1694, 1152, 2000, 1153),
-];
 
 const sprites = new Image();
 sprites.src = "./img/sprites/Player.png";
-// const spritesNPCs = new Image();
-// spritesNPCs.src = "./img/sprites/char.png";
 addToLoad(sprites);
-// addToLoad(spritesNPCs);
 const player = new Player("Maou", sprites);
-
 
 const Mestre_dialogs = {
     "start": {
@@ -44,7 +27,35 @@ const Mestre_dialogs = {
         }
     }
 };
-const Mestre = new NPC("Mestre", {x: 1900, y: 1450}, "home_mestre", sprites, "", Mestre_dialogs);
+
+const mestreSprite = new Image();
+mestreSprite.src = "./img/sprites/char.png";
+addToLoad(mestreSprite);
+const Mestre = new NPC("Mestre", {x: 1900, y: 1450}, "home_mestre", mestreSprite, "", Mestre_dialogs);
+
+const VPSprite = new Image();
+VPSprite.src = "./img/sprites/char.png";
+addToLoad(VPSprite);
+const Vendedor_Potions = new NPC("Vendedor de Poções", {x: 1900, y: 1250}, "map", VPSprite, "quest", "dialogs");
+
+const main_bg = new Image();
+main_bg.src = "./img/world/Mapa.png";
+addToLoad(main_bg);
+const main = new World("main", 2000, 1500, main_bg);
+const villageMain = [
+    new Block(1695, 1152, 1696, 1344),
+    new Block(1695, 1344, 1759 , 1345),
+    new Block(1695, 1375, 1759, 1376),
+    new Block(1695, 1375, 1696 , 1500),
+    new Block(1695, 1152, 2000, 1153),
+    new Block(1933, 1407, 1982, 1408, "home_mestre", false, "door"),
+];
+main.addBlocks(villageMain);
+
+const home_mestre = new World("Home Mestre", 200, 150, sprites);
+home_mestre.addBlocks([
+    new Block(0, 0, 100, 2, "main", false, "door")
+]);
 
 export let Variables = {
     "gameState": 1,
@@ -52,18 +63,26 @@ export let Variables = {
     "PAUSED": 2,
     "PLAYING": 3,
     "LOADING": true,
-    "Blocks": [],
-    "NPCs": [],
+    "Blocks": Array(),
+    "NPCs": Array(),
     "keys": {
         "escape": "escape",
         "enter": "enter",
     },
     "dialog": false,
     "player": player,
+    "Worlds": {
+        "select": "main",
+        "main": main,
+        "home_mestre": home_mestre
+    }
 };
 export function changeVariable(variable, value) {
-    Variables[variable] = value;
+    if(Array.isArray(variable))
+        Variables[variable[0]][variable[1]] = value;
+    else
+        Variables[variable] = value;
 }
 Variables.NPCs.push(Mestre);
-Variables.NPCs.push(new NPC("Vendedor de Poções", {x: 1900, y: 1250}, "map", "sprite", "quest", "dialogs"));
-Variables.Blocks = Variables.Blocks.concat(Variables.Blocks, limits, village);
+Variables.NPCs.push(Vendedor_Potions);
+// Variables.Blocks = Variables.Blocks.concat(Variables.Blocks, limits, village);

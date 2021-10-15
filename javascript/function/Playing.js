@@ -5,7 +5,12 @@ import {Variables, changeVariable} from "./../util/Variables.js";
 import fps from "./fps.js";
 let Vignette = true;
 let i = 0;
-export async function GAME_update(player, keys, camera, blocks_Collision, world) {
+let worldSelect = Variables.Worlds.select;
+let world = Variables.Worlds[worldSelect];
+export async function GAME_update(player, keys, camera) {
+    worldSelect = Variables.Worlds.select;
+    world = Variables.Worlds[worldSelect];
+    changeVariable("Blocks", world.blocks);
     if(!Variables["dialog"]){
         movePlayer(player, keys);
         // Movimentação da Camera
@@ -15,7 +20,7 @@ export async function GAME_update(player, keys, camera, blocks_Collision, world)
         if(player.Position.x < camera.leftBorder()) camera.x = player.Position.x-camera.width * 0.25;
         // Colisões
         BorderCollision(player, world);
-        blocks_Collision.forEach( block => {
+        Variables.Blocks.forEach( block => {
             Collision(player, block);
         });
     } else {
@@ -31,10 +36,8 @@ export async function GAME_update(player, keys, camera, blocks_Collision, world)
             }
         }
     });
-    if(keys.p)
-        player.levelUp(20);
 }
-export function GAME_render(timeStamp, context, world, player, camera, blocks_renderGame, canvas) {
+export function GAME_render(timeStamp, context, player, camera, canvas) {
     if(Vignette) {
         i = vignette(context, canvas, i);
     } else {
@@ -45,7 +48,7 @@ export function GAME_render(timeStamp, context, world, player, camera, blocks_re
         // Código
         world.draw(context);
         player.draw(context);
-        blocks_renderGame.forEach( block => {
+        Variables.Blocks.forEach( block => {
             block.draw(context);
         });
         Variables.NPCs.forEach(NPC => {

@@ -4,7 +4,6 @@ import {MENU_update, MENU_render} from "./function/StartMenu.js";
 import {PAUSED_update, PAUSED_render, resetVariables_PAUSED} from "./function/Paused.js";
 import {addToLoad, loadEvent, loadedAssets, assetsToLoad} from "./function/LoadAssets.js";
 import Camera from "./class/Camera.js";
-import World from "./class/World.js";
 import {load} from "./function/IndexedDB.js";
 import {keyMap} from "./util/KeyMap.js";
 import {Variables, changeVariable} from "./util/Variables.js";
@@ -14,7 +13,6 @@ import {Variables, changeVariable} from "./util/Variables.js";
 // TODO Organizar em um arquivo separado
 const canvas = document.querySelector("#canvas");
 const context = canvas.getContext("2d");
-const world_bg = new Image();
 
 const FreePixel = new FontFace("Free Pixel", "url('./font/FreePixel.ttf')");
 // -----------
@@ -40,9 +38,7 @@ let loadFont = true;
 // -----------
 
 // Image Load
-world_bg.src = "./img/world/Mapa.png";
 
-addToLoad(world_bg);
 addToLoad(FreePixel);
 loadEvent();
 // -----------
@@ -50,7 +46,6 @@ loadEvent();
 // objetos
 
 const camera = new Camera((Variables.player.Position.x-canvas.width)/4, (Variables.player.Position.y-canvas.height)/4, canvas.width, canvas.height);
-const world = new World(2000, 1500, world_bg);
 // TODO Organizar em um arquivo separado
 Variables.Blocks.forEach( block => {
     blocks_renderGame.push(block);
@@ -102,8 +97,8 @@ function gameLoop(timeStamp) {
             MENU_render(context, canvas);
             break;
         case Variables.PLAYING:
-            GAME_update(Variables.player, keys, camera, blocks_Collision, world);
-            GAME_render(timeStamp, context, world, Variables.player, camera, blocks_renderGame, canvas);
+            GAME_update(Variables.player, keys, camera);
+            GAME_render(timeStamp, context, Variables.player, camera, canvas);
             resetVariables_PAUSED();
             break;
         case Variables.PAUSED:

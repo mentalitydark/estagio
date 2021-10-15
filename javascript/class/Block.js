@@ -1,11 +1,14 @@
 export default class Block {
-    constructor(x, y, endX, endY) {
+    constructor(x, y, endX, endY, to = "",collision = true, type = "block") {
         this._x = x;
         this._y = y;
         this._width = endX - x;
         this._height = endY - y;
-        this._color = "rgba(0,0,0,0.5)";
+        this._color = "#FA0101";
         this._visible = true;
+        this._to = to;
+        this._collision = collision;
+        this._type = type;
     }
     // Get
     get x() { return this._x; }
@@ -14,6 +17,9 @@ export default class Block {
     get height() { return this._height; }
     get color() { return this._color; }
     get visible() { return this._visible; }
+    get to() { return this._to; }
+    get collision() { return this._collision; }
+    get type() { return this._type; }
     // Set
     set visible(bool) { this._visible = bool; }
 
