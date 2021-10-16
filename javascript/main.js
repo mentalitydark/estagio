@@ -8,59 +8,25 @@ import {load} from "./function/IndexedDB.js";
 import {keyMap} from "./util/KeyMap.js";
 import {Variables, changeVariable} from "./util/Variables.js";
 // -----------
-
-// const
-// TODO Organizar em um arquivo separado
 const canvas = document.querySelector("#canvas");
 const context = canvas.getContext("2d");
-
 const FreePixel = new FontFace("Free Pixel", "url('./font/FreePixel.ttf')");
-// -----------
+const camera = new Camera((Variables.player.Position.x-canvas.width)/4, (Variables.player.Position.y-canvas.height)/4, canvas.width, canvas.height);
 
-// let
-// TODO Organizar em um arquivo separado
-let keys = {
-    "escape": false,
-    "enter": false,
-    "arrowup": false,
-    "arrowdown": false,
-    "arrowleft": false,
-    "arrowright": false,
-    "w": false,
-    "a": false,
-    "s": false,
-    "d": false,
-};
-let keysUp = {};
-let blocks_renderGame = [];
-let blocks_Collision = [];
 let loadFont = true;
-// -----------
-
-// Image Load
 
 addToLoad(FreePixel);
 loadEvent();
 // -----------
 
-// objetos
-
-const camera = new Camera((Variables.player.Position.x-canvas.width)/4, (Variables.player.Position.y-canvas.height)/4, canvas.width, canvas.height);
-// TODO Organizar em um arquivo separado
-Variables.Blocks.forEach( block => {
-    blocks_renderGame.push(block);
-    blocks_Collision.push(block);
-});
-// -----------
-
 // inputs
 document.addEventListener("keydown", (event) => {
-    keys[event.key.toLowerCase()] = true;
+    Variables.keys[event.key.toLowerCase()] = true;
 });
 document.addEventListener("keyup", (event) => {
     const key = event.key.toLowerCase();
-    keys[key] = false;
-    if(Variables.gameState === Variables.PAUSED) keysUp[key] = true;
+    Variables.keys[key] = false;
+    if(Variables.gameState === Variables.PAUSED) Variables.keysUp[key] = true;
     switch (key) {
     case keyMap.escape:
         if(Variables.gameState === Variables.PLAYING || Variables.gameState === Variables.PAUSED)
@@ -97,12 +63,12 @@ function gameLoop(timeStamp) {
             MENU_render(context, canvas);
             break;
         case Variables.PLAYING:
-            GAME_update(Variables.player, keys, camera);
+            GAME_update(Variables.player, Variables.keys, camera);
             GAME_render(timeStamp, context, Variables.player, camera, canvas);
             resetVariables_PAUSED();
             break;
         case Variables.PAUSED:
-            PAUSED_update(keysUp, Variables.player);
+            PAUSED_update(Variables.keysUp, Variables.player);
             PAUSED_render(context);
             break;
         }

@@ -23,6 +23,19 @@ export default class Player {
             height: sprite.height,
             frameAnimation: 0
         };
+        this._xp = 0;
+        this._xpLvl = {
+            "1": 100,
+            "2": 125,
+            "3": 175,
+            "4": 250,
+            "5": 350,
+            "6": 475,
+            "7": 625,
+            "8": 800,
+            "9": 1000,
+            "10": 1225
+        };
     }
     // Get
     get Name() {
@@ -51,6 +64,24 @@ export default class Player {
     }
 
     // Functions
+    teleport(position) {
+        this.position.x = position.x;
+        this.position.y = position.y;
+    }
+    addXP(xp) {
+        xp += this._xp;
+        while(xp > 0) {
+            if(xp >= this._xpLvl[this._level+1]) {
+                xp -= this._xpLvl[this._level+1];
+                this.levelUp(1);
+                if(xp === 0) 
+                    this._xp = xp;
+            } else {
+                this._xp = xp;
+                xp = 0;
+            }
+        }
+    }
     checkLevel(lvl) {
         if(this._level >= lvl) return "true";
         else return "false";

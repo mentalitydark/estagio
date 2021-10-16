@@ -1,4 +1,4 @@
-import { changeVariable } from "./../util/Variables.js";
+import { Variables, changeVariable } from "./../util/Variables.js";
 export function Collision(player, block) {
     const catX = player.centerX() - block.centerX();
     const catY = player.centerY() - block.centerY();
@@ -22,7 +22,14 @@ export function Collision(player, block) {
                 }
             }
         } else {
+            if(block.to !== "main") {
+                Variables.Worlds.main.teleport = {
+                    x: player.position.x,
+                    y: player.position.y+5
+                };
+            }
             changeVariable(["Worlds", "select"], block.to);
+            player.teleport(Variables.Worlds[block.to].teleport);
         }
     }
 }

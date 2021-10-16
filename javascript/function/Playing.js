@@ -8,6 +8,7 @@ let i = 0;
 let worldSelect = Variables.Worlds.select;
 let world = Variables.Worlds[worldSelect];
 export async function GAME_update(player, keys, camera) {
+    // console.log(player);
     worldSelect = Variables.Worlds.select;
     world = Variables.Worlds[worldSelect];
     changeVariable("Blocks", world.blocks);
@@ -27,15 +28,21 @@ export async function GAME_update(player, keys, camera) {
         DialogSelectOptions(keys, player);
     }
     Variables.NPCs.forEach( NPC => {
-        Collision(player, NPC);
-        if(DialogDetect(player, NPC)) {
-            if(keys.enter) {
-                keys.enter = false;
-                changeVariable("dialog", true);
-                resetDialog();
+        if(NPC.Map === world.name) {
+            Collision(player, NPC);
+            if(DialogDetect(player, NPC)) {
+                if(keys.enter) {
+                    keys.enter = false;
+                    changeVariable("dialog", true);
+                    resetDialog();
+                }
             }
         }
     });
+    if(keys.p) {
+        keys.p = false;
+        player.addXP(3000);
+    }
 }
 export function GAME_render(timeStamp, context, player, camera, canvas) {
     if(Vignette) {
@@ -52,7 +59,8 @@ export function GAME_render(timeStamp, context, player, camera, canvas) {
             block.draw(context);
         });
         Variables.NPCs.forEach(NPC => {
-            NPC.draw(context);
+            if(NPC.Map === world.name)
+                NPC.draw(context);
         });
         // ----------
         context.restore();
