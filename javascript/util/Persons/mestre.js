@@ -22,6 +22,6 @@ const Mestre_dialogs = {
 };
 
 const mestreSprite = new Image();
-mestreSprite.src = "./../img/sprites/char.png";
+mestreSprite.src = "./img/sprites/char.png";
 addToLoad(mestreSprite);
 export const mestre = new NPC("Mestre", {x: 50, y: 100}, "home_mestre", mestreSprite, "", Mestre_dialogs);
