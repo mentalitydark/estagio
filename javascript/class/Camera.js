@@ -7,16 +7,8 @@ export default class Camera {
     }
     get width() { return this._width; }
     get height() { return this._height; }
-    topBorder() {
-        return this.y + this._height*0.5;
-    }
-    rightBorder() {
-        return this.x + this._width*0.5;
-    }
-    bottomBorder() {
-        return this.y + this._height*0.5;
-    }
-    leftBorder() {
-        return this.x + this._width*0.5;
-    }
+    topBorder() { return this.y + this._height*0.5; }
+    rightBorder() { return this.x + this._width*0.5; }
+    bottomBorder() { return this.y + this._height*0.5; }
+    leftBorder() { return this.x + this._width*0.5; }
 }

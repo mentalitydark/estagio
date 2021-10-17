@@ -44,28 +44,12 @@ export default class NPC {
             this._position.x, this._position.y, this._mask.width, this._mask.height
         );
     }
-    halfWidth() {
-        return this._mask.width/2;
-    }
-    halfHeight() {
-        return this._mask.height/2;
-    }
-    centerX() {
-        return this._position.x + this.halfWidth();
-    }
-    centerY() {
-        return this._position.y + this.halfHeight();
-    }
-    dialogHalfWidth() {
-        return this._dialogMask.width/2;
-    }
-    dialogHalfHeight() {
-        return this._dialogMask.height/2;
-    }
-    dialogCenterX() {
-        return this._position.x + this.halfWidth();
-    }
-    dialogCenterY() {
-        return this._position.y + this.halfHeight();
-    }
+    halfWidth() { return this._mask.width/2; }
+    halfHeight() { return this._mask.height/2; }
+    centerX() { return this._position.x + this.halfWidth(); }
+    centerY() { return this._position.y + this.halfHeight(); }
+    dialogHalfWidth() { return this._dialogMask.width/2; }
+    dialogHalfHeight() { return this._dialogMask.height/2; }
+    dialogCenterX() { return this._position.x + this.halfWidth(); }
+    dialogCenterY() { return this._position.y + this.halfHeight(); }
 }

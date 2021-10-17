@@ -15,9 +15,7 @@ export default class World {
     get blocks() { return this._blocks; }
     
     set teleport(teleport) { this._teleport = teleport; }
-    draw(context) {
-        context.drawImage(this._img, 0, 0);
-    }
+    draw(context) { context.drawImage(this._img, 0, 0); }
     addBlocks(array) {
         array.forEach((block) => {
             this._blocks.push(block);
