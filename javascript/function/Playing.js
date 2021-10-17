@@ -2,85 +2,83 @@ import {movePlayer} from "./Events.js";
 import {Collision, BorderCollision} from "./Collision.js";
 import {DialogDetect, DialogRender, DialogSelectOptions, resetDialog} from "./Dialog.js";
 import {Variables, changeVariable} from "./../util/Variables.js";
-import fps from "./fps.js";
+import FPSDraw from "./fps.js";
 import Message from "./Message.js";
 let Vignette = true;
 let i = 0;
 let worldSelect = Variables.Worlds.select;
 let world = Variables.Worlds[worldSelect];
-export async function GAME_update(player, keys, camera) {
-    // console.log(player);
+export async function GAME_update(camera) {
     worldSelect = Variables.Worlds.select;
     world = Variables.Worlds[worldSelect];
     changeVariable("Blocks", world.blocks);
+
     if(!Variables["dialog"]){
-        movePlayer(player, keys);
+        movePlayer(Variables.player, Variables.keys);
         // Movimentação da Camera
-        if(player.Position.y < camera.topBorder()) camera.y = player.Position.y-camera.height * 0.25;
-        if(player.Position.x > camera.rightBorder()) camera.x = player.Position.x-camera.width * 0.25;
-        if(player.Position.y > camera.bottomBorder()) camera.y = player.Position.y-camera.height * 0.25;
-        if(player.Position.x < camera.leftBorder()) camera.x = player.Position.x-camera.width * 0.25;
+        if(Variables.player.Position.y < camera.topBorder()) camera.y = Variables.player.Position.y-camera.height * 0.25;
+        if(Variables.player.Position.x > camera.rightBorder()) camera.x = Variables.player.Position.x-camera.width * 0.25;
+        if(Variables.player.Position.y > camera.bottomBorder()) camera.y = Variables.player.Position.y-camera.height * 0.25;
+        if(Variables.player.Position.x < camera.leftBorder()) camera.x = Variables.player.Position.x-camera.width * 0.25;
         // Colisões
-        BorderCollision(player, world);
+        BorderCollision(Variables.player, world);
         Variables.Blocks.forEach( block => {
-            Collision(player, block);
+            Collision(Variables.player, block);
         });
     } else {
-        DialogSelectOptions(keys, player);
+        DialogSelectOptions(Variables.keys, Variables.player);
     }
+
     Variables.NPCs.forEach( NPC => {
         if(NPC.Map === world.name) {
-            Collision(player, NPC);
-            if(DialogDetect(player, NPC)) {
-                if(keys.enter) {
-                    keys.enter = false;
+            Collision(Variables.player, NPC);
+            if(DialogDetect(Variables.player, NPC)) {
+                if(Variables.keys.enter) {
+                    Variables.keys.enter = false;
                     changeVariable("dialog", true);
                     resetDialog();
                 }
             }
         }
     });
-    if(keys.p) {
-        keys.p = false;
-        player.addXP(3000);
+
+    if(Variables.keys.p) {
+        Variables.keys.p = false;
+        Variables.player.addXP(3000);
         changeVariable(["message", "bool"], true);
         changeVariable(["message", "text"], `Player upou para o nível: ${Variables.player.Level}`);
     }
+    if(Variables.keys.escape) {
+        changeVariable(["keys", "escape"], false);
+        changeVariable("gameState", Variables.PAUSED);
+    }
 }
-export function GAME_render(timeStamp, context, player, camera, canvas) {
+export function GAME_render(timeStamp, camera, canvas) {
     if(Vignette) {
-        i = vignette(context, canvas, i);
+        i = vignette(i);
     } else {
-        context.fillStyle = "#383838";
-        context.save();
-        context.translate(-camera.x, -camera.y);
-        context.clearRect(player.Position.x-canvas.width/2, player.Position.y-canvas.height/2, 900, 600);
+        Variables.context.fillStyle = "#383838";
+        Variables.context.save();
+        Variables.context.translate(-camera.x, -camera.y);
+        Variables.context.clearRect(Variables.player.Position.x-canvas.width/2, Variables.player.Position.y-canvas.height/2, 900, 600);
         // Código
-        world.draw(context);
-        player.draw(context);
+        world.draw(Variables.context);
+        Variables.player.draw(Variables.context);
         Variables.Blocks.forEach( block => {
-            block.draw(context);
+            block.draw(Variables.context);
         });
         Variables.NPCs.forEach(NPC => {
             if(NPC.Map === world.name)
-                NPC.draw(context);
+                NPC.draw(Variables.context);
         });
         // ----------
-        context.restore();
+        Variables.context.restore();
         // Dialog
         if(Variables.dialog) {
-            DialogRender(context);
+            DialogRender();
         }
         // FPS renderGame
-        const fpsText = fps(timeStamp);
-        context.fillStyle = "#fff";
-        context.strokeStyle = "rgb(0, 0, 0)";
-        context.lineWidth = 1.5;
-        context.font = "10px Free Pixel";
-        context.strokeText("FPS: "+ fpsText, 2, 10);
-        context.stroke();
-        context.fillText("FPS: "+ fpsText, 2, 10);
-        context.fill();
+        FPSDraw(timeStamp);
         // ----------
         if(Variables.message.bool) {
             Message();
@@ -88,9 +86,9 @@ export function GAME_render(timeStamp, context, player, camera, canvas) {
     }
 }
 
-function vignette(context, canvas, i) {
-    context.fillStyle = "#000";
-    context.fillRect(0, 0, canvas.width, i*15);
+function vignette(i) {
+    Variables.context.fillStyle = "#000";
+    Variables.context.fillRect(0, 0, 400, i*15);
     i++;
     if(i == 20) {
         Vignette = false;

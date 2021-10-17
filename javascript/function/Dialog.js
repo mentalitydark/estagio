@@ -1,4 +1,4 @@
-import {changeVariable} from "./../util/Variables.js";
+import {Variables, changeVariable} from "./../util/Variables.js";
 let NPCSelect;
 let optionSelect = 0;
 let dialog;
@@ -22,11 +22,11 @@ export function DialogDetect(player, NPC) {
         return true;
     }
 }
-export function DialogRender(context) {
-    context.fillRect(0, 150, 400, 100);
-    context.fillRect(0, 140, 130, 10);
-    context.fillStyle = "#fff";
-    context.fillText(NPCSelect.Name, 5, 148);
+export function DialogRender() {
+    Variables.context.fillRect(0, 150, 400, 100);
+    Variables.context.fillRect(0, 140, 130, 10);
+    Variables.context.fillStyle = "#fff";
+    Variables.context.fillText(NPCSelect.Name, 5, 148);
     if(text === "text_2") {
         dialog = NPCSelect.Dialogs[textSelect][text][conditionResult].split("\n");
         options = NPCSelect.Dialogs[textSelect][text].options.split("\n");
@@ -34,8 +34,8 @@ export function DialogRender(context) {
         dialog = NPCSelect.Dialogs[textSelect][text].split("\n");
         options = NPCSelect.Dialogs[textSelect].options.split("\n");
     }
-    Dialog(context, dialog, options);
-    context.fillRect(5, 196 + optionSelect*10, 50, 1);
+    Dialog(dialog, options);
+    Variables.context.fillRect(5, 196 + optionSelect*10, 50, 1);
 }
 export function DialogSelectOptions(keys, player) {
     if(keys.arrowup) {
@@ -64,11 +64,11 @@ export function DialogSelectOptions(keys, player) {
         }
     }
 }
-function Dialog(context, dialog, options) {
+function Dialog(dialog, options) {
     for(let i = 0; i < dialog.length; i++) {
-        context.fillText(dialog[i], 5, 165 + i*10);
+        Variables.context.fillText(dialog[i], 5, 165 + i*10);
     }
     for(let i = 0; i < options.length; i++) {
-        context.fillText(options[i], 5, 195 + i*10);
+        Variables.context.fillText(options[i], 5, 195 + i*10);
     }
 }
