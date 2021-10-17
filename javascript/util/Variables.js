@@ -5,6 +5,7 @@ import {player} from "./Persons/player.js";
 import {main} from "./worlds/main.js";
 import {home_mestre} from "./worlds/home_mestre.js";
 export let Variables = {
+    "context": "",
     "gameState": 1,
     "START_MENU": 1,
     "PAUSED": 2,
@@ -31,6 +32,10 @@ export let Variables = {
         "select": "main",
         "main": main,
         "home_mestre": home_mestre
+    },
+    "message": {
+        "bool": false,
+        "text": ""
     }
 };
 export function changeVariable(variable, value) {

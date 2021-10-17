@@ -3,6 +3,7 @@ import {Collision, BorderCollision} from "./Collision.js";
 import {DialogDetect, DialogRender, DialogSelectOptions, resetDialog} from "./Dialog.js";
 import {Variables, changeVariable} from "./../util/Variables.js";
 import fps from "./fps.js";
+import Message from "./Message.js";
 let Vignette = true;
 let i = 0;
 let worldSelect = Variables.Worlds.select;
@@ -42,6 +43,8 @@ export async function GAME_update(player, keys, camera) {
     if(keys.p) {
         keys.p = false;
         player.addXP(3000);
+        changeVariable(["message", "bool"], true);
+        changeVariable(["message", "text"], `Player upou para o nível: ${Variables.player.Level}`);
     }
 }
 export function GAME_render(timeStamp, context, player, camera, canvas) {
@@ -70,15 +73,18 @@ export function GAME_render(timeStamp, context, player, camera, canvas) {
         }
         // FPS renderGame
         const fpsText = fps(timeStamp);
-        context.fillStyle = "#e5ed04";
+        context.fillStyle = "#fff";
         context.strokeStyle = "rgb(0, 0, 0)";
         context.lineWidth = 1.5;
-        context.font = "12px Free Pixel";
+        context.font = "10px Free Pixel";
         context.strokeText("FPS: "+ fpsText, 2, 10);
         context.stroke();
         context.fillText("FPS: "+ fpsText, 2, 10);
         context.fill();
         // ----------
+        if(Variables.message.bool) {
+            Message();
+        }
     }
 }
 

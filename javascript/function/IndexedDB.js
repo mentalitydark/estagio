@@ -1,3 +1,4 @@
+import {changeVariable} from "./../util/Variables.js";
 const con = window.indexedDB.open("Game", 3);
 let database;
 con.onsuccess = (event) => {
@@ -26,10 +27,10 @@ export function save(player) {
     };
     const request = objectStore.put(save);
     request.onsuccess = () => {
-        console.log("Salvado com sucesso.");
+        changeVariable(["message","text"], "Jogo salvo.");
     };
     request.onerror = () => {
-        console.log("Erro ao salvar");
+        changeVariable(["message","text"], "Erro para salver.");
     };
 }
 export function load(player) {
