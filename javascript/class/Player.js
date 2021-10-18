@@ -10,10 +10,13 @@ export default class Player {
             y: 1349
         };
         this._life = 10;
+        this._mp = 10;
+        this._gold = 0;
+        this._damage = 1;
+        this._defense = 5;
         this._quests = [];
         this._sprites = [];
         this._speed = 1;
-        this._level = 0;
         this.sprites = {
             img: sprite,
             src: sprite.src,
@@ -23,6 +26,7 @@ export default class Player {
             height: sprite.height,
             frameAnimation: 0
         };
+        this._level = 0;
         this._xp = 0;
         this._xpLvl = {
             "1": 100,
@@ -43,6 +47,10 @@ export default class Player {
     get Mask() { return this._mask; }
     get Position() { return this.position; }
     get Life() { return this._life; }
+    get Mp() { return this._mp; }
+    get Gold() { return this._gold; }
+    get Damage() { return this._damage; }
+    get Defense() { return this._defense; }
     get Quests() { return this._quests; }
     get Sprites() { return this._sprites; }
     get Speed() { return this._speed; }
@@ -69,7 +77,13 @@ export default class Player {
         }
     }
     checkLevel(lvl) { if(this._level >= lvl) return "true"; else return "false"; }
-    levelUp(lvl) { this._level+= lvl; }
+    levelUp(lvl) { 
+        this._level+= lvl;
+        this._life = 10 + this._level*5;
+        this._mp = 10 + this._level*2;
+        this._damage = 1 + this._level*3;
+        this._defense = 10 + Math.floor(this._level*1.5);
+    }
     moveX(x) { this.position.x += x * this._speed; }
     moveY(y) { this.position.y += y * this._speed; }
     draw(context) {

@@ -27,6 +27,7 @@ export let Variables = {
     },
     "keysUp": {},
     "dialog": false,
+    "inventory": false,
     "player": player,
     "Worlds": {
         "select": "main",

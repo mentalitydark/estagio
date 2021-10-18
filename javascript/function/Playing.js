@@ -1,6 +1,7 @@
 import {movePlayer} from "./Events.js";
 import {Collision, BorderCollision} from "./Collision.js";
 import {DialogDetect, DialogRender, DialogSelectOptions, resetDialog} from "./Dialog.js";
+import {InventoryRender} from "./Inventory.js";
 import {Variables, changeVariable} from "./../util/Variables.js";
 import FPSDraw from "./fps.js";
 import Message from "./Message.js";
@@ -14,43 +15,55 @@ export async function GAME_update(camera) {
     changeVariable("Blocks", world.blocks);
 
     if(!Variables["dialog"]){
-        movePlayer(Variables.player, Variables.keys);
-        // Movimentação da Camera
-        if(Variables.player.Position.y < camera.topBorder()) camera.y = Variables.player.Position.y-camera.height * 0.25;
-        if(Variables.player.Position.x > camera.rightBorder()) camera.x = Variables.player.Position.x-camera.width * 0.25;
-        if(Variables.player.Position.y > camera.bottomBorder()) camera.y = Variables.player.Position.y-camera.height * 0.25;
-        if(Variables.player.Position.x < camera.leftBorder()) camera.x = Variables.player.Position.x-camera.width * 0.25;
-        // Colisões
-        BorderCollision(Variables.player, world);
-        Variables.Blocks.forEach( block => {
-            Collision(Variables.player, block);
-        });
-    } else {
-        DialogSelectOptions(Variables.keys, Variables.player);
-    }
-
-    Variables.NPCs.forEach( NPC => {
-        if(NPC.Map === world.name) {
-            Collision(Variables.player, NPC);
-            if(DialogDetect(Variables.player, NPC)) {
-                if(Variables.keys.enter) {
-                    Variables.keys.enter = false;
-                    changeVariable("dialog", true);
-                    resetDialog();
+        if(!Variables["inventory"]) {
+            movePlayer(Variables.player, Variables.keys);
+            // Movimentação da Camera
+            if(Variables.player.Position.y < camera.topBorder()) camera.y = Variables.player.Position.y-camera.height * 0.25;
+            if(Variables.player.Position.x > camera.rightBorder()) camera.x = Variables.player.Position.x-camera.width * 0.25;
+            if(Variables.player.Position.y > camera.bottomBorder()) camera.y = Variables.player.Position.y-camera.height * 0.25;
+            if(Variables.player.Position.x < camera.leftBorder()) camera.x = Variables.player.Position.x-camera.width * 0.25;
+            // Colisões
+            BorderCollision(Variables.player, world);
+            Variables.Blocks.forEach( block => {
+                Collision(Variables.player, block);
+            });
+            Variables.NPCs.forEach( NPC => {
+                if(NPC.Map === world.name) {
+                    Collision(Variables.player, NPC);
+                    if(DialogDetect(Variables.player, NPC)) {
+                        if(Variables.keys.enter) {
+                            Variables.keys.enter = false;
+                            changeVariable("dialog", true);
+                            resetDialog();
+                        }
+                    }
                 }
+            });
+            if(Variables.keys.p) {
+                Variables.keys.p = false;
+                Variables.player.addXP(100);
+                changeVariable(["message", "bool"], true);
+                changeVariable(["message", "text"], `Player upou para o nível: ${Variables.player.Level}`);
+            }
+            if(Variables.keys.escape) {
+                changeVariable(["keys", "escape"], false);
+                changeVariable("gameState", Variables.PAUSED);
+            }
+            if(Variables.keys.e || Variables.keys.i) {
+                Variables.keys.e = false;
+                Variables.keys.i = false;
+                changeVariable("inventory", true);
+            }
+        } else {
+            if(Variables.keys.e || Variables.keys.i || Variables.keys.escape) {
+                Variables.keys.e = false;
+                Variables.keys.i = false;
+                Variables.keys.escape = false;
+                changeVariable("inventory", false);
             }
         }
-    });
-
-    if(Variables.keys.p) {
-        Variables.keys.p = false;
-        Variables.player.addXP(3000);
-        changeVariable(["message", "bool"], true);
-        changeVariable(["message", "text"], `Player upou para o nível: ${Variables.player.Level}`);
-    }
-    if(Variables.keys.escape) {
-        changeVariable(["keys", "escape"], false);
-        changeVariable("gameState", Variables.PAUSED);
+    } else {
+        DialogSelectOptions(Variables.keys, Variables.player);
     }
 }
 export function GAME_render(timeStamp, camera, canvas) {
@@ -76,6 +89,10 @@ export function GAME_render(timeStamp, camera, canvas) {
         // Dialog
         if(Variables.dialog) {
             DialogRender();
+        }
+        // Inventory
+        if(Variables.inventory) {
+            InventoryRender();
         }
         // FPS renderGame
         FPSDraw(timeStamp);
