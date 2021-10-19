@@ -1,4 +1,6 @@
 import {Variables} from "./../util/Variables.js";
+let line = 0;
+let column = 0;
 export function InventoryRender() {
     Variables.context.fillStyle = "#383838";
     Variables.context.fillRect(29.5, 39.4, 340.9-135, 120);
@@ -18,22 +20,50 @@ export function InventoryRender() {
     Variables.context.fillText(`Defesa: ${Variables.player.Defense}`, 42.3, 140, 84);
     Variables.context.fillText(`Level:  ${Variables.player.Level}`, 42.3, 150, 84);
     Variables.context.fillStyle = "#999";
-    Variables.context.fillRect(337-135, 47, 16, 16);
-    Variables.context.fillRect(316-135, 47, 16, 16);
-    Variables.context.fillRect(295-135, 47, 16, 16);
-    Variables.context.fillRect(337-135, 68, 16, 16);
-    Variables.context.fillRect(316-135, 68, 16, 16);
-    Variables.context.fillRect(295-135, 68, 16, 16);
-    Variables.context.fillRect(337-135, 89, 16, 16);
-    Variables.context.fillRect(316-135, 89, 16, 16);
-    Variables.context.fillRect(295-135, 89, 16, 16);
-    Variables.context.fillRect(337-135, 110, 16, 16);
-    Variables.context.fillRect(316-135, 110, 16, 16);
-    Variables.context.fillRect(295-135, 110, 16, 16);
-    Variables.context.fillRect(337-135, 131, 16, 16);
-    Variables.context.fillRect(316-135, 131, 16, 16);
-    Variables.context.fillRect(295-135, 131, 16, 16);
+    for(let l = 0; l < 5; l++) {
+        for(let c = 0; c < 3; c++) {
+            if(Variables.player.Inventory[c + l*3] !== undefined)
+                Variables.context.fillStyle = "blue";
+            else
+                Variables.context.fillStyle = "#999";
+            Variables.context.fillRect(160 + 21*c, 47 + 21*l, 16, 16);
+        }
+    }
+    // Select
+    Variables.context.strokeStyle = "red";
+    Variables.context.lineWidth = 1;
+    Variables.context.strokeRect(160 + 21*column, 47 + 21*line, 16, 16);
 }
-export function InventoryEvents() {
-    
+export function InventoryEvents(keys) {
+    if(keys.arrowup || keys.w) {
+        keys.arrowup = keys.w = false;
+        line--;
+        if(line < 0)
+            line = 4;
+    }
+    if(keys.arrowright || keys.d) {
+        keys.arrowright = keys.d = false;
+        column++;
+        if(column > 2)
+            column = 0;
+    }
+    if(keys.arrowdown || keys.s) {
+        keys.arrowdown = keys.s = false;
+        line++;
+        if(line > 4)
+            line = 0;
+    }
+    if(keys.arrowleft || keys.a) {
+        keys.arrowleft = keys.a = false;
+        column--;
+        if(column < 0)
+            column = 2;
+    }
+    if(Variables.player.Inventory[column + line*3] !== undefined) {
+        if(keys.enter) {
+            keys.enter = false;
+            Variables.player.useItem(Variables.player.Inventory[column + line*3]);
+        }
+        console.log(Variables.player.Inventory[column + line*3]);
+    }
 }

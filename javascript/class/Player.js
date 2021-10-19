@@ -40,7 +40,7 @@ export default class Player {
             "9": 1000,
             "10": 1225
         };
-        this._inventory = {};
+        this._inventory = [];
     }
     // Get
     get Name() { return this._name; }
@@ -83,6 +83,27 @@ export default class Player {
         this._mp = 10 + this._level*2;
         this._damage = 1 + this._level*3;
         this._defense = 10 + Math.floor(this._level*1.5);
+    }
+    addItem(item) {
+        const position = this._inventory.findIndex(i => i.name === item.name);
+        if(position != -1)
+            this._inventory[position].addQuantity(1);
+        else
+            this._inventory.push(item);
+    }
+    removeItem(item) {
+        const position = this._inventory.findIndex(i => i.name === item.name);
+        if(position != -1){
+            this._inventory[position].removeQuantity(1);
+            if(this._inventory[position].quantity <= 0)
+                this._inventory.splice(position, 1);
+        }
+    }
+    useItem(item) {
+        if(item.type.toLowerCase() === "potion") {
+            this[`_${item.attributes.type}`] += item.attributes.value;
+            this.removeItem(item);
+        }
     }
     moveX(x) { this.position.x += x * this._speed; }
     moveY(y) { this.position.y += y * this._speed; }

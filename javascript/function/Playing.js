@@ -1,10 +1,11 @@
 import {movePlayer} from "./Events.js";
 import {Collision, BorderCollision} from "./Collision.js";
 import {DialogDetect, DialogRender, DialogSelectOptions, resetDialog} from "./Dialog.js";
-import {InventoryRender} from "./Inventory.js";
+import {InventoryRender, InventoryEvents} from "./Inventory.js";
 import {Variables, changeVariable} from "./../util/Variables.js";
 import FPSDraw from "./fps.js";
 import Message from "./Message.js";
+import Item from "./../class/Item.js";
 let Vignette = true;
 let i = 0;
 let worldSelect = Variables.Worlds.select;
@@ -13,7 +14,14 @@ export async function GAME_update(camera) {
     worldSelect = Variables.Worlds.select;
     world = Variables.Worlds[worldSelect];
     changeVariable("Blocks", world.blocks);
-
+    if(Variables.keys.p) {
+        const b = new Item("Teste 2", "Weapon", 1, "", "");
+        Variables.player.addItem(b);
+    }
+    if(Variables.keys.o) {
+        const b = new Item("Teste 2", "Weapon", 1, "", "");
+        Variables.player.removeItem(b);
+    }
     if(!Variables["dialog"]){
         if(!Variables["inventory"]) {
             movePlayer(Variables.player, Variables.keys);
@@ -61,6 +69,7 @@ export async function GAME_update(camera) {
                 Variables.keys.escape = false;
                 changeVariable("inventory", false);
             }
+            InventoryEvents(Variables.keys);
         }
     } else {
         DialogSelectOptions(Variables.keys, Variables.player);
