@@ -22,8 +22,15 @@ export function InventoryRender() {
     Variables.context.fillStyle = "#999";
     for(let l = 0; l < 5; l++) {
         for(let c = 0; c < 3; c++) {
-            if(Variables.player.Inventory[c + l*3] !== undefined)
+            if(Variables.player.Inventory[c + l*3] !== undefined) {
                 Variables.context.fillStyle = "blue";
+                if(Variables.player.ArmorEquipped !== undefined)
+                    if(Variables.player.Inventory[c + l*3].name === Variables.player.ArmorEquipped.name)
+                        Variables.context.fillStyle = "red";
+                if(Variables.player.WeaponEquipped !== undefined)
+                    if(Variables.player.Inventory[c + l*3].name === Variables.player.WeaponEquipped.name)
+                        Variables.context.fillStyle = "purple";
+            }
             else
                 Variables.context.fillStyle = "#999";
             Variables.context.fillRect(160 + 21*c, 47 + 21*l, 16, 16);

@@ -41,6 +41,8 @@ export default class Player {
             "10": 1225
         };
         this._inventory = [];
+        this._armorEquipped;
+        this._weaponEquipped;
     }
     // Get
     get Name() { return this._name; }
@@ -56,6 +58,8 @@ export default class Player {
     get Speed() { return this._speed; }
     get Level() { return this._level; }
     get Inventory() { return this._inventory; }
+    get ArmorEquipped() { return this._armorEquipped; }
+    get WeaponEquipped() { return this._weaponEquipped; }
 
     // Functions
     teleport(position) {
@@ -103,6 +107,43 @@ export default class Player {
         if(item.type.toLowerCase() === "potion") {
             this[`_${item.attributes.type}`] += item.attributes.value;
             this.removeItem(item);
+        }
+        if(item.type.toLowerCase() === "weapon" || item.type.toLowerCase() === "armor") {
+            if(this._weaponEquipped != undefined) {
+                if(item.type.toLowerCase() === "weapon") {
+                    if(item.name === this._weaponEquipped.name) {
+                        this._damage -= this._weaponEquipped.attributes.value;
+                        this._weaponEquipped = undefined;
+                        return;
+                    } else {
+                        this._damage -= this._weaponEquipped.attributes.value;
+                        this._damage += item.attributes.value;
+                        this._weaponEquipped = item;
+                    }
+                }
+            } else {
+                if(item.type.toLowerCase() === "weapon") {
+                    this._damage += item.attributes.value;
+                    this._weaponEquipped = item;
+                }
+            }
+            if(this._armorEquipped != undefined) {
+                if(item.type.toLowerCase() === "armor") {
+                    if(item.name === this._armorEquipped.name) {
+                        this._defense -= this._armorEquipped.attributes.value;
+                        this._armorEquipped = undefined;
+                    } else {
+                        this._defense -= this._armorEquipped.attributes.value;
+                        this._defense += item.attributes.value;
+                        this._armorEquipped = item;
+                    }
+                }
+            } else {
+                if(item.type.toLowerCase() === "armor") {
+                    this._defense += item.attributes.value;
+                    this._armorEquipped = item;
+                }
+            }
         }
     }
     moveX(x) { this.position.x += x * this._speed; }
