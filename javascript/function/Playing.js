@@ -1,6 +1,7 @@
 import {movePlayer} from "./Events.js";
 import {Collision, BorderCollision} from "./Collision.js";
 import {DialogDetect, DialogRender, DialogSelectOptions, resetDialog} from "./Dialog.js";
+import {CombatDetect} from "./Combat.js";
 import {InventoryRender, InventoryEvents} from "./Inventory.js";
 import {Variables, changeVariable} from "./../util/Variables.js";
 import FPSDraw from "./fps.js";
@@ -44,6 +45,14 @@ export async function GAME_update(camera) {
                             changeVariable("dialog", true);
                             resetDialog();
                         }
+                    }
+                }
+            });
+            Variables.AllEnemies.forEach( enemy => {
+                if(enemy.map === world.name) {
+                    Collision(Variables.player, enemy);
+                    if(CombatDetect(Variables.player, enemy)) {
+                        console.log("VAI TER LUTA!");
                     }
                 }
             });
@@ -92,6 +101,10 @@ export function GAME_render(timeStamp, camera, canvas) {
         Variables.NPCs.forEach(NPC => {
             if(NPC.Map === world.name)
                 NPC.draw(Variables.context);
+        });
+        Variables.AllEnemies.forEach( enemy => {
+            if(enemy.map === world.name)
+                enemy.draw(Variables.context);
         });
         // ----------
         Variables.context.restore();

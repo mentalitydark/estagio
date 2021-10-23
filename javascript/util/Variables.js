@@ -1,6 +1,7 @@
 import {mestre} from "./Persons/mestre.js";
 import {vendedor_potions} from "./Persons/v_potions.js";
 import {player} from "./Persons/player.js";
+import {AllEnemies} from "./Persons/enemy.js";
 
 import {main} from "./worlds/main.js";
 import {home_mestre} from "./worlds/home_mestre.js";
@@ -37,7 +38,8 @@ export let Variables = {
     "message": {
         "bool": false,
         "text": ""
-    }
+    },
+    "AllEnemies": AllEnemies
 };
 export function changeVariable(variable, value) {
     if(Array.isArray(variable))
