@@ -10,7 +10,9 @@ export default class Player {
             y: 1349
         };
         this._life = 10;
+        this._maxLife = 10;
         this._mp = 10;
+        this._maxMp = 10;
         this._gold = 0;
         this._damage = 1;
         this._defense = 5;
@@ -49,7 +51,9 @@ export default class Player {
     get Mask() { return this._mask; }
     get Position() { return this.position; }
     get Life() { return this._life; }
+    get MaxLife() { return this._maxLife; }
     get Mp() { return this._mp; }
+    get MaxMp() { return this._maxMp; }
     get Gold() { return this._gold; }
     get Damage() { return this._damage; }
     get Defense() { return this._defense; }
@@ -60,6 +64,7 @@ export default class Player {
     get Inventory() { return this._inventory; }
     get ArmorEquipped() { return this._armorEquipped; }
     get WeaponEquipped() { return this._weaponEquipped; }
+    set life(life) { this._life = life; }
 
     // Functions
     teleport(position) {
@@ -84,7 +89,9 @@ export default class Player {
     levelUp(lvl) { 
         this._level+= lvl;
         this._life = 10 + this._level*5;
+        this._maxLife = this._life;
         this._mp = 10 + this._level*2;
+        this._maxMp = this._mp;
         this._damage = 1 + this._level*3;
         this._defense = 10 + Math.floor(this._level*1.5);
     }

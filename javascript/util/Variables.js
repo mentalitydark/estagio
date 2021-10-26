@@ -39,7 +39,8 @@ export let Variables = {
         "bool": false,
         "text": ""
     },
-    "AllEnemies": AllEnemies
+    "AllEnemies": AllEnemies,
+    "combat": false,
 };
 export function changeVariable(variable, value) {
     if(Array.isArray(variable))

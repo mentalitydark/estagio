@@ -5,6 +5,7 @@ export default class Enemy {
         this._position = position;
         this._route = route;
         this._life = life;
+        this._maxLife = this._life;
         this._damage = damage;
         this._defense = defense;
         this._sprite = {
@@ -21,12 +22,14 @@ export default class Enemy {
         this._drop = drop;
         this._speed = 1;
         this._collision = true;
+        this._alive = true;
     }
     get name() { return this._name; }
     get map() { return this._map; }
     get position() { return this._position; }
     get route() { return this.route; }
     get life() { return this._life; }
+    get maxLife() { return this._maxLife; }
     get damage() { return this._damage; }
     get defense() { return this._defense; }
     get sprite() { return this._sprite; }
@@ -35,10 +38,12 @@ export default class Enemy {
     get collision() { return this._collision; }
 
     draw(context) {
-        context.fillStyle = "red";
-        context.fillRect(this._position.x, this._position.y, this._mask.width, this._mask.height);
-        context.fillStyle = "rgba(255,255,255,0.3)";
-        context.fillRect(this.combatCenterX()-this._combatMask.width/2, this.combatCenterY()-this._combatMask.height/2, this._combatMask.width, this._combatMask.height);
+        if(this._alive) {
+            context.fillStyle = "red";
+            context.fillRect(this._position.x, this._position.y, this._mask.width, this._mask.height);
+            context.fillStyle = "rgba(255,255,255,0.3)";
+            context.fillRect(this.combatCenterX()-this._combatMask.width/2, this.combatCenterY()-this._combatMask.height/2, this._combatMask.width, this._combatMask.height);
+        }
     }
     halfWidth() {
         return this._mask.width/2;
@@ -63,5 +68,9 @@ export default class Enemy {
     }
     combatCenterY() {
         return this.position.y + this.halfHeight();
+    }
+    dead() {
+        this._alive = false;
+        this._collision = false;
     }
 }
