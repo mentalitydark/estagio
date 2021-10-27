@@ -1,7 +1,7 @@
 import {movePlayer} from "./Events.js";
 import {Collision, BorderCollision} from "./Collision.js";
 import {DialogDetect, DialogRender, DialogSelectOptions, resetDialog} from "./Dialog.js";
-import {CombatDetect, CombatRender} from "./Combat.js";
+import {CombatDetect, CombatRender, CombatSelectOptions} from "./Combat.js";
 import {InventoryRender, InventoryEvents} from "./Inventory.js";
 import {Variables, changeVariable} from "./../util/Variables.js";
 import FPSDraw from "./fps.js";
@@ -66,9 +66,7 @@ export async function GAME_update(camera) {
                     changeVariable("inventory", true);
                 }
             } else {
-                if(Variables.keys.p) {
-                    Variables.player.life = 5;
-                }
+                CombatSelectOptions(Variables.keys);
             }
         } else {
             if(Variables.keys.e || Variables.keys.i || Variables.keys.escape) {
