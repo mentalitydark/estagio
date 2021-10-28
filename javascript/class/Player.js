@@ -9,7 +9,7 @@ export default class Player {
             x: 1838,
             y: 1349
         };
-        this._life = 10;
+        this._life = 5;
         this._maxLife = 10;
         this._mp = 10;
         this._maxMp = 10;
@@ -19,7 +19,7 @@ export default class Player {
         this._quests = [];
         this._sprites = [];
         this._speed = 1;
-        this.sprites = {
+        this._sprites = {
             img: sprite,
             src: sprite.src,
             imgX: 0,
@@ -47,26 +47,33 @@ export default class Player {
         this._weaponEquipped;
     }
     // Get
-    get Name() { return this._name; }
-    get Mask() { return this._mask; }
-    get Position() { return this.position; }
-    get Life() { return this._life; }
-    get MaxLife() { return this._maxLife; }
-    get Mp() { return this._mp; }
-    get MaxMp() { return this._maxMp; }
-    get Gold() { return this._gold; }
-    get Damage() { return this._damage; }
-    get Defense() { return this._defense; }
-    get Quests() { return this._quests; }
-    get Sprites() { return this._sprites; }
-    get Speed() { return this._speed; }
-    get Level() { return this._level; }
-    get Inventory() { return this._inventory; }
-    get ArmorEquipped() { return this._armorEquipped; }
-    get WeaponEquipped() { return this._weaponEquipped; }
+    get name() { return this._name; }
+    get mask() { return this._mask; }
+    get life() { return this._life; }
+    get maxLife() { return this._maxLife; }
+    get mp() { return this._mp; }
+    get maxMp() { return this._maxMp; }
+    get gold() { return this._gold; }
+    get damage() { return this._damage; }
+    get defense() { return this._defense; }
+    get quests() { return this._quests; }
+    get sprites() { return this._sprites; }
+    get speed() { return this._speed; }
+    get level() { return this._level; }
+    get inventory() { return this._inventory; }
+    get armorEquipped() { return this._armorEquipped; }
+    get weaponEquipped() { return this._weaponEquipped; }
     set life(life) { this._life = life; }
 
     // Functions
+    recover(type, value) {
+        const max = `max${type[0].toUpperCase()+type.slice(1)}`;
+        this[`_${type}`] += value;
+        if(this[`_${type}`] > this[`_${max}`])
+            this[`_${type}`] = this[`_${max}`];
+        if(this[`_${type}`] < 0)
+            this[`_${type}`] = 0;
+    }
     teleport(position) {
         this.position.x = position.x;
         this.position.y = position.y;
@@ -112,7 +119,11 @@ export default class Player {
     }
     useItem(item) {
         if(item.type.toLowerCase() === "potion") {
-            this[`_${item.attributes.type}`] += item.attributes.value;
+            const type = item.attributes.type;
+            const max = `max${type[0].toUpperCase()+type.slice(1)}`;
+            this[`_${type}`] += item.attributes.value;
+            if(this[`_${type}`] > this[`_${max}`])
+                this[`_${type}`] = this[`_${max}`];
             this.removeItem(item);
         }
         if(item.type.toLowerCase() === "weapon" || item.type.toLowerCase() === "armor") {

@@ -19,10 +19,10 @@ export async function GAME_update(camera) {
             if(!Variables["combat"]) {
                 movePlayer(Variables.player, Variables.keys);
                 // Movimentação da Camera
-                if(Variables.player.Position.y < camera.topBorder()) camera.y = Variables.player.Position.y-camera.height * 0.25;
-                if(Variables.player.Position.x > camera.rightBorder()) camera.x = Variables.player.Position.x-camera.width * 0.25;
-                if(Variables.player.Position.y > camera.bottomBorder()) camera.y = Variables.player.Position.y-camera.height * 0.25;
-                if(Variables.player.Position.x < camera.leftBorder()) camera.x = Variables.player.Position.x-camera.width * 0.25;
+                if(Variables.player.position.y < camera.topBorder()) camera.y = Variables.player.position.y-camera.height * 0.25;
+                if(Variables.player.position.x > camera.rightBorder()) camera.x = Variables.player.position.x-camera.width * 0.25;
+                if(Variables.player.position.y > camera.bottomBorder()) camera.y = Variables.player.position.y-camera.height * 0.25;
+                if(Variables.player.position.x < camera.leftBorder()) camera.x = Variables.player.position.x-camera.width * 0.25;
                 // Colisões
                 BorderCollision(Variables.player, world);
                 Variables.Blocks.forEach( block => {
@@ -54,7 +54,7 @@ export async function GAME_update(camera) {
                     Variables.keys.p = false;
                     Variables.player.addXP(100);
                     changeVariable(["message", "bool"], true);
-                    changeVariable(["message", "text"], `Player upou para o nível: ${Variables.player.Level}`);
+                    changeVariable(["message", "text"], `Player upou para o nível: ${Variables.player.level}`);
                 }
                 if(Variables.keys.escape) {
                     changeVariable(["keys", "escape"], false);
@@ -66,6 +66,11 @@ export async function GAME_update(camera) {
                     changeVariable("inventory", true);
                 }
             } else {
+                if(Variables.keys.e || Variables.keys.i) {
+                    Variables.keys.e = false;
+                    Variables.keys.i = false;
+                    Variables.player.recover("mp", -5);
+                }
                 CombatSelectOptions(Variables.keys);
             }
         } else {
@@ -88,7 +93,7 @@ export function GAME_render(timeStamp, camera, canvas) {
         Variables.context.fillStyle = "#383838";
         Variables.context.save();
         Variables.context.translate(-camera.x, -camera.y);
-        Variables.context.clearRect(Variables.player.Position.x-canvas.width/2, Variables.player.Position.y-canvas.height/2, 900, 600);
+        Variables.context.clearRect(Variables.player.position.x-canvas.width/2, Variables.player.position.y-canvas.height/2, 900, 600);
         // Código
         world.draw(Variables.context);
         Variables.player.draw(Variables.context);

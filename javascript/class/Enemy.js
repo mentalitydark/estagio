@@ -37,6 +37,14 @@ export default class Enemy {
     get drop() { return this._drop; }
     get collision() { return this._collision; }
 
+    recover(type, value) {
+        const max = `max${type[0].toUpperCase()+type.slice(1)}`;
+        this[`_${type}`] += value;
+        if(this[`_${type}`] > this[`_${max}`])
+            this[`_${type}`] = this[`_${max}`];
+        if(this[`_${type}`] < 0)
+            this[`_${type}`] = 0;
+    }
     draw(context) {
         if(this._alive) {
             context.fillStyle = "red";

@@ -9,7 +9,7 @@ import {Variables, changeVariable} from "./util/Variables.js";
 const canvas = document.querySelector("#canvas");
 const context = canvas.getContext("2d");
 const FreePixel = new FontFace("Free Pixel", "url('./font/FreePixel.ttf')");
-const camera = new Camera((Variables.player.Position.x-canvas.width)/4, (Variables.player.Position.y-canvas.height)/4, canvas.width, canvas.height);
+const camera = new Camera((Variables.player.position.x-canvas.width)/4, (Variables.player.position.y-canvas.height)/4, canvas.width, canvas.height);
 changeVariable("context", context);
 let loadFont = true;
 

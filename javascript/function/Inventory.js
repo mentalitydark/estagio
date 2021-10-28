@@ -12,23 +12,23 @@ export function InventoryRender() {
     Variables.context.fillRect(152.2, 44.6, 210-135, 109);
     Variables.context.font = "11pt Free Pixel";
     Variables.context.fillStyle = "#000";
-    Variables.context.fillText(`${Variables.player.Name}`, 42.3, 53.8, 84);
-    Variables.context.fillText(`Vida: ${Variables.player.Life}`, 42.3, 90, 84);
-    Variables.context.fillText(`Mana: ${Variables.player.Mp}`, 42.3, 100, 84);
-    Variables.context.fillText(`Ouro: ${Variables.player.Gold}`, 42.3, 110, 84);
-    Variables.context.fillText(`Dano: ${Variables.player.Damage}`, 42.3, 130, 84);
-    Variables.context.fillText(`Defesa: ${Variables.player.Defense}`, 42.3, 140, 84);
-    Variables.context.fillText(`Level:  ${Variables.player.Level}`, 42.3, 150, 84);
+    Variables.context.fillText(`${Variables.player.name}`, 42.3, 53.8, 84);
+    Variables.context.fillText(`Vida: ${Variables.player.life}`, 42.3, 90, 84);
+    Variables.context.fillText(`Mana: ${Variables.player.mp}`, 42.3, 100, 84);
+    Variables.context.fillText(`Ouro: ${Variables.player.gold}`, 42.3, 110, 84);
+    Variables.context.fillText(`Dano: ${Variables.player.damage}`, 42.3, 130, 84);
+    Variables.context.fillText(`Defesa: ${Variables.player.defense}`, 42.3, 140, 84);
+    Variables.context.fillText(`Level:  ${Variables.player.level}`, 42.3, 150, 84);
     Variables.context.fillStyle = "#999";
     for(let l = 0; l < 5; l++) {
         for(let c = 0; c < 3; c++) {
-            if(Variables.player.Inventory[c + l*3] !== undefined) {
+            if(Variables.player.inventory[c + l*3] !== undefined) {
                 Variables.context.fillStyle = "blue";
-                if(Variables.player.ArmorEquipped !== undefined)
-                    if(Variables.player.Inventory[c + l*3].name === Variables.player.ArmorEquipped.name)
+                if(Variables.player.armorEquipped !== undefined)
+                    if(Variables.player.inventory[c + l*3].name === Variables.player.armorEquipped.name)
                         Variables.context.fillStyle = "red";
-                if(Variables.player.WeaponEquipped !== undefined)
-                    if(Variables.player.Inventory[c + l*3].name === Variables.player.WeaponEquipped.name)
+                if(Variables.player.weaponEquipped !== undefined)
+                    if(Variables.player.inventory[c + l*3].name === Variables.player.weaponEquipped.name)
                         Variables.context.fillStyle = "purple";
             }
             else
@@ -66,11 +66,10 @@ export function InventoryEvents(keys) {
         if(column < 0)
             column = 2;
     }
-    if(Variables.player.Inventory[column + line*3] !== undefined) {
+    if(Variables.player.inventory[column + line*3] !== undefined) {
         if(keys.enter) {
             keys.enter = false;
-            Variables.player.useItem(Variables.player.Inventory[column + line*3]);
+            Variables.player.useItem(Variables.player.inventory[column + line*3]);
         }
-        console.log(Variables.player.Inventory[column + line*3]);
     }
 }

@@ -2,19 +2,19 @@ let frames = 30;
 let floor = 10;
 export function movePlayer(player, keys) {
     if(keys.arrowup || keys.w) {
-        player.sprites.imgY =  player.Mask.height * 0;
+        player.sprites.imgY =  player.mask.height * 0;
         player.moveY(-1);
     }
     if(keys.arrowdown || keys.s) {
-        player.sprites.imgY =  player.Mask.height * 2;
+        player.sprites.imgY =  player.mask.height * 2;
         player.moveY(1);
     }
     if(keys.arrowright || keys.d) {
-        player.sprites.imgY =  player.Mask.height * 1;
+        player.sprites.imgY =  player.mask.height * 1;
         player.moveX(1);
     }
     if(keys.arrowleft || keys.a) {
-        player.sprites.imgY =  player.Mask.height * 3;
+        player.sprites.imgY =  player.mask.height * 3;
         player.moveX(-1);
     }
     if(keys.arrowdown || keys.arrowup || keys.arrowleft || keys.arrowright || keys.a || keys.d || keys.s || keys.w) {
@@ -29,11 +29,11 @@ export function movePlayer(player, keys) {
         if(player.sprites.frameAnimation >= frames) {
             player.sprites.frameAnimation = 0;
         }
-        player.sprites.imgX = Math.floor(player.sprites.frameAnimation/floor) * player.Mask.width;
+        player.sprites.imgX = Math.floor(player.sprites.frameAnimation/floor) * player.mask.width;
     }
     if(!keys.arrowdown && !keys.arrowup && !keys.arrowleft && !keys.arrowright && !keys.a && !keys.d && !keys.s && !keys.w) {
         player.sprites.frameAnimation = 1;
-        player.sprites.imgX =player.sprites.frameAnimation  * player.Mask.width;
+        player.sprites.imgX =player.sprites.frameAnimation  * player.mask.width;
     }
     player.sprint(keys.shift);
 }

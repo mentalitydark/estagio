@@ -21,8 +21,8 @@ export function save(player) {
     const save = {
         id: 1,
         player: {
-            x: player.Position.x,
-            y: player.Position.y
+            x: player.position.x,
+            y: player.position.y
         }
     };
     const request = objectStore.put(save);

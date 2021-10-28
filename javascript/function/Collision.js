@@ -34,8 +34,8 @@ export function Collision(player, block) {
     }
 }
 export function BorderCollision(player, world) {
-    player.position.x = Math.max(0, player.Position.x);
-    player.position.x = Math.max(0, Math.min(world.width - player.Mask.width, player.Position.x));
-    player.position.y = Math.max(0, player.Position.y);
-    player.position.y = Math.max(0, Math.min(world.height - player.Mask.height, player.Position.y));
+    player.position.x = Math.max(0, player.position.x);
+    player.position.x = Math.max(0, Math.min(world.width - player.mask.width, player.position.x));
+    player.position.y = Math.max(0, player.position.y);
+    player.position.y = Math.max(0, Math.min(world.height - player.mask.height, player.position.y));
 }
