@@ -12,7 +12,7 @@ let i = 0;
 let underAttack = false;
 let j = 0;
 const spriteAttack = new Image();
-spriteAttack.src = "./../img/sprites/combat/attack.png";
+spriteAttack.src = "./img/sprites/combat/attack.png";
 addToLoad(spriteAttack);
 
 export function CombatDetect(player, enemy) {
