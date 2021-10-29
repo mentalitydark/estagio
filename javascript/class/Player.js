@@ -28,6 +28,7 @@ export default class Player {
             height: sprite.height,
             frameAnimation: 0
         };
+        this._oldLevel;
         this._level = 0;
         this._xp = 0;
         this._xpLvl = {
@@ -67,18 +68,27 @@ export default class Player {
 
     // Functions
     recover(type, value) {
-        const max = `max${type[0].toUpperCase()+type.slice(1)}`;
-        this[`_${type}`] += value;
-        if(this[`_${type}`] > this[`_${max}`])
-            this[`_${type}`] = this[`_${max}`];
-        if(this[`_${type}`] < 0)
-            this[`_${type}`] = 0;
+        if(type === "life" || type === "mp") {
+            const max = `max${type[0].toUpperCase()+type.slice(1)}`;
+            this[`_${type}`] += value;
+            if(this[`_${type}`] > this[`_${max}`])
+                this[`_${type}`] = this[`_${max}`];
+            if(this[`_${type}`] < 0)
+                this[`_${type}`] = 0;
+        } else {
+            switch(type) {
+            case "gold":
+                this._gold += value;
+                break;
+            }
+        }
     }
     teleport(position) {
         this.position.x = position.x;
         this.position.y = position.y;
     }
     addXP(xp) {
+        this._oldLevel = this._level;
         xp += this._xp;
         while(xp > 0) {
             if(xp >= this._xpLvl[this._level+1]) {
@@ -91,6 +101,9 @@ export default class Player {
                 xp = 0;
             }
         }
+        if(this._oldLevel !== this._level) {
+            return true;
+        }
     }
     checkLevel(lvl) { if(this._level >= lvl) return "true"; else return "false"; }
     levelUp(lvl) { 
@@ -99,8 +112,14 @@ export default class Player {
         this._maxLife = this._life;
         this._mp = 10 + this._level*2;
         this._maxMp = this._mp;
-        this._damage = 1 + this._level*3;
-        this._defense = 10 + Math.floor(this._level*1.5);
+        if(this._armorEquipped != undefined)
+            this._defense = 10 + Math.floor(this._level*1.5) + this._armorEquipped.attributes.value;
+        else
+            this._defense = 10 + Math.floor(this._level*1.5);
+        if(this._weaponEquipped != undefined)
+            this._damage = 1 + this._level*3 + this._weaponEquipped.attributes.value;
+        else
+            this._damage = 1 + this._level*3;
     }
     addItem(item) {
         const position = this._inventory.findIndex(i => i.name === item.name);
@@ -132,7 +151,6 @@ export default class Player {
                     if(item.name === this._weaponEquipped.name) {
                         this._damage -= this._weaponEquipped.attributes.value;
                         this._weaponEquipped = undefined;
-                        return;
                     } else {
                         this._damage -= this._weaponEquipped.attributes.value;
                         this._damage += item.attributes.value;

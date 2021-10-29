@@ -13,7 +13,7 @@ export function InventoryRender() {
     Variables.context.font = "11pt Free Pixel";
     Variables.context.fillStyle = "#000";
     Variables.context.fillText(`${Variables.player.name}`, 42.3, 53.8, 84);
-    Variables.context.fillText(`Vida: ${Variables.player.life}`, 42.3, 90, 84);
+    Variables.context.fillText(`Vida: ${Variables.player.life.toFixed(0)}`, 42.3, 90, 84);
     Variables.context.fillText(`Mana: ${Variables.player.mp}`, 42.3, 100, 84);
     Variables.context.fillText(`Ouro: ${Variables.player.gold}`, 42.3, 110, 84);
     Variables.context.fillText(`Dano: ${Variables.player.damage}`, 42.3, 130, 84);

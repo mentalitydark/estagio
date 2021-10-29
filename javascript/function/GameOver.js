@@ -1,14 +1,11 @@
 import {Variables, changeVariable} from "./../util/Variables.js";
-import {load} from "./IndexedDB.js";
 let i = 1;
 let color = true;
-export function MENU_update() {
-    if(Variables.keys.enter) {
-        changeVariable("gameState", Variables.PLAYING);
-        load(Variables.player);
-    }
+export function GameOver_update() {
+    //TODO Resetar todas variáveis e recarregar o jogo
 }
-export function MENU_render() {
+export function GameOver_render() {
+    Variables.context.fillStyle = "#383838";
     Variables.context.fillStyle = "#383838";
     Variables.context.save();
     Variables.context.fillRect(0, 0, 400, 225);
@@ -17,9 +14,9 @@ export function MENU_render() {
     if(color) i+=0.01; else i-=0.01;
     Variables.context.fillStyle = `rgba(255, 255, 255, ${i})`;
     Variables.context.font = "12px Free Pixel";
-    Variables.context.fillText("Aperte ENTER para jogar.", 200-Variables.context.measureText("Aperte ENTER para jogar.").width/2, 122.5);
+    Variables.context.fillText("Aperte ENTER para carregar o último save.", 200-Variables.context.measureText("Aperte ENTER para carregar o último save.").width/2, 122.5);
     Variables.context.font = "30px Free Pixel";
     Variables.context.fillStyle = "#fff";
-    Variables.context.fillText("O Herói do Vilarejo", 200-Variables.context.measureText("O Herói do Vilarejo").width/2, 48);
+    Variables.context.fillText("Game Over", 200-Variables.context.measureText("Game Over").width/2, 48);
     Variables.context.restore();
 }

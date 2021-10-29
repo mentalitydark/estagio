@@ -1,27 +1,29 @@
-import {Variables} from "./../util/Variables.js";
+import {Variables, changeVariable} from "./../util/Variables.js";
 import {addToLoad} from "./LoadAssets.js";
+let enemyIndex;
 let enemySelect;
-let option = 0;
 let optionSelect;
 let potionHpPosition;
 let potionMpPosition;
 let enemyTurn = false;
 let defending = false;
 let animation = false;
-let i = 0;
 let underAttack = false;
+let i = 0;
 let j = 0;
+let option = 0;
 const spriteAttack = new Image();
 spriteAttack.src = "./img/sprites/combat/attack.png";
 addToLoad(spriteAttack);
 
-export function CombatDetect(player, enemy) {
+export function CombatDetect(player, enemy, index) {
     const catX = player.centerX() - enemy.combatCenterX();
     const catY = player.centerY() - enemy.combatCenterY();
     const sumHalfWidth = player.halfWidth() + enemy.combatHalfWidth();
     const sumHalfHeight = player.halfHeight() + enemy.combatHalfHeight();
     if(Math.abs(catX) < sumHalfWidth && Math.abs(catY) < sumHalfHeight) {
         enemySelect = enemy;
+        enemyIndex = index;
         return true;
     }
 }
@@ -29,20 +31,23 @@ export function CombatDetect(player, enemy) {
 export function CombatRender() {
     const lifePercentage = Variables.player.life*100/Variables.player.maxLife/100;
     const mpPercentage = Variables.player.mp*100/Variables.player.maxMp/100;
+    const enemyHp = `${enemySelect.life.toFixed(0)}/${enemySelect.maxLife}`;
+    const enemyHpPercentage = enemySelect.life*100/enemySelect.maxLife/100;
     // Enemy.draw()
     Variables.context.fillStyle = "#161616";
     Variables.context.fillRect(0,0, 400, 225);
     Variables.context.fillStyle = "#fff";
     Variables.context.fillRect(200-16, 60, 32, 32);
-    if(animation)
-        attackAnimation();
+    if(animation) attackAnimation();
     Variables.context.fillStyle = "#383838";
     Variables.context.fillRect(0,151, 400, 74);
     Variables.context.fillStyle = "black";
     Variables.context.fillRect(21,210, 70, 10);
     Variables.context.fillRect(224,210, 70, 10);
+    Variables.context.fillRect(165,112.5, 70, 10);
     Variables.context.fillStyle = "#F03447";
     Variables.context.fillRect(21,210, 70*lifePercentage, 10);
+    Variables.context.fillRect(165,112.5, 70*enemyHpPercentage, 10);
     Variables.context.fillStyle = "#3DBAF6";
     Variables.context.fillRect(224,210, 70*mpPercentage, 10);
     Variables.context.fillStyle = "white";
@@ -52,7 +57,6 @@ export function CombatRender() {
     Variables.context.fillText("HP", 3, 217);
     Variables.context.fillText("MP", 205, 217);
     Variables.context.font = "6px Free Pixel";
-    const enemyHp = `${enemySelect.life.toFixed(0)}/${enemySelect.maxLife}`;
     Variables.context.fillText(enemyHp, 200-Variables.context.measureText(enemyHp).width/2, 120);
     const hp = `${Variables.player.life.toFixed(0)}/${Variables.player.maxLife}`;
     Variables.context.fillText(hp, 56.129-Variables.context.measureText(hp).width/2, 217.5);
@@ -111,7 +115,7 @@ export function CombatRender() {
         }
     }
 }
-export function CombatSelectOptions(keys) {
+export function Combat(keys) {
     if(!enemyTurn) {
         if(keys.arrowleft || keys.a) {
             keys.arrowleft = keys.a = false;
@@ -145,6 +149,7 @@ export function CombatSelectOptions(keys) {
                 case 1:
                     defending = true;
                     enemyTurn = true;
+                    Variables.player.recover("mp", 2);
                     break;
                 case 2:
                     optionSelect = "itens";
@@ -160,6 +165,7 @@ export function CombatSelectOptions(keys) {
                     attack(Variables.player, enemySelect);
                     animation = true;
                     enemyTurn = true;
+                    Variables.player.recover("mp", 1);
                 }
                 if(option === 1) {
                     if(Variables.player.mp >= 4) {
@@ -185,7 +191,7 @@ export function CombatSelectOptions(keys) {
             optionSelect = undefined;
         }
     } else {
-        if(i === 0) {
+        if(i === 0 || defending) {
             underAttack = true;
             const chooseAttack = Math.random() * (1 - 0) + 0;
             if(chooseAttack <= 0.7) {
@@ -197,7 +203,44 @@ export function CombatSelectOptions(keys) {
             enemyTurn = false;
             option = 0;
             optionSelect = undefined;
+            animation = false;
         }
+    }
+    isDead(Variables.player, enemySelect);
+}
+function isDead(player, enemy) {
+    if(player.life <= 0) {
+        changeVariable("gameState", Variables.GAME_OVER);
+        defending = false;
+        enemyTurn = false;
+        option = 0;
+        optionSelect = undefined;
+        animation = false;
+    }
+    if(enemy.life <= 0) {
+        changeVariable("combat", false);
+        Variables.AllEnemies.splice(enemyIndex,1);
+        let message = "";
+        enemySelect.drop.forEach(drop => {
+            if(drop.type === "xp"){
+                if(Variables.player.addXP(drop.value)) {
+                    message += `Você upou para o nível ${Variables.player.level}.\n`;
+                } else {
+                    message += `Você ganhou ${drop.value} de XP.\n`;
+                }
+            }
+            else {
+                Variables.player.recover(drop.type, drop.value);
+                message += `Você ganhou ${drop.value} de ouro.\n`;
+            }
+            changeVariable(["message", "bool"], true);
+            changeVariable(["message", "text"], message);
+        });
+        defending = false;
+        enemyTurn = false;
+        option = 0;
+        optionSelect = undefined;
+        animation = false;
     }
 }
 function attackAnimation() {

@@ -11,6 +11,7 @@ export let Variables = {
     "START_MENU": 1,
     "PAUSED": 2,
     "PLAYING": 3,
+    "GAME_OVER": 4,
     "LOADING": true,
     "Blocks": Array(),
     "NPCs": Array(),

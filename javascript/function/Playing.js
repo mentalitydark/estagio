@@ -1,7 +1,7 @@
 import {movePlayer} from "./Events.js";
 import {Collision, BorderCollision} from "./Collision.js";
 import {DialogDetect, DialogRender, DialogSelectOptions, resetDialog} from "./Dialog.js";
-import {CombatDetect, CombatRender, CombatSelectOptions} from "./Combat.js";
+import {CombatDetect, CombatRender, Combat} from "./Combat.js";
 import {InventoryRender, InventoryEvents} from "./Inventory.js";
 import {Variables, changeVariable} from "./../util/Variables.js";
 import FPSDraw from "./fps.js";
@@ -40,10 +40,10 @@ export async function GAME_update(camera) {
                         }
                     }
                 });
-                Variables.AllEnemies.forEach( enemy => {
+                Variables.AllEnemies.forEach( (enemy, index) => {
                     if(enemy.map === world.name) {
                         Collision(Variables.player, enemy);
-                        if(CombatDetect(Variables.player, enemy)) {
+                        if(CombatDetect(Variables.player, enemy, index)) {
                             Vignette = true;
                             changeVariable("combat", true);
                         }
@@ -71,7 +71,7 @@ export async function GAME_update(camera) {
                     Variables.keys.i = false;
                     Variables.player.recover("mp", -5);
                 }
-                CombatSelectOptions(Variables.keys);
+                Combat(Variables.keys);
             }
         } else {
             if(Variables.keys.e || Variables.keys.i || Variables.keys.escape) {

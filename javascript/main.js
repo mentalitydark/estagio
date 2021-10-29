@@ -1,6 +1,7 @@
 "use strict";
 import {GAME_update, GAME_render} from "./function/Playing.js";
 import {MENU_update, MENU_render} from "./function/StartMenu.js";
+import {GameOver_update, GameOver_render} from "./function/GameOver.js";
 import {PAUSED_update, PAUSED_render, resetVariables_PAUSED} from "./function/Paused.js";
 import {addToLoad, loadEvent, loadedAssets, assetsToLoad} from "./function/LoadAssets.js";
 import Camera from "./class/Camera.js";
@@ -56,6 +57,10 @@ function gameLoop(timeStamp) {
         case Variables.PAUSED:
             PAUSED_update();
             PAUSED_render();
+            break;
+        case Variables.GAME_OVER:
+            GameOver_update();
+            GameOver_render();
             break;
         }
     }
