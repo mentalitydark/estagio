@@ -1,4 +1,4 @@
-import {Variables, changeVariable} from "./../util/Variables.js";
+import {Variables, change_variable} from "./../util/Variables.js";
 import {addToLoad} from "./LoadAssets.js";
 let enemyIndex;
 let enemySelect;
@@ -16,7 +16,7 @@ const spriteAttack = new Image();
 spriteAttack.src = "./img/sprites/combat/attack.png";
 addToLoad(spriteAttack);
 
-export function CombatDetect(player, enemy, index) {
+export function combat_detect(player, enemy, index) {
     const catX = player.centerX() - enemy.combatCenterX();
     const catY = player.centerY() - enemy.combatCenterY();
     const sumHalfWidth = player.halfWidth() + enemy.combatHalfWidth();
@@ -28,7 +28,7 @@ export function CombatDetect(player, enemy, index) {
     }
 }
 
-export function CombatRender() {
+export function combat_render() {
     const lifePercentage = Variables.player.life*100/Variables.player.maxLife/100;
     const mpPercentage = Variables.player.mp*100/Variables.player.maxMp/100;
     const enemyHp = `${enemySelect.life.toFixed(0)}/${enemySelect.maxLife}`;
@@ -210,7 +210,7 @@ export function Combat(keys) {
 }
 function isDead(player, enemy) {
     if(player.life <= 0) {
-        changeVariable("gameState", Variables.GAME_OVER);
+        change_variable("gameState", Variables.GAME_OVER);
         defending = false;
         enemyTurn = false;
         option = 0;
@@ -218,8 +218,8 @@ function isDead(player, enemy) {
         animation = false;
     }
     if(enemy.life <= 0) {
-        changeVariable("combat", false);
-        Variables.AllEnemies.splice(enemyIndex,1);
+        change_variable("combat", false);
+        Variables.enemies_ready.splice(enemyIndex,1);
         let message = "";
         enemySelect.drop.forEach(drop => {
             if(drop.type === "xp"){
@@ -233,8 +233,8 @@ function isDead(player, enemy) {
                 Variables.player.recover(drop.type, drop.value);
                 message += `Você ganhou ${drop.value} de ouro.\n`;
             }
-            changeVariable(["message", "bool"], true);
-            changeVariable(["message", "text"], message);
+            change_variable(["message", "bool"], true);
+            change_variable(["message", "text"], message);
         });
         defending = false;
         enemyTurn = false;

@@ -36,6 +36,7 @@ export default class Enemy {
     get mask() { return this._mask; }
     get drop() { return this._drop; }
     get collision() { return this._collision; }
+    set position(position) { this._position = position; }
 
     recover(type, value) {
         const max = `max${type[0].toUpperCase()+type.slice(1)}`;

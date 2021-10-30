@@ -1,11 +1,9 @@
 import {Variables} from "./../util/Variables.js";
 let line = 0;
 let column = 0;
-export function InventoryRender() {
+export function inventory_render() {
     Variables.context.fillStyle = "#383838";
     Variables.context.fillRect(29.5, 39.4, 340.9-135, 120);
-    
-    // Player Name
     Variables.context.fillStyle = "#adadad";
     Variables.context.fillRect(40.5, 44.6, 89.2, 11.2);
     Variables.context.fillRect(40.5, 73, 89.2, 80);
@@ -41,7 +39,7 @@ export function InventoryRender() {
     Variables.context.lineWidth = 1;
     Variables.context.strokeRect(160 + 21*column, 47 + 21*line, 16, 16);
 }
-export function InventoryEvents(keys) {
+export function inventory_update(keys) {
     if(keys.arrowup || keys.w) {
         keys.arrowup = keys.w = false;
         line--;

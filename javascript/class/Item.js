@@ -1,10 +1,11 @@
 export default class Item {
-    constructor(name, type, quantity, sprite, attributes) {
+    constructor(name, type, quantity, sprite, attributes, price) {
         this._name = name;
         this._type = type;
         this._quantity = quantity;
         this._sprite = sprite;
         this._attributes = attributes;
+        this._price = price;
         this._equipped = false;
     }
 
@@ -13,6 +14,7 @@ export default class Item {
     get quantity() { return this._quantity; }
     get sprite() { return this._sprite; }
     get attributes() { return this._attributes; }
+    get price() { return this._price; }
     get equipped() { return this._equipped; }
 
     addQuantity(quantity) { this._quantity += quantity; }

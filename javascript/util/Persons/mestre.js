@@ -2,7 +2,7 @@ import NPC from "./../../class/NPC.js";
 import {addToLoad} from "./../../function/LoadAssets.js";
 import {player} from "./player.js";
 
-const Mestre_dialogs = {
+const dialogs = {
     "start": {
         "text": `Como você está, ${player.name}?\nEstá treinando bastante para derrotar o Rei Monstro?`,
         "options": "Conversar\nSair"
@@ -24,4 +24,4 @@ const Mestre_dialogs = {
 const mestreSprite = new Image();
 mestreSprite.src = "./img/sprites/char.png";
 addToLoad(mestreSprite);
-export const mestre = new NPC("Mestre", {x: 50, y: 100}, "home_mestre", mestreSprite, "", Mestre_dialogs);
+export const mestre = new NPC("Mestre", {x: 50, y: 100}, "home_mestre", mestreSprite, "", dialogs);

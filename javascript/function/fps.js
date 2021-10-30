@@ -6,7 +6,7 @@ function FPS(TimeStamp) {
     oldTimeStamp = TimeStamp;
     return Math.round(1/seconds);
 }
-export default function FPSDraw(timeStamp) {
+export default function FPS_draw(timeStamp) {
     const fpsText = FPS(timeStamp);
     Variables.context.fillStyle = "#fff";
     Variables.context.strokeStyle = "rgb(0, 0, 0)";

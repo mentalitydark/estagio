@@ -1,5 +1,5 @@
 export default class NPC {
-    constructor(name, position, map, sprite, quest, dialogs, market = null) {
+    constructor(name, position, map, sprite, quest, dialogs, inventory = null) {
         this._name = name;
         this._position = {
             x: position.x,
@@ -16,7 +16,7 @@ export default class NPC {
         };
         this._quest = quest;
         this._dialogs = dialogs;
-        this._market = market;
+        this._inventory = inventory;
         this._mask = {
             width: 14,
             height: 17
@@ -27,14 +27,14 @@ export default class NPC {
         };
         this._collision = true;
     }
-    get Name() { return this._name; }
-    get Position() { return this._position; }
-    get Map() { return this._map; }
-    get Sprite() { return this._sprite; }
-    get Quest() { return this._quest; }
-    get Dialogs() { return this._dialogs; }
-    get Market() { return this._market; }
-    get Mask() { return this._mask; }
+    get name() { return this._name; }
+    get position() { return this._position; }
+    get map() { return this._map; }
+    get sprite() { return this._sprite; }
+    get quest() { return this._quest; }
+    get dialogs() { return this._dialogs; }
+    get inventory() { return this._inventory; }
+    get mask() { return this._mask; }
     get collision() { return this._collision; }
 
     draw(context) {

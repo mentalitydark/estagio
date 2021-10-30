@@ -2,16 +2,16 @@
 import {GAME_update, GAME_render} from "./function/Playing.js";
 import {MENU_update, MENU_render} from "./function/StartMenu.js";
 import {GameOver_update, GameOver_render} from "./function/GameOver.js";
-import {PAUSED_update, PAUSED_render, resetVariables_PAUSED} from "./function/Paused.js";
+import {PAUSED_update, PAUSED_render, PAUSED_reset_variables} from "./function/Paused.js";
 import {addToLoad, loadEvent, loadedAssets, assetsToLoad} from "./function/LoadAssets.js";
 import Camera from "./class/Camera.js";
-import {Variables, changeVariable} from "./util/Variables.js";
+import {Variables, change_variable} from "./util/Variables.js";
 // -----------
 const canvas = document.querySelector("#canvas");
 const context = canvas.getContext("2d");
 const FreePixel = new FontFace("Free Pixel", "url('./font/FreePixel.ttf')");
 const camera = new Camera((Variables.player.position.x-canvas.width)/4, (Variables.player.position.y-canvas.height)/4, canvas.width, canvas.height);
-changeVariable("context", context);
+change_variable("context", context);
 let loadFont = true;
 
 addToLoad(FreePixel);
@@ -52,7 +52,7 @@ function gameLoop(timeStamp) {
         case Variables.PLAYING:
             GAME_update(camera);
             GAME_render(timeStamp, camera, canvas);
-            resetVariables_PAUSED();
+            PAUSED_reset_variables();
             break;
         case Variables.PAUSED:
             PAUSED_update();

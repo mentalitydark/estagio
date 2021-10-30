@@ -1,7 +1,7 @@
 import {mestre} from "./Persons/mestre.js";
 import {vendedor_potions} from "./Persons/v_potions.js";
 import {player} from "./Persons/player.js";
-import {AllEnemies} from "./Persons/enemy.js";
+import {all_enemies, enemies_fixed} from "./Persons/enemy.js";
 
 import {main} from "./worlds/main.js";
 import {home_mestre} from "./worlds/home_mestre.js";
@@ -40,10 +40,12 @@ export let Variables = {
         "bool": false,
         "text": ""
     },
-    "AllEnemies": AllEnemies,
+    "all_enemies": all_enemies,
+    "enemies_ready": enemies_fixed,
     "combat": false,
+    "enemy_spawn": 0
 };
-export function changeVariable(variable, value) {
+export function change_variable(variable, value) {
     if(Array.isArray(variable))
         Variables[variable[0]][variable[1]] = value;
     else

@@ -1,4 +1,4 @@
-import { Variables, changeVariable } from "./../util/Variables.js";
+import { Variables, change_variable } from "./../util/Variables.js";
 export function Collision(player, block) {
     const catX = player.centerX() - block.centerX();
     const catY = player.centerY() - block.centerY();
@@ -28,12 +28,12 @@ export function Collision(player, block) {
                     y: player.position.y+5
                 };
             }
-            changeVariable(["Worlds", "select"], block.to);
+            change_variable(["Worlds", "select"], block.to);
             player.teleport(Variables.Worlds[block.to].teleport);
         }
     }
 }
-export function BorderCollision(player, world) {
+export function border_collision(player, world) {
     player.position.x = Math.max(0, player.position.x);
     player.position.x = Math.max(0, Math.min(world.width - player.mask.width, player.position.x));
     player.position.y = Math.max(0, player.position.y);

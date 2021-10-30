@@ -1,10 +1,10 @@
-import {Variables, changeVariable} from "./../util/Variables.js";
+import {Variables, change_variable} from "./../util/Variables.js";
 import {load} from "./IndexedDB.js";
 let i = 1;
 let color = true;
 export function MENU_update() {
     if(Variables.keys.enter) {
-        changeVariable("gameState", Variables.PLAYING);
+        change_variable("gameState", Variables.PLAYING);
         load(Variables.player);
     }
 }

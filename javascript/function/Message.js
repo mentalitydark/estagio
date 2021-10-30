@@ -1,4 +1,4 @@
-import {Variables, changeVariable} from "./../util/Variables.js";
+import {Variables, change_variable} from "./../util/Variables.js";
 let i = 0;
 let alpha = 0;
 let change = true;
@@ -21,7 +21,7 @@ export default function Message() {
         i = 0;
         alpha = 0;
         change = true;
-        changeVariable(["message", "bool"], false);
-        changeVariable(["message", "text"], "");
+        change_variable(["message", "bool"], false);
+        change_variable(["message", "text"], "");
     }
 }

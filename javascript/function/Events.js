@@ -1,21 +1,26 @@
+import {Variables} from "./../util/Variables.js";
 let frames = 30;
 let floor = 10;
-export function movePlayer(player, keys) {
+export function move_player(player, keys) {
     if(keys.arrowup || keys.w) {
         player.sprites.imgY =  player.mask.height * 0;
         player.moveY(-1);
+        Variables.enemy_spawn++;
     }
     if(keys.arrowdown || keys.s) {
         player.sprites.imgY =  player.mask.height * 2;
         player.moveY(1);
+        Variables.enemy_spawn++;
     }
     if(keys.arrowright || keys.d) {
         player.sprites.imgY =  player.mask.height * 1;
         player.moveX(1);
+        Variables.enemy_spawn++;
     }
     if(keys.arrowleft || keys.a) {
         player.sprites.imgY =  player.mask.height * 3;
         player.moveX(-1);
+        Variables.enemy_spawn++;
     }
     if(keys.arrowdown || keys.arrowup || keys.arrowleft || keys.arrowright || keys.a || keys.d || keys.s || keys.w) {
         player.sprites.frameAnimation++;
@@ -36,6 +41,4 @@ export function movePlayer(player, keys) {
         player.sprites.imgX =player.sprites.frameAnimation  * player.mask.width;
     }
     player.sprint(keys.shift);
-}
-export function selectMenu() {
 }
