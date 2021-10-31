@@ -8,7 +8,7 @@ VPSprite.src = "./img/sprites/char.png";
 addToLoad(VPSprite);
 const dialog = {
     "start": {
-        "text": `Comoaaaaaaaa você está, ${player.name}?\nEstá treinando bastante para derrotar o Rei Monstro?`,
+        "text": `Como você está, ${player.name}?\nEstá treinando bastante para derrotar o Rei Monstro?`,
         "options": "Conversar\nLoja\nSair"
     },
     "Conversar": {
@@ -26,6 +26,9 @@ const dialog = {
     "Loja": "Loja"
 };
 const inventory = [
-    new Item("Poção de HP", "Potion", 10, "", {type: "life", value: 10})
+    new Item("Arma de Teste", "Weapon", 1, "", {type: "damage", value: 50}, 100),
+    new Item("Arma de Teste 2", "Weapon", 1, "", {type: "damage", value: 50}, 100),
+    new Item("Arma de Teste 3", "Weapon", 1, "", {type: "damage", value: 50}, 100),
+    new Item("Poção de HP", "Potion", 10, "", {type: "life", value: 10}, 5),
 ];
 export const vendedor_potions = new NPC("Vendedor de Poções", {x: 1900, y: 1250}, "main", VPSprite, "quest", dialog, inventory);

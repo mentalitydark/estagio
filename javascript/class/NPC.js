@@ -37,6 +37,14 @@ export default class NPC {
     get mask() { return this._mask; }
     get collision() { return this._collision; }
 
+    removeItem(item) {
+        const position = this._inventory.findIndex(i => i.name === item.name);
+        if(position != -1){
+            this._inventory[position].removeQuantity(1);
+            if(this._inventory[position].quantity <= 0)
+                this._inventory.splice(position, 1);
+        }
+    }
     draw(context) {
         context.drawImage(
             this._sprite.img,

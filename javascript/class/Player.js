@@ -13,7 +13,7 @@ export default class Player {
         this._maxLife = 10;
         this._mp = 10;
         this._maxMp = 10;
-        this._gold = 0;
+        this._gold = 1000;
         this._damage = 1;
         this._defense = 5;
         this._quests = [];

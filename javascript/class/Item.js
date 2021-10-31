@@ -1,5 +1,5 @@
 export default class Item {
-    constructor(name, type, quantity, sprite, attributes, price) {
+    constructor(name, type, quantity, sprite, attributes, price = null) {
         this._name = name;
         this._type = type;
         this._quantity = quantity;
