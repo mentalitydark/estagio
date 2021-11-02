@@ -17,6 +17,7 @@ export default class Player {
         this._damage = 1;
         this._defense = 5;
         this._quests = [];
+        this._inventoryQuests = [];
         this._sprites = [];
         this._speed = 1;
         this._sprites = {
@@ -58,6 +59,7 @@ export default class Player {
     get damage() { return this._damage; }
     get defense() { return this._defense; }
     get quests() { return this._quests; }
+    get inventoryQuests() { return this._inventoryQuests; }
     get sprites() { return this._sprites; }
     get speed() { return this._speed; }
     get level() { return this._level; }
