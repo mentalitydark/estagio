@@ -8,15 +8,17 @@ import FPS_draw from "./fps.js";
 import Message from "./Message.js";
 let Vignette = true;
 let i = 0;
-let worldSelect = Variables.Worlds.select;
-let world = Variables.Worlds[worldSelect];
+let selected_world = Variables.selected_world;
+let world = Variables.Worlds[selected_world];
 export async function GAME_update(camera) {
-    worldSelect = Variables.Worlds.select;
-    world = Variables.Worlds[worldSelect];
+    selected_world = Variables.selected_world;
+    world = Variables.Worlds[selected_world];
     change_variable("Blocks", world.blocks);
     if(!Variables["dialog"]){
         if(!Variables["inventory"]) {
             if(!Variables["combat"]) {
+                if(Variables.keys.v)
+                    console.log(Variables.player.position);
                 move_player(Variables.player, Variables.keys);
                 // Movimentação da Camera
                 if(Variables.player.position.y < camera.topBorder()) camera.y = Variables.player.position.y-camera.height * 0.25;
@@ -79,6 +81,7 @@ export async function GAME_update(camera) {
                     }
                     Variables.enemy_spawn = 0;
                 }
+
             } else {
                 if(Variables.keys.e || Variables.keys.i) {
                     Variables.keys.e = false;
@@ -119,7 +122,7 @@ export function GAME_render(timeStamp, camera, canvas) {
                 NPC.draw(Variables.context);
         });
         Variables.enemies_ready.forEach( enemy => {
-            if(enemy.map === world.name)
+            if(enemy.map === world.name && enemy.visible)
                 enemy.draw(Variables.context);
         });
         // ----------

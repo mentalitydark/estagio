@@ -5,7 +5,7 @@ const enemy_1 = new Enemy("Teste de inimigo 1", "main", {}, "", 10, 1, 2, "", [{
 const enemy_2 = new Enemy("Teste de inimigo 2", "main", {}, "", 10, 1, 2, "", [{type: "xp", value:125},{type: "gold", value:20}]);
 const enemy_3 = new Enemy("Teste de inimigo 3", "main", {}, "", 100, 10, 60, "", [{type: "xp", value:50},{type: "gold", value:10}]);
 const enemy_4 = new Enemy("Teste de inimigo 4", "main", {}, "", 100, 10, 60, "", [{type: "xp", value:50},{type: "gold", value:10}]);
-const enemy_5 = new Enemy("Teste Fixo", "main", {x: 1750, y: 1450}, "", 100, 10, 60, "", [{type: "xp", value:50},{type: "gold", value:10}]);
+const enemy_5 = new Enemy("Teste Fixo", "main", {x: 1750, y: 1450}, "", 100, 10, 60, "", [{type: "xp", value:50},{type: "gold", value:10}], true);
 
 export const all_enemies = [
     enemy_1,

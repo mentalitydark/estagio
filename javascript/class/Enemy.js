@@ -1,11 +1,11 @@
 export default class Enemy {
-    constructor(name, map, position, route, life, damage, defense, sprite, drop) {
+    constructor(name, map, position, route, hp, damage, defense, sprite, drop, visible = false) {
         this._name = name;
         this._map = map;
         this._position = position;
         this._route = route;
-        this._life = life;
-        this._maxLife = this._life;
+        this._hp = hp;
+        this._maxHp = this._hp;
         this._damage = damage;
         this._defense = defense;
         this._sprite = {
@@ -20,6 +20,7 @@ export default class Enemy {
             height: 26
         };
         this._drop = drop;
+        this._visible = visible;
         this._speed = 1;
         this._collision = true;
         this._alive = true;
@@ -28,13 +29,14 @@ export default class Enemy {
     get map() { return this._map; }
     get position() { return this._position; }
     get route() { return this.route; }
-    get life() { return this._life; }
-    get maxLife() { return this._maxLife; }
+    get hp() { return this._hp; }
+    get maxHp() { return this._maxHp; }
     get damage() { return this._damage; }
     get defense() { return this._defense; }
     get sprite() { return this._sprite; }
     get mask() { return this._mask; }
     get drop() { return this._drop; }
+    get visible() { return this._visible; }
     get collision() { return this._collision; }
     set position(position) { this._position = position; }
 

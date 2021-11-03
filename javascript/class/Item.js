@@ -17,6 +17,6 @@ export default class Item {
     get price() { return this._price; }
     get equipped() { return this._equipped; }
 
-    addQuantity(quantity) { this._quantity += quantity; }
-    removeQuantity(quantity) { this._quantity -= quantity; }
+    add_quantity(quantity) { this._quantity += quantity; }
+    remove_quantity(quantity) { this._quantity -= quantity; }
 }

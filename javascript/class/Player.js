@@ -6,11 +6,11 @@ export default class Player {
             height: 18
         };
         this.position = {
-            x: 1838,
-            y: 1349
+            x: 55.5,
+            y: 57
         };
-        this._life = 5;
-        this._maxLife = 10;
+        this._hp = 5;
+        this._maxHp = 10;
         this._mp = 10;
         this._maxMp = 10;
         this._gold = 1000;
@@ -51,8 +51,8 @@ export default class Player {
     // Get
     get name() { return this._name; }
     get mask() { return this._mask; }
-    get life() { return this._life; }
-    get maxLife() { return this._maxLife; }
+    get hp() { return this._hp; }
+    get maxHp() { return this._maxHp; }
     get mp() { return this._mp; }
     get maxMp() { return this._maxMp; }
     get gold() { return this._gold; }
@@ -66,11 +66,11 @@ export default class Player {
     get inventory() { return this._inventory; }
     get armorEquipped() { return this._armorEquipped; }
     get weaponEquipped() { return this._weaponEquipped; }
-    set life(life) { this._life = life; }
+    set hp(hp) { this._hp = hp; }
 
     // Functions
     recover(type, value) {
-        if(type === "life" || type === "mp") {
+        if(type === "hp" || type === "mp") {
             const max = `max${type[0].toUpperCase()+type.slice(1)}`;
             this[`_${type}`] += value;
             if(this[`_${type}`] > this[`_${max}`])
@@ -89,13 +89,13 @@ export default class Player {
         this.position.x = position.x;
         this.position.y = position.y;
     }
-    addXP(xp) {
+    add_XP(xp) {
         this._oldLevel = this._level;
         xp += this._xp;
         while(xp > 0) {
             if(xp >= this._xpLvl[this._level+1]) {
                 xp -= this._xpLvl[this._level+1];
-                this.levelUp(1);
+                this.level_up(1);
                 if(xp === 0) 
                     this._xp = xp;
             } else {
@@ -107,11 +107,11 @@ export default class Player {
             return true;
         }
     }
-    checkLevel(lvl) { if(this._level >= lvl) return "true"; else return "false"; }
-    levelUp(lvl) { 
+    check_level(lvl) { if(this._level >= lvl) return "true"; else return "false"; }
+    level_up(lvl) { 
         this._level+= lvl;
-        this._life = 10 + this._level*5;
-        this._maxLife = this._life;
+        this._hp = 10 + this._level*5;
+        this._maxHp = this._hp;
         this._mp = 10 + this._level*2;
         this._maxMp = this._mp;
         if(this._armorEquipped != undefined)
@@ -123,33 +123,33 @@ export default class Player {
         else
             this._damage = 1 + this._level*3;
     }
-    addItem(item) {
+    add_item(item) {
         const position = this._inventory.findIndex(i => i.name === item.name);
         if(position != -1)
-            this._inventory[position].addQuantity(1);
+            this._inventory[position].add_quantity(1);
         else
             this._inventory.push(item);
     }
-    removeItem(item) {
+    remove_item(item) {
         const position = this._inventory.findIndex(i => i.name === item.name);
         if(position != -1){
-            this._inventory[position].removeQuantity(1);
+            this._inventory[position].remove_quantity(1);
             if(this._inventory[position].quantity <= 0)
                 this._inventory.splice(position, 1);
         }
     }
-    useItem(item) {
-        if(item.type.toLowerCase() === "potion") {
+    use_item(item) {
+        if(item.type.toLowerCase() === "poção") {
             const type = item.attributes.type;
             const max = `max${type[0].toUpperCase()+type.slice(1)}`;
             this[`_${type}`] += item.attributes.value;
             if(this[`_${type}`] > this[`_${max}`])
                 this[`_${type}`] = this[`_${max}`];
-            this.removeItem(item);
+            this.remove_item(item);
         }
-        if(item.type.toLowerCase() === "weapon" || item.type.toLowerCase() === "armor") {
+        if(item.type.toLowerCase() === "cajado" || item.type.toLowerCase() === "túnica") {
             if(this._weaponEquipped != undefined) {
-                if(item.type.toLowerCase() === "weapon") {
+                if(item.type.toLowerCase() === "cajado") {
                     if(item.name === this._weaponEquipped.name) {
                         this._damage -= this._weaponEquipped.attributes.value;
                         this._weaponEquipped = undefined;
@@ -160,13 +160,13 @@ export default class Player {
                     }
                 }
             } else {
-                if(item.type.toLowerCase() === "weapon") {
+                if(item.type.toLowerCase() === "cajado") {
                     this._damage += item.attributes.value;
                     this._weaponEquipped = item;
                 }
             }
             if(this._armorEquipped != undefined) {
-                if(item.type.toLowerCase() === "armor") {
+                if(item.type.toLowerCase() === "túnica") {
                     if(item.name === this._armorEquipped.name) {
                         this._defense -= this._armorEquipped.attributes.value;
                         this._armorEquipped = undefined;
@@ -177,7 +177,7 @@ export default class Player {
                     }
                 }
             } else {
-                if(item.type.toLowerCase() === "armor") {
+                if(item.type.toLowerCase() === "túnica") {
                     this._defense += item.attributes.value;
                     this._armorEquipped = item;
                 }

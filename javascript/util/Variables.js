@@ -1,10 +1,10 @@
-import {mestre} from "./Persons/mestre.js";
-import {vendedor_potions} from "./Persons/v_potions.js";
+import {master} from "./Persons/master.js";
+import {potions_salesman} from "./Persons/potions_salesman.js";
 import {player} from "./Persons/player.js";
 import {all_enemies, enemies_fixed} from "./Persons/enemy.js";
 
 import {main} from "./worlds/main.js";
-import {home_mestre} from "./worlds/home_mestre.js";
+import {home_master} from "./worlds/home_master.js";
 export let Variables = {
     "context": "",
     "gameState": 1,
@@ -31,10 +31,10 @@ export let Variables = {
     "dialog": false,
     "inventory": false,
     "player": player,
+    "selected_world": "home_master",
     "Worlds": {
-        "select": "main",
         "main": main,
-        "home_mestre": home_mestre
+        "home_master": home_master
     },
     "message": {
         "bool": false,
@@ -51,5 +51,5 @@ export function change_variable(variable, value) {
     else
         Variables[variable] = value;
 }
-Variables.NPCs.push(mestre);
-Variables.NPCs.push(vendedor_potions);
+Variables.NPCs.push(master);
+Variables.NPCs.push(potions_salesman);

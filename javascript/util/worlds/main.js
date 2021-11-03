@@ -11,7 +11,7 @@ const village = [
     new Block(1695, 1375, 1759, 1376),
     new Block(1695, 1375, 1696 , 1500),
     new Block(1695, 1152, 2000, 1153),
-    new Block(1933, 1407, 1982, 1408, "home_mestre", false, "door"),
+    new Block(1933, 1407, 1982, 1408, "home_master", false, "door"),
 ];
-export const main = new World("main", 2000, 1500, background);
-main.addBlocks(village);
+export const main = new World("main", 2000, 1500, background, {x: 1930, y: 1415});
+main.add_blocks(village);

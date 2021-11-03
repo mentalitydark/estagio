@@ -1,5 +1,6 @@
 
 import {Variables} from "./../util/Variables.js";
+import Item from "./../class/Item.js";
 let line = 0;
 let column = 0;
 
@@ -72,10 +73,10 @@ export function store_update(keys, npc) {
             keys.enter = false;
             if(Variables.player.gold >= npc.inventory[column + line*3].price) {
                 Variables.player.recover("gold", -npc.inventory[column + line*3].price);
-                Variables.player.addItem(npc.inventory[column + line*3]);
-                npc.removeItem(npc.inventory[column + line*3]);
+                const item = npc.inventory[column + line*3];
+                Variables.player.add_item(new Item(item.name, item.type, 1, item.sprite, item.attributes, item.price));
+                npc.remove_item(npc.inventory[column + line*3]);
             }
-            // Variables.player.useItem(Variables.player.inventory[column + line*3]);
         }
     }
 }

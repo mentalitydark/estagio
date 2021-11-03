@@ -3,8 +3,8 @@ import {addToLoad} from "./LoadAssets.js";
 let enemyIndex;
 let enemySelect;
 let optionSelect;
-let potionHpPosition;
-let potionMpPosition;
+let PoçãoHpPosition;
+let PoçãoMpPosition;
 let enemyTurn = false;
 let defending = false;
 let animation = false;
@@ -29,10 +29,10 @@ export function combat_detect(player, enemy, index) {
 }
 
 export function combat_render() {
-    const lifePercentage = Variables.player.life*100/Variables.player.maxLife/100;
+    const hpPercentage = Variables.player.hp*100/Variables.player.maxHp/100;
     const mpPercentage = Variables.player.mp*100/Variables.player.maxMp/100;
-    const enemyHp = `${enemySelect.life.toFixed(0)}/${enemySelect.maxLife}`;
-    const enemyHpPercentage = enemySelect.life*100/enemySelect.maxLife/100;
+    const enemyHp = `${enemySelect.hp.toFixed(0)}/${enemySelect.maxHp}`;
+    const enemyHpPercentage = enemySelect.hp*100/enemySelect.maxHp/100;
     // Enemy.draw()
     Variables.context.fillStyle = "#161616";
     Variables.context.fillRect(0,0, 400, 225);
@@ -46,7 +46,7 @@ export function combat_render() {
     Variables.context.fillRect(224,210, 70, 10);
     Variables.context.fillRect(165,112.5, 70, 10);
     Variables.context.fillStyle = "#F03447";
-    Variables.context.fillRect(21,210, 70*lifePercentage, 10);
+    Variables.context.fillRect(21,210, 70*hpPercentage, 10);
     Variables.context.fillRect(165,112.5, 70*enemyHpPercentage, 10);
     Variables.context.fillStyle = "#3DBAF6";
     Variables.context.fillRect(224,210, 70*mpPercentage, 10);
@@ -58,7 +58,7 @@ export function combat_render() {
     Variables.context.fillText("MP", 205, 217);
     Variables.context.font = "6px Free Pixel";
     Variables.context.fillText(enemyHp, 200-Variables.context.measureText(enemyHp).width/2, 120);
-    const hp = `${Variables.player.life.toFixed(0)}/${Variables.player.maxLife}`;
+    const hp = `${Variables.player.hp.toFixed(0)}/${Variables.player.maxHp}`;
     Variables.context.fillText(hp, 56.129-Variables.context.measureText(hp).width/2, 217.5);
     const mp = `${Variables.player.mp}/${Variables.player.maxMp}`;
     Variables.context.fillText(mp, 259.129-Variables.context.measureText(mp).width/2, 217.5);
@@ -85,11 +85,11 @@ export function combat_render() {
         if(optionSelect == "itens") {
             Variables.context.fillText("Poção de HP", 100-Variables.context.measureText("Poção de HP").width/2, 194);
             Variables.context.fillText("Poção de MP", 300-Variables.context.measureText("Poção de MP").width/2, 194);
-            potionHpPosition = Variables.player.inventory.findIndex(i => i.name === "Poção de HP");
-            potionMpPosition = Variables.player.inventory.findIndex(i => i.name === "Poção de MP");
-            if(potionHpPosition >= 0) Variables.context.fillText(`x${Variables.player.inventory[potionHpPosition].quantity}`, 100+Variables.context.measureText("Poção de HP").width/2+20, 194);
+            PoçãoHpPosition = Variables.player.inventory.findIndex(i => i.name === "Poção de HP");
+            PoçãoMpPosition = Variables.player.inventory.findIndex(i => i.name === "Poção de MP");
+            if(PoçãoHpPosition >= 0) Variables.context.fillText(`x${Variables.player.inventory[PoçãoHpPosition].quantity}`, 100+Variables.context.measureText("Poção de HP").width/2+20, 194);
             else Variables.context.fillText("x0", 100+Variables.context.measureText("Poção de HP").width/2+20, 194);
-            if(potionMpPosition >= 0) Variables.context.fillText(`x${Variables.player.inventory[potionMpPosition].quantity}`, 300+Variables.context.measureText("Poção de MP").width/2+20, 194);
+            if(PoçãoMpPosition >= 0) Variables.context.fillText(`x${Variables.player.inventory[PoçãoMpPosition].quantity}`, 300+Variables.context.measureText("Poção de MP").width/2+20, 194);
             else Variables.context.fillText("x0", 300+Variables.context.measureText("Poção de MP").width/2+20, 194);
             if(option === 0) {
                 Variables.context.fillStyle = "#F03447";
@@ -181,9 +181,9 @@ export function Combat(keys) {
             if(keys.enter) {
                 keys.enter = false;
                 if(option === 0)
-                    Variables.player.useItem(Variables.player.inventory[potionHpPosition]);
+                    Variables.player.use_item(Variables.player.inventory[PoçãoHpPosition]);
                 if(option === 1)
-                    Variables.player.useItem(Variables.player.inventory[potionMpPosition]);
+                    Variables.player.use_item(Variables.player.inventory[PoçãoMpPosition]);
             }
         }
         if(keys.escape && optionSelect !== undefined) {
@@ -209,7 +209,7 @@ export function Combat(keys) {
     isDead(Variables.player, enemySelect);
 }
 function isDead(player, enemy) {
-    if(player.life <= 0) {
+    if(player.hp <= 0) {
         change_variable("gameState", Variables.GAME_OVER);
         defending = false;
         enemyTurn = false;
@@ -217,13 +217,13 @@ function isDead(player, enemy) {
         optionSelect = undefined;
         animation = false;
     }
-    if(enemy.life <= 0) {
+    if(enemy.hp <= 0) {
         change_variable("combat", false);
         Variables.enemies_ready.splice(enemyIndex,1);
         let message = "";
         enemySelect.drop.forEach(drop => {
             if(drop.type === "xp"){
-                if(Variables.player.addXP(drop.value)) {
+                if(Variables.player.add_XP(drop.value)) {
                     message += `Você upou para o nível ${Variables.player.level}.\n`;
                 } else {
                     message += `Você ganhou ${drop.value} de XP.\n`;
@@ -261,7 +261,7 @@ function attack(attacker, target) {
         damage = Math.round(attacker.damage*((100-Math.log(target.defense*2)/Math.log(1.1))/100)*100)/100;
     else
         damage = Math.round(attacker.damage*((100-Math.log(target.defense)/Math.log(1.1))/100)*100)/100;
-    target.recover("life", -damage.toFixed(2));
+    target.recover("hp", -damage.toFixed(2));
 }
 function powerAttack(attacker, target) {
     let damage = 0;
@@ -269,5 +269,5 @@ function powerAttack(attacker, target) {
         damage = Math.round(attacker.damage*2*((100-Math.log(target.defense*2)/Math.log(1.1))/100)*100)/100;
     else
         damage = Math.round(attacker.damage*2*((100-Math.log(target.defense)/Math.log(1.1))/100)*100)/100;
-    target.recover("life", -damage.toFixed(2));
+    target.recover("hp", -damage.toFixed(2));
 }

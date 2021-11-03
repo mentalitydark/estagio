@@ -5,8 +5,7 @@ let options = [];
 let option_select;
 let line = 0;
 let column = 0;
-let score = 0;
-export function quest_update(keys, quest) {
+export function quest_update(keys, quest, npc) {
     if(randomArray) {
         options = quest.options[dialog].incorrect;
         options.push(quest.options[dialog].correct);
@@ -40,11 +39,27 @@ export function quest_update(keys, quest) {
     if(keys.enter) {
         keys.enter = false;
         option_select = options[column + 2*line];
-        score += quest.callback(option_select, quest.options[dialog]);
+        quest.score += quest.callback(option_select, quest.options[dialog]);
         if(dialog < quest.dialogs.length) {
             reset();
             dialog++;
         }
+    }
+    if(dialog === quest.dialogs.length) {
+        quest.completed = true;
+        if(quest.score === quest.maxScore) {
+            quest.success = true;
+            if(quest.score === quest.maxScore) {
+                quest.success = true;
+                if(quest.drop.target === "npc") {
+                    npc.reset_inventory();
+                    quest.drop.itens.forEach( item => {
+                        npc.add_item(item);
+                    });
+                }
+            }
+        }
+        return true;
     }
 }
 export function quest_render(quest) {

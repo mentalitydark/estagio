@@ -37,10 +37,20 @@ export default class NPC {
     get mask() { return this._mask; }
     get collision() { return this._collision; }
 
-    removeItem(item) {
+    reset_inventory() {
+        this._inventory = [];
+    }
+    add_item(item) {
+        const position = this._inventory.findIndex(i => i.name === item.name);
+        if(position != -1)
+            this._inventory[position].add_quantity(1);
+        else
+            this._inventory.push(item);
+    }
+    remove_item(item) {
         const position = this._inventory.findIndex(i => i.name === item.name);
         if(position != -1){
-            this._inventory[position].removeQuantity(1);
+            this._inventory[position].remove_quantity(1);
             if(this._inventory[position].quantity <= 0)
                 this._inventory.splice(position, 1);
         }

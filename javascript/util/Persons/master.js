@@ -1,5 +1,5 @@
-import NPC from "./../../class/NPC.js";
-import {addToLoad} from "./../../function/LoadAssets.js";
+import NPC from "../../class/NPC.js";
+import {addToLoad} from "../../function/LoadAssets.js";
 import {player} from "./player.js";
 
 const dialogs = {
@@ -21,7 +21,7 @@ const dialogs = {
     }
 };
 
-const mestreSprite = new Image();
-mestreSprite.src = "./img/sprites/char.png";
-addToLoad(mestreSprite);
-export const mestre = new NPC("Mestre", {x: 50, y: 100}, "home_mestre", mestreSprite, "", dialogs);
+const sprite = new Image();
+sprite.src = "./img/sprites/char.png";
+addToLoad(sprite);
+export const master = new NPC("Mestre", {x: 55.5, y: 25}, "home_master", sprite, "", dialogs);

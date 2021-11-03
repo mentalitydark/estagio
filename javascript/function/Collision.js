@@ -28,7 +28,7 @@ export function Collision(player, block) {
                     y: player.position.y+5
                 };
             }
-            change_variable(["Worlds", "select"], block.to);
+            change_variable("selected_world", block.to);
             player.teleport(Variables.Worlds[block.to].teleport);
         }
     }

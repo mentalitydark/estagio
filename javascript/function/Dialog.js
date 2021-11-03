@@ -75,8 +75,17 @@ export function dialog_select_options(keys, player) {
                     conditionResult = NPCSelect.dialogs[textSelect][text]["condition"](player);
                 }
             }
+            if(NPCSelect.quest !== null) {
+                if(textSelect === "Conversar") {
+                    if(NPCSelect.quest.completed) {
+                        conditionResult = NPCSelect.quest.success;
+                        text = "text_2";
+                    }
+                }
+            }
         } else {
-            quest_update(keys, NPCSelect.quest);
+            if(quest_update(keys, NPCSelect.quest, NPCSelect))
+                reset_dialog();
         }
     } else {
         store_update(keys, NPCSelect);
