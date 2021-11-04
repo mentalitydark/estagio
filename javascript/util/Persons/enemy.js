@@ -14,5 +14,5 @@ export const all_enemies = [
     enemy_4,
 ];
 export const enemies_fixed = [
-    enemy_5,
+    // enemy_5,
 ];

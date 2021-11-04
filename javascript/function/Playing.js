@@ -1,4 +1,4 @@
-import {move_player} from "./Events.js";
+import {move_player} from "./Movement.js";
 import {Collision, border_collision} from "./Collision.js";
 import {dialog_detect, dialog_render, dialog_select_options, reset_dialog} from "./Dialog.js";
 import {combat_detect, combat_render, Combat} from "./Combat.js";
@@ -18,7 +18,7 @@ export async function GAME_update(camera) {
         if(!Variables["inventory"]) {
             if(!Variables["combat"]) {
                 if(Variables.keys.v)
-                    console.log(Variables.player.position);
+                    console.log(Variables.player);
                 move_player(Variables.player, Variables.keys);
                 // Movimentação da Camera
                 if(Variables.player.position.y < camera.topBorder()) camera.y = Variables.player.position.y-camera.height * 0.25;

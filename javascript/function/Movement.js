@@ -1,26 +1,22 @@
-import {Variables} from "./../util/Variables.js";
+import {Variables} from "../util/Variables.js";
 let frames = 30;
 let floor = 10;
 export function move_player(player, keys) {
     if(keys.arrowup || keys.w) {
         player.sprites.imgY =  player.mask.height * 0;
         player.moveY(-1);
-        Variables.enemy_spawn++;
     }
     if(keys.arrowdown || keys.s) {
         player.sprites.imgY =  player.mask.height * 2;
         player.moveY(1);
-        Variables.enemy_spawn++;
     }
     if(keys.arrowright || keys.d) {
         player.sprites.imgY =  player.mask.height * 1;
         player.moveX(1);
-        Variables.enemy_spawn++;
     }
     if(keys.arrowleft || keys.a) {
         player.sprites.imgY =  player.mask.height * 3;
         player.moveX(-1);
-        Variables.enemy_spawn++;
     }
     if(keys.arrowdown || keys.arrowup || keys.arrowleft || keys.arrowright || keys.a || keys.d || keys.s || keys.w) {
         player.sprites.frameAnimation++;
@@ -35,6 +31,9 @@ export function move_player(player, keys) {
             player.sprites.frameAnimation = 0;
         }
         player.sprites.imgX = Math.floor(player.sprites.frameAnimation/floor) * player.mask.width;
+        
+        if(Variables.selected_world === "main")
+            Variables.enemy_spawn++;
     }
     if(!keys.arrowdown && !keys.arrowup && !keys.arrowleft && !keys.arrowright && !keys.a && !keys.d && !keys.s && !keys.w) {
         player.sprites.frameAnimation = 1;

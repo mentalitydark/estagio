@@ -17,7 +17,7 @@ export default class Player {
         this._damage = 1;
         this._defense = 5;
         this._quests = [];
-        this._inventoryQuests = [];
+        this._inventory_quests = [];
         this._sprites = [];
         this._speed = 1;
         this._sprites = {
@@ -59,7 +59,7 @@ export default class Player {
     get damage() { return this._damage; }
     get defense() { return this._defense; }
     get quests() { return this._quests; }
-    get inventoryQuests() { return this._inventoryQuests; }
+    get inventory_quests() { return this._inventory_quests; }
     get sprites() { return this._sprites; }
     get speed() { return this._speed; }
     get level() { return this._level; }
@@ -69,6 +69,11 @@ export default class Player {
     set hp(hp) { this._hp = hp; }
 
     // Functions
+    add_quest(new_quest) {
+        const position = this._quests.findIndex(quest => quest === new_quest);
+        if(position === -1)
+            this._quests.push(new_quest);
+    }
     recover(type, value) {
         if(type === "hp" || type === "mp") {
             const max = `max${type[0].toUpperCase()+type.slice(1)}`;

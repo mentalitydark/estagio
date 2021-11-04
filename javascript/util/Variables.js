@@ -1,5 +1,6 @@
 import {master} from "./Persons/master.js";
 import {potions_salesman} from "./Persons/potions_salesman.js";
+import {weapon_salesman} from "./Persons/weapon_salesman.js";
 import {player} from "./Persons/player.js";
 import {all_enemies, enemies_fixed} from "./Persons/enemy.js";
 
@@ -53,3 +54,4 @@ export function change_variable(variable, value) {
 }
 Variables.NPCs.push(master);
 Variables.NPCs.push(potions_salesman);
+Variables.NPCs.push(weapon_salesman);

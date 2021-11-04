@@ -84,6 +84,7 @@ export function dialog_select_options(keys, player) {
                 }
             }
         } else {
+            Variables.player.add_quest(NPCSelect.quest);
             if(quest_update(keys, NPCSelect.quest, NPCSelect))
                 reset_dialog();
         }
