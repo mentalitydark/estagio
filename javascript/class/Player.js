@@ -74,6 +74,13 @@ export default class Player {
         if(position === -1)
             this._quests.push(new_quest);
     }
+    add_quest_item(item) {
+        const position = this._inventory_quests.findIndex(i => i.name === item.name);
+        if(position != -1)
+            this._inventory_quests[position].add_quantity(1);
+        else
+            this._inventory_quests.push(item);
+    }
     recover(type, value) {
         if(type === "hp" || type === "mp") {
             const max = `max${type[0].toUpperCase()+type.slice(1)}`;

@@ -9,23 +9,22 @@ sprite.src = "./img/sprites/char.png";
 addToLoad(sprite);
 const dialog = {
     "start": {
-        "text": `Olá, ${player.name}! Está procurando um cajado novo? Chegou uns novos cajados\nque você vai adorar!`,
-        "options": "Conversar\nLoja\nSair"
+        "text": `Preciso daquela flor para o remédio! Oi, ${player.name}. Nem reparei que estava aí.`,
+        "options": "Conversar\nSair"
     },
     "Conversar": {
-        "text": `${player.name}, alguns bandidos roubaram os elementos químicos necessários para\na criação de um novo cajado! Você poderia pegar eles de volta?`,
+        "text": "Estou precisando urgente da sua ajuda! Você poderia pegar a flor vermelha que está no penhasco do Caído?",
         "options": "Sim\nSair",
         "text_2": {
-            "false": "Esses são os itens certos? Espero que eu consiga criar um novo cajado agora.",
+            "false": "Essa é a flor? Espero que dê para fazer o remédio. Obrigado.",
             "true": "Obrigado por ter me ajudado. Agora conseguirei criar um novo cajado!",
             "options": "Sair"
         },
         "mission_accepted": {
-            "true":"Como está indo a missão?",
+            "true":"Você já conseguiu a flor?",
             "options": "Entregar itens\nSair"
         },
     },
-    "Loja": "Loja"
 };
 const quest_dialogs = [];
 const quest_options = [];

@@ -1,9 +1,9 @@
 import {master} from "./Persons/master.js";
+import {children_1} from "./Persons/children_1.js";
 import {potions_salesman} from "./Persons/potions_salesman.js";
 import {weapon_salesman} from "./Persons/weapon_salesman.js";
 import {player} from "./Persons/player.js";
 import {all_enemies, enemies_fixed} from "./Persons/enemy.js";
-
 import {main} from "./worlds/main.js";
 import {home_master} from "./worlds/home_master.js";
 export let Variables = {
@@ -55,3 +55,4 @@ export function change_variable(variable, value) {
 Variables.NPCs.push(master);
 Variables.NPCs.push(potions_salesman);
 Variables.NPCs.push(weapon_salesman);
+Variables.NPCs.push(children_1);

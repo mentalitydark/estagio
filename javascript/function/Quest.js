@@ -57,9 +57,14 @@ export function quest_update(keys, quest, npc) {
                         quest.drop.itens.forEach( item => {
                             npc.add_item(item);
                         });
+                    } else {
+                        quest.drop.itens.forEach( item => {
+                            Variables.player.add_item(item);
+                        });
                     }
                 }
             }
+            dialog = 0;
             return true;
         }
     } else {
@@ -73,8 +78,11 @@ export function quest_render(quest) {
         Variables.context.fillStyle = "#999";
         Variables.context.fillRect(200-240/2, 112.5-45, 240, 45);
         Variables.context.fillStyle = "#383838";
-        Variables.context.font = "200 12pt Free Pixel";
-        Variables.context.fillText(quest.dialogs[dialog].text, 200-Variables.context.measureText(quest.dialogs[dialog].text).width/2, 84.5);
+        Variables.context.font = "200 8pt Free Pixel";
+        const text = quest.dialogs[dialog].text.split("\n");
+        text.forEach( (element, index) => {
+            Variables.context.fillText(element, 200-Variables.context.measureText(element).width/2, 84.5 + 15*index);
+        });
 
         Variables.context.fillStyle = "#fff";
         Variables.context.font = "6pt Free Pixel";
@@ -83,15 +91,15 @@ export function quest_render(quest) {
         Variables.context.font = "8pt Free Pixel";
         if(options !== undefined) {
             for(let i = 0; i < 2; i++) {
-                Variables.context.fillText(options.slice(0,2)[i], 140 + 95*i, 137.5);
+                Variables.context.fillText(options.slice(0,2)[i], 140 + 95*i-Variables.context.measureText(options.slice(0,2)[i]).width/2, 137.5);
             }
             for(let i = 0; i < 2; i++) {
-                Variables.context.fillText(options.slice(2,4)[i], 140 + 95*i, 152.5);
+                Variables.context.fillText(options.slice(2,4)[i], 140 + 95*i-Variables.context.measureText(options.slice(2,4)[i]).width/2, 152.5);
             }
         }
 
         Variables.context.fillStyle = "red";
-        Variables.context.fillRect(140 + 95*column, 138.5 + 15*line, Variables.context.measureText(options[column + 2*line]).width, 1);
+        Variables.context.fillRect(140 + 95*column-Variables.context.measureText(options[column + 2*line]).width/2, 138.5 + 15*line, Variables.context.measureText(options[column + 2*line]).width, 1);
     }
 }
 function reset() {

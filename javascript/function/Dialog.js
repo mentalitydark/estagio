@@ -34,6 +34,9 @@ export function dialog_render() {
             if(text === "text_2") {
                 dialog = NPCSelect.dialogs[textSelect][text][conditionResult].split("\n");
                 options = NPCSelect.dialogs[textSelect][text].options.split("\n");
+            } else if(text === "mission_accepted") {
+                dialog = NPCSelect.dialogs[textSelect][text][conditionResult].split("\n");
+                options = NPCSelect.dialogs[textSelect][text].options.split("\n");
             } else {
                 dialog = NPCSelect.dialogs[textSelect][text].split("\n");
                 options = NPCSelect.dialogs[textSelect].options.split("\n");
@@ -68,15 +71,30 @@ export function dialog_select_options(keys, player) {
             }
             if(keys.enter) {
                 keys.enter = false;
-                if(options[optionSelect] !== "...")
-                    textSelect = options[optionSelect];
-                else {
+                if(options[optionSelect] === "...") {
                     text = "text_2";
                     conditionResult = NPCSelect.dialogs[textSelect][text]["condition"](player);
+                }
+                else if(options[optionSelect] === "Entregar itens") {
+                    textSelect = "Conversar";
+                    text = "text_2";
+                    conditionResult = NPCSelect.quest.callback(Variables.player, NPCSelect);
+                }
+                else {
+                    textSelect = options[optionSelect];
                 }
             }
             if(NPCSelect.quest !== null) {
                 if(textSelect === "Conversar") {
+                    const position = Variables.player.quests.findIndex( i => i == NPCSelect.quest);
+                    if(
+                        text === "text" && 
+                        NPCSelect.quest.type === "delivery" && 
+                        position !== -1
+                    ) {
+                        conditionResult = "true";
+                        text = "mission_accepted";
+                    }
                     if(NPCSelect.quest.completed) {
                         conditionResult = NPCSelect.quest.success;
                         text = "text_2";
