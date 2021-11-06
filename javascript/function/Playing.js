@@ -4,6 +4,7 @@ import {dialog_detect, dialog_render, dialog_select_options, reset_dialog} from 
 import {combat_detect, combat_render, Combat} from "./Combat.js";
 import {inventory_render, inventory_update} from "./Inventory.js";
 import {Variables, change_variable} from "./../util/Variables.js";
+import {OD_render, OD_update, object_detect} from "./Object_detect.js";
 import FPS_draw from "./fps.js";
 import Message from "./Message.js";
 let Vignette = true;
@@ -17,71 +18,87 @@ export async function GAME_update(camera) {
     if(!Variables["dialog"]){
         if(!Variables["inventory"]) {
             if(!Variables["combat"]) {
-                if(Variables.keys.v)
-                    console.log(Variables.player);
-                move_player(Variables.player, Variables.keys);
-                // Movimentação da Camera
-                if(Variables.player.position.y < camera.topBorder()) camera.y = Variables.player.position.y-camera.height * 0.25;
-                if(Variables.player.position.x > camera.rightBorder()) camera.x = Variables.player.position.x-camera.width * 0.25;
-                if(Variables.player.position.y > camera.bottomBorder()) camera.y = Variables.player.position.y-camera.height * 0.25;
-                if(Variables.player.position.x < camera.leftBorder()) camera.x = Variables.player.position.x-camera.width * 0.25;
-                // Colisões
-                border_collision(Variables.player, world);
-                Variables.Blocks.forEach( block => {
-                    Collision(Variables.player, block);
-                });
-                Variables.NPCs.forEach( NPC => {
-                    if(NPC.map === world.name) {
-                        Collision(Variables.player, NPC);
-                        if(dialog_detect(Variables.player, NPC)) {
-                            if(Variables.keys.enter) {
-                                Variables.keys.enter = false;
-                                change_variable("dialog", true);
-                                reset_dialog();
+                if(!Variables["object_interaction"]) {
+                    if(Variables.keys.v)
+                        console.log(Variables.player);
+                    move_player(Variables.player, Variables.keys);
+                    // Movimentação da Camera
+                    if(Variables.player.position.y < camera.topBorder()) camera.y = Variables.player.position.y-camera.height * 0.25;
+                    if(Variables.player.position.x > camera.rightBorder()) camera.x = Variables.player.position.x-camera.width * 0.25;
+                    if(Variables.player.position.y > camera.bottomBorder()) camera.y = Variables.player.position.y-camera.height * 0.25;
+                    if(Variables.player.position.x < camera.leftBorder()) camera.x = Variables.player.position.x-camera.width * 0.25;
+                    // Colisões
+                    border_collision(Variables.player, world);
+                    Variables.Blocks.forEach( block => {
+                        Collision(Variables.player, block);
+                    });
+                    Variables.NPCs.forEach( NPC => {
+                        if(NPC.map === world.name) {
+                            Collision(Variables.player, NPC);
+                            if(dialog_detect(Variables.player, NPC)) {
+                                if(Variables.keys.enter) {
+                                    Variables.keys.enter = false;
+                                    change_variable("dialog", true);
+                                    reset_dialog();
+                                }
                             }
                         }
-                    }
-                });
-                Variables.enemies_ready.forEach( (enemy, index) => {
-                    if(enemy.map === world.name) {
-                        Collision(Variables.player, enemy);
-                        if(combat_detect(Variables.player, enemy, index)) {
-                            Vignette = true;
-                            change_variable("combat", true);
-                        }
+                    });
+                    Variables.enemies_ready.forEach( (enemy, index) => {
+                        if(enemy.map === world.name) {
+                            Collision(Variables.player, enemy);
+                            if(combat_detect(Variables.player, enemy, index)) {
+                                Vignette = true;
+                                change_variable("combat", true);
+                            }
                         
-                    }
-                });
-                if(Variables.keys.escape) {
-                    change_variable(["keys", "escape"], false);
-                    change_variable("gameState", Variables.PAUSED);
-                }
-                if(Variables.keys.e || Variables.keys.i) {
-                    Variables.keys.e = false;
-                    Variables.keys.i = false;
-                    change_variable("inventory", true);
-                }
-                if(Variables.enemy_spawn >= 750) {
-                    const randomNumber = Math.random();
-                    if(randomNumber <= 0.25) {
-                        const position = Variables.enemies_ready.push(Variables.all_enemies[0]) - 1;
-                        Variables.enemies_ready[position].position = Variables.player.position;
-                    }
-                    else if(randomNumber <= 0.50) {
-                        const position = Variables.enemies_ready.push(Variables.all_enemies[1]) - 1;
-                        Variables.enemies_ready[position].position = Variables.player.position;
-                    }
-                    else if(randomNumber <= 0.75) {
-                        const position = Variables.enemies_ready.push(Variables.all_enemies[2]) - 1;
-                        Variables.enemies_ready[position].position = Variables.player.position;
-                    }
-                    else if(randomNumber <= 1) {
-                        const position = Variables.enemies_ready.push(Variables.all_enemies[3]) - 1;
-                        Variables.enemies_ready[position].position = Variables.player.position;
-                    }
-                    Variables.enemy_spawn = 0;
-                }
+                        }
+                    });
+                    Variables.objects.forEach((object) => {
+                        if(object.map === world.name) {
+                            Collision(Variables.player, object);
+                            if(object_detect(Variables.player, object)) {
+                                if(Variables.keys.enter) {
+                                    Variables.keys.enter = false;
+                                    change_variable("object_interaction", true);
+                                    console.log(object);
+                                }
+                            }
+                        }
 
+                    });
+                    if(Variables.keys.escape) {
+                        change_variable(["keys", "escape"], false);
+                        change_variable("gameState", Variables.PAUSED);
+                    }
+                    if(Variables.keys.e || Variables.keys.i) {
+                        Variables.keys.e = false;
+                        Variables.keys.i = false;
+                        change_variable("inventory", true);
+                    }
+                    if(Variables.enemy_spawn >= 750) {
+                        const randomNumber = Math.random();
+                        if(randomNumber <= 0.25) {
+                            const position = Variables.enemies_ready.push(Variables.all_enemies[0]) - 1;
+                            Variables.enemies_ready[position].position = Variables.player.position;
+                        }
+                        else if(randomNumber <= 0.50) {
+                            const position = Variables.enemies_ready.push(Variables.all_enemies[1]) - 1;
+                            Variables.enemies_ready[position].position = Variables.player.position;
+                        }
+                        else if(randomNumber <= 0.75) {
+                            const position = Variables.enemies_ready.push(Variables.all_enemies[2]) - 1;
+                            Variables.enemies_ready[position].position = Variables.player.position;
+                        }
+                        else if(randomNumber <= 1) {
+                            const position = Variables.enemies_ready.push(Variables.all_enemies[3]) - 1;
+                            Variables.enemies_ready[position].position = Variables.player.position;
+                        }
+                        Variables.enemy_spawn = 0;
+                    }
+                } else {
+                    OD_update(Variables.keys);
+                }
             } else {
                 if(Variables.keys.e || Variables.keys.i) {
                     Variables.keys.e = false;
@@ -121,6 +138,10 @@ export function GAME_render(timeStamp, camera, canvas) {
             if(NPC.map === world.name)
                 NPC.draw(Variables.context);
         });
+        Variables.objects.forEach(object => {
+            if(object.map === world.name)
+                object.draw(Variables.context);
+        });
         Variables.enemies_ready.forEach( enemy => {
             if(enemy.map === world.name && enemy.visible)
                 enemy.draw(Variables.context);
@@ -135,10 +156,13 @@ export function GAME_render(timeStamp, camera, canvas) {
         if(Variables.inventory) {
             inventory_render();
         }
-        // Inventory
+        // Combat
         if(Variables.combat) {
             combat_render();
         }
+        // Object
+        if(Variables.object_interaction)
+            OD_render();
         // FPS renderGame
         FPS_draw(timeStamp);
         // ----------

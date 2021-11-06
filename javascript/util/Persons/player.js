@@ -1,6 +1,7 @@
 import Player from "./../../class/Player.js";
 import Item from "./../../class/Item.js";
 import {addToLoad} from "./../../function/LoadAssets.js";
+import Quest from "../../class/Quest.js";
 
 const sprites = new Image();
 sprites.src = "./img/sprites/Player.png";
@@ -16,9 +17,4 @@ player.add_item(b);
 player.add_item(c);
 player.add_item(d);
 player.add_item(e);
-const f = new Item("Urânio", "Quest", 10, "", "");
-const g = new Item("Hidrogênio", "Quest", 1, "", "");
-const h = new Item("Ouro", "Quest", 1, "", "");
-player.add_quest_item(f);
-player.add_quest_item(g);
-player.add_quest_item(h);
+

@@ -2,7 +2,6 @@ import NPC from "../../class/NPC.js";
 import Item from "../../class/Item.js";
 import Quest from "../../class/Quest.js";
 import {addToLoad} from "../../function/LoadAssets.js";
-// import {player} from "./player.js";
 
 const sprite = new Image();
 sprite.src = "./img/sprites/char.png";
@@ -17,7 +16,7 @@ const dialog = {
         "options": "Sim\nSair",
         "text_2": {
             "false": "Não conseguimos a nota máxima, mas mesmo assim obrigado pela ajuda.",
-            "true": "Conseguimos tirar a nota máxima! Muito obrigado! Espero que o item que lhe dei seja útil.",
+            "true": "Conseguimos tirar a nota máxima! Muito obrigado! Espero que o item que lhe dei\nseja útil.",
             "options": "Sair"
         }
     },
