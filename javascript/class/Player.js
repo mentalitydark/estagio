@@ -21,12 +21,8 @@ export default class Player {
         this._sprites = [];
         this._speed = 1;
         this._sprites = {
-            img: sprite,
-            src: sprite.src,
-            imgX: 0,
-            imgY: 0,
-            width: sprite.width,
-            height: sprite.height,
+            imgX: sprite.initial_x,
+            imgY: sprite.initial_y,
             frameAnimation: 0
         };
         this._oldLevel;
@@ -66,7 +62,6 @@ export default class Player {
     get inventory() { return this._inventory; }
     get armorEquipped() { return this._armorEquipped; }
     get weaponEquipped() { return this._weaponEquipped; }
-    set hp(hp) { this._hp = hp; }
 
     // Functions
     add_quest(new_quest) {
@@ -136,11 +131,15 @@ export default class Player {
             this._damage = 1 + this._level*3;
     }
     add_item(item) {
-        const position = this._inventory.findIndex(i => i.name === item.name);
-        if(position != -1)
-            this._inventory[position].add_quantity(1);
-        else
-            this._inventory.push(item);
+        if(item.type !=  "quest") {
+            const position = this._inventory.findIndex(i => i.name === item.name);
+            if(position != -1)
+                this._inventory[position].add_quantity(1);
+            else
+                this._inventory.push(item);
+        } else {
+            this.add_quest_item(item);
+        }
     }
     remove_item(item) {
         const position = this._inventory.findIndex(i => i.name === item.name);
@@ -198,9 +197,9 @@ export default class Player {
     }
     moveX(x) { this.position.x += x * this._speed; }
     moveY(y) { this.position.y += y * this._speed; }
-    draw(context) {
-        context.drawImage(
-            this.sprites.img,
+    draw(Variables) {
+        Variables.context.drawImage(
+            Variables.images.player,
             this.sprites.imgX,  this.sprites.imgY, this._mask.width, this._mask.height,
             this.position.x, this.position.y, this._mask.width, this._mask.height
         );
@@ -210,8 +209,29 @@ export default class Player {
     halfHeight() { return this._mask.height/2; }
     centerX() { return this.position.x + this.halfWidth(); }
     centerY() { return this.position.y + this.halfHeight(); }
-    saveLoader(save) {
-        this.position.x = save.player.x;
-        this.position.y = save.player.y;
+    save() {
+        const player = {
+            name: this._name,
+            position: this.position,
+            hp: this._hp,
+            maxHp: this._maxHp,
+            mp: this._mp,
+            maxMp: this._maxMp,
+            gold: this._gold,
+            level: this._level,
+            xp: this._xp
+        };
+        return player;
+    }
+    load(player) {
+        this._name = player.name;
+        this.position = player.position;
+        this._hp = player.hp;
+        this._maxHp = player.maxHp;
+        this._mp = player.mp;
+        this._maxMp = player.maxMp;
+        this._gold = player.gold;
+        this._level = player.level;
+        this._xp = player.xp;
     }
 }

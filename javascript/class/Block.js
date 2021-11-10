@@ -27,6 +27,12 @@ export default class Block {
     draw(context) {
         if(this._visible) {
             context.fillStyle = this._color;
+            if(this._type === "door")
+                context.fillStyle = "blue";
+            if(this._width === 0)
+                this._width = 1;
+            if(this._height === 0)
+                this._height = 1;
             context.fillRect(this._x, this._y, this._width, this._height);
         }
     }

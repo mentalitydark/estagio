@@ -15,14 +15,13 @@ con.onupgradeneeded  = (event) => {
         autoIncrement: true
     });
 };
-export function save(player) {
+export function save(Variables) {
     const transaction = database.transaction("Save", "readwrite");
     const objectStore = transaction.objectStore("Save");
     const save = {
         id: 1,
-        player: {
-            x: player.position.x,
-            y: player.position.y
+        Variables: {
+            player: Variables.player.save()
         }
     };
     const request = objectStore.put(save);
@@ -33,7 +32,7 @@ export function save(player) {
         change_variable(["message","text"], "Erro para salver.");
     };
 }
-export function load(player) {
+export function load(Variables) {
     let saveDB;
     const transaction = database.transaction("Save");
     const objectStore = transaction.objectStore("Save");
@@ -42,11 +41,11 @@ export function load(player) {
         let cursor = event.target.result;
         if(cursor) {
             saveDB = cursor.value;
-            console.log("Cursor atual => " + saveDB);
-            player.saveLoader(saveDB);
+            console.log(saveDB);
+            Variables.player.load(saveDB.Variables.player);
         } else {
             console.log("Não há saves.");
-            save(player);
+            save(Variables);
         }
     };
 }

@@ -6,21 +6,29 @@ const sprite = new Image();
 sprite.src = "./img/sprites/char.png";
 addToLoad(sprite);
 
-const quest_drop = {};
+const quest_drop = {
+    target: "player",
+    itens: []
+};
 const quest_dialogs = [
-    {text: "Para conectar um lado ao outro em uma linha reta. É necessário uma ponte de quantos metros? Sabendo que um ponte mede 10 metro e a outro mede 15 metros."}
+    {text: "Para conectar um lado ao outro em uma linha\nreta, é necessário uma ponte de quantos\nmetros? Sabendo que uma ponte mede 15 metros\ne a outra mede 20 metros."}
 ];
 const quest_options = [
     {
-        correct: "18 metros",
+        correct: "25 metros",
         incorrect: [
             "20 metros",
-            "15 metros",
-            "25 metros"
+            "35 metros",
+            "5 metros"
         ]
     }
 ];
-const quest_callback = (answer, question) => {
+const quest_callback = (answer, question, quest = null, world = null) => {
+    if(world !== null && quest !== null && world.name === "main") {
+        if(quest.success) {
+            world.blocks.splice(0, 1);
+        }
+    }
     if(answer === question.correct) {
         return 1;
     } else {
@@ -32,7 +40,10 @@ const quest = new Quest("Penhasco do Caído", "questions", quest_dialogs, quest_
 const board_position = {x: 1980, y: 1480};
 const board_text = {
     first: {
-        text: "Para "
+        text: "Para que seja possível construir uma ponte\nem linha reta até o outro lado, é necessário\nsaber quantos metros há. Quer resolver o\nproblema matemático para saber?"
+    },
+    end: {
+        text: "A ponte de um lado ao outro tem 25 metros.\nGraças à sua ajuda foi possível construí-la"
     }
 };
 const board_collision_mask = {

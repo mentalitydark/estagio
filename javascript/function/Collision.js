@@ -22,14 +22,16 @@ export function Collision(player, block) {
                 }
             }
         } else {
-            if(block.to !== "main") {
-                Variables.Worlds.main.teleport = {
-                    x: player.position.x,
-                    y: player.position.y+5
-                };
+            if(block.type === "door") {
+                if(block.to !== "main" && block.to !== "") {
+                    Variables.Worlds.main.teleport = {
+                        x: player.position.x,
+                        y: player.position.y+2
+                    };
+                }
+                change_variable("selected_world", block.to);
+                player.teleport(Variables.Worlds[block.to].teleport);
             }
-            change_variable("selected_world", block.to);
-            player.teleport(Variables.Worlds[block.to].teleport);
         }
     }
 }

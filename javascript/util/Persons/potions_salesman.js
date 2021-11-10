@@ -54,16 +54,8 @@ const quest_callback = (answer, question) => {
 };
 const drop = {
     target: "npc",
-    itens: [
-        new Item("Poção de HP", "Poção", 20, "", {type: "hp", value: 10}, 20),
-        new Item("Poção grande de HP", "Poção", 20, "", {type: "hp", value: 20}, 30),
-        new Item("Poção de MP", "Poção", 20, "", {type: "mp", value: 10}, 20),
-        new Item("Poção grande de MP", "Poção", 20, "", {type: "mp", value: 20}, 30),
-    ]
+    itens: []
 };
 const quest = new Quest("Bhaskara", "questions", quest_dialogs, quest_options, quest_callback, drop);
-const inventory = [
-    new Item("Poção de HP", "Poção", 10, "", {type: "hp", value: 10}, 25),
-    new Item("Poção de MP", "Poção", 10, "", {type: "mp", value: 20}, 25),
-];
+const inventory = [];
 export const potions_salesman = new NPC("Vendedor de Poções", {x: 1900, y: 1250}, "main", sprite, quest, dialog, inventory);

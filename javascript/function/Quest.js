@@ -75,13 +75,13 @@ export function quest_render(quest) {
     if(quest.type !== "delivery") {
         Variables.context.fillStyle = "#383838";
         Variables.context.fillRect(200-250/2, 112.5-100/2, 250, 100);
-        Variables.context.fillStyle = "#999";
+        Variables.context.fillStyle = "#fff";
         Variables.context.fillRect(200-240/2, 112.5-45, 240, 45);
         Variables.context.fillStyle = "#383838";
         Variables.context.font = "200 8pt Free Pixel";
         const text = quest.dialogs[dialog].text.split("\n");
         text.forEach( (element, index) => {
-            Variables.context.fillText(element, 200-Variables.context.measureText(element).width/2, 84.5 + 15*index);
+            Variables.context.fillText(element, 200-Variables.context.measureText(element).width/2, 72.5+8 + 10*index);
         });
 
         Variables.context.fillStyle = "#fff";

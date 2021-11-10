@@ -20,7 +20,7 @@ export async function GAME_update(camera) {
             if(!Variables["combat"]) {
                 if(!Variables["object_interaction"]) {
                     if(Variables.keys.v)
-                        console.log(Variables.player);
+                        console.log(Variables);
                     move_player(Variables.player, Variables.keys);
                     // Movimentação da Camera
                     if(Variables.player.position.y < camera.topBorder()) camera.y = Variables.player.position.y-camera.height * 0.25;
@@ -61,7 +61,6 @@ export async function GAME_update(camera) {
                                 if(Variables.keys.enter) {
                                     Variables.keys.enter = false;
                                     change_variable("object_interaction", true);
-                                    console.log(object);
                                 }
                             }
                         }
@@ -76,26 +75,26 @@ export async function GAME_update(camera) {
                         Variables.keys.i = false;
                         change_variable("inventory", true);
                     }
-                    if(Variables.enemy_spawn >= 750) {
-                        const randomNumber = Math.random();
-                        if(randomNumber <= 0.25) {
-                            const position = Variables.enemies_ready.push(Variables.all_enemies[0]) - 1;
-                            Variables.enemies_ready[position].position = Variables.player.position;
-                        }
-                        else if(randomNumber <= 0.50) {
-                            const position = Variables.enemies_ready.push(Variables.all_enemies[1]) - 1;
-                            Variables.enemies_ready[position].position = Variables.player.position;
-                        }
-                        else if(randomNumber <= 0.75) {
-                            const position = Variables.enemies_ready.push(Variables.all_enemies[2]) - 1;
-                            Variables.enemies_ready[position].position = Variables.player.position;
-                        }
-                        else if(randomNumber <= 1) {
-                            const position = Variables.enemies_ready.push(Variables.all_enemies[3]) - 1;
-                            Variables.enemies_ready[position].position = Variables.player.position;
-                        }
-                        Variables.enemy_spawn = 0;
-                    }
+                    // if(Variables.enemy_spawn >= 750) {
+                    //     const randomNumber = Math.random();
+                    //     if(randomNumber <= 0.25) {
+                    //         const position = Variables.enemies_ready.push(Variables.all_enemies[0]) - 1;
+                    //         Variables.enemies_ready[position].position = Variables.player.position;
+                    //     }
+                    //     else if(randomNumber <= 0.50) {
+                    //         const position = Variables.enemies_ready.push(Variables.all_enemies[1]) - 1;
+                    //         Variables.enemies_ready[position].position = Variables.player.position;
+                    //     }
+                    //     else if(randomNumber <= 0.75) {
+                    //         const position = Variables.enemies_ready.push(Variables.all_enemies[2]) - 1;
+                    //         Variables.enemies_ready[position].position = Variables.player.position;
+                    //     }
+                    //     else if(randomNumber <= 1) {
+                    //         const position = Variables.enemies_ready.push(Variables.all_enemies[3]) - 1;
+                    //         Variables.enemies_ready[position].position = Variables.player.position;
+                    //     }
+                    //     Variables.enemy_spawn = 0;
+                    // }
                 } else {
                     OD_update(Variables.keys);
                 }
@@ -130,17 +129,17 @@ export function GAME_render(timeStamp, camera, canvas) {
         Variables.context.clearRect(Variables.player.position.x-canvas.width/2, Variables.player.position.y-canvas.height/2, 900, 600);
         // Código
         world.draw(Variables.context);
-        Variables.player.draw(Variables.context);
-        Variables.Blocks.forEach( block => {
-            block.draw(Variables.context);
-        });
+        Variables.player.draw(Variables);
+        // Variables.Blocks.forEach( block => {
+        //     block.draw(Variables.context);
+        // });
         Variables.NPCs.forEach(NPC => {
             if(NPC.map === world.name)
                 NPC.draw(Variables.context);
         });
         Variables.objects.forEach(object => {
             if(object.map === world.name)
-                object.draw(Variables.context);
+                object.draw(Variables);
         });
         Variables.enemies_ready.forEach( enemy => {
             if(enemy.map === world.name && enemy.visible)

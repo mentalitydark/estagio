@@ -1,5 +1,4 @@
 import NPC from "../../class/NPC.js";
-import Item from "../../class/Item.js";
 import Quest from "../../class/Quest.js";
 import {addToLoad} from "../../function/LoadAssets.js";
 
@@ -16,7 +15,7 @@ const dialog = {
         "options": "Sim\nSair",
         "text_2": {
             "false": "Não conseguimos a nota máxima, mas mesmo assim obrigado pela ajuda.",
-            "true": "Conseguimos tirar a nota máxima! Muito obrigado! Espero que o item que lhe dei\nseja útil.",
+            "true": "Conseguimos tirar a nota máxima! Muito obrigado! Espero que o dinheiro que lhe\ndei seja útil.",
             "options": "Sair"
         }
     },
@@ -71,7 +70,7 @@ const quest_callback = (answer, question) => {
 const drop = {
     target: "player",
     itens: [
-        new Item("Colar do sacrifício", "Item passivo", 1, "", {type: "", value: 0})
+        {type: "gold", value: 50}
     ]
 };
 const quest = new Quest("Tarefas da escola", "questions", quest_dialogs, quest_options, quest_callback, drop);

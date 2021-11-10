@@ -29,12 +29,12 @@ export function PAUSED_update() {
         change_variable(["keysUp", "enter"], false);
         switch (select) {
         case 0:
-            save(Variables.player);
+            save(Variables);
             change_variable(["message", "bool"], true);
             change_variable("gameState", Variables.PLAYING);
             break;
         case 1:
-            load(Variables.player);
+            load(Variables);
             change_variable("gameState", Variables.PLAYING);
             break;
         case 2:

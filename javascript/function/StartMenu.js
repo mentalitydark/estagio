@@ -5,7 +5,7 @@ let color = true;
 export function MENU_update() {
     if(Variables.keys.enter) {
         change_variable("gameState", Variables.PLAYING);
-        load(Variables.player);
+        load(Variables);
     }
 }
 export function MENU_render() {

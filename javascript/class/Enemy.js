@@ -48,12 +48,12 @@ export default class Enemy {
         if(this[`_${type}`] < 0)
             this[`_${type}`] = 0;
     }
-    draw(context) {
+    draw(Variables) {
         if(this._alive) {
-            context.fillStyle = "red";
-            context.fillRect(this._position.x, this._position.y, this._mask.width, this._mask.height);
-            context.fillStyle = "rgba(255,255,255,0.3)";
-            context.fillRect(this.combatCenterX()-this._combatMask.width/2, this.combatCenterY()-this._combatMask.height/2, this._combatMask.width, this._combatMask.height);
+            Variables.context.fillStyle = "red";
+            Variables.context.fillRect(this._position.x, this._position.y, this._mask.width, this._mask.height);
+            Variables.context.fillStyle = "rgba(255,255,255,0.3)";
+            Variables.context.fillRect(this.combatCenterX()-this._combatMask.width/2, this.combatCenterY()-this._combatMask.height/2, this._combatMask.width, this._combatMask.height);
         }
     }
     halfWidth() {

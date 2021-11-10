@@ -62,10 +62,5 @@ const drop = {
     ]
 };
 const quest = new Quest("Cajado Químico", "delivery", quest_dialogs, quest_options, quest_callback, drop);
-const inventory = [
-    new Item("Cajado do vazio", "Cajado", 1, "", {type: "damage", value: 25}, 50),
-    new Item("Cajado do Lich", "Cajado", 1, "", {type: "damage", value: 46}, 75),
-    new Item("Túnica de fogo", "Túnica", 1, "", {type: "defense", value: 30}, 75),
-    new Item("Túnica de Proteção mágica", "Túnica", 1, "", {type: "defense", value: 50}, 100),
-];
+const inventory = [];
 export const weapon_salesman = new NPC("Vendedor de Cajados", {x: 1700, y: 1250}, "main", sprite, quest, dialog, inventory);
