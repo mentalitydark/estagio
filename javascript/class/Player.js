@@ -1,13 +1,13 @@
 export default class Player {
     constructor(name, sprite) {
         this._name = name;
-        this._mask = {
-            width: 14,
-            height: 18
+        this._hitbox = {
+            width: 10,
+            height: 15
         };
         this.position = {
-            x: 55.5,
-            y: 57
+            x: 96,
+            y: 36
         };
         this._hp = 5;
         this._maxHp = 10;
@@ -23,7 +23,10 @@ export default class Player {
         this._sprites = {
             imgX: sprite.initial_x,
             imgY: sprite.initial_y,
-            frameAnimation: 0
+            width: 18,
+            height: 18,
+            frameAnimation: 0,
+            left: true
         };
         this._oldLevel;
         this._level = 0;
@@ -62,6 +65,7 @@ export default class Player {
     get inventory() { return this._inventory; }
     get armorEquipped() { return this._armorEquipped; }
     get weaponEquipped() { return this._weaponEquipped; }
+    get hitbox() { return this._hitbox; }
 
     // Functions
     add_quest(new_quest) {
@@ -200,15 +204,17 @@ export default class Player {
     draw(Variables) {
         Variables.context.drawImage(
             Variables.images.player,
-            this.sprites.imgX,  this.sprites.imgY, this._mask.width, this._mask.height,
-            this.position.x, this.position.y, this._mask.width, this._mask.height
+            this.sprites.imgX,  this.sprites.imgY, this.sprites.width, this.sprites.height,
+            this.position.x, this.position.y, this.sprites.width, this.sprites.height
         );
+        // Variables.context.fillStyle = "rgba(255,255,255,0.3)";
+        // Variables.context.fillRect(this.centerX()-this._hitbox.width/2, this.centerY()-this._hitbox.height/2, this._hitbox.width, this._hitbox.height);
     }
     sprint(press) { if (press) this._speed = 2; else this._speed = 1; }
-    halfWidth() { return this._mask.width/2; }
-    halfHeight() { return this._mask.height/2; }
-    centerX() { return this.position.x + this.halfWidth(); }
-    centerY() { return this.position.y + this.halfHeight(); }
+    halfWidth() { return this._hitbox.width/2; }
+    halfHeight() { return this._hitbox.height/2; }
+    centerX() { return 3+this.position.x + this.halfWidth(); }
+    centerY() { return 3+this.position.y + this.halfHeight(); }
     save() {
         const player = {
             name: this._name,

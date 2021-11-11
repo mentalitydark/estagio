@@ -1,12 +1,8 @@
 import NPC from "../../class/NPC.js";
-import Item from "../../class/Item.js";
+// import Item from "../../class/Item.js";
 import Quest from "../../class/Quest.js";
-import {addToLoad} from "../../function/LoadAssets.js";
 import {player} from "./player.js";
 
-const sprite = new Image();
-sprite.src = "./img/sprites/char.png";
-addToLoad(sprite);
 const dialog = {
     "start": {
         "text": `Olá, ${player.name}! Como Você está? Venho comprar algumas poções?`,
@@ -58,4 +54,20 @@ const drop = {
 };
 const quest = new Quest("Bhaskara", "questions", quest_dialogs, quest_options, quest_callback, drop);
 const inventory = [];
-export const potions_salesman = new NPC("Vendedor de Poções", {x: 1900, y: 1250}, "main", sprite, quest, dialog, inventory);
+const sprite = {
+    file: "potion_salesman",
+    offset: {
+        x: 0,
+        y: 0
+    },
+    size: {
+        width: 16,
+        height: 32
+    },
+    frame: 0
+};
+const dialog_hitbox = {
+    width: 30,
+    height: 60
+};
+export const potions_salesman = new NPC("Vendedor de Poções", {x: 50, y: 15}, "potion_home", sprite, quest, dialog, dialog_hitbox,inventory);

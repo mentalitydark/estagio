@@ -1,17 +1,19 @@
-import {board} from "./Objects/board.js";
-import {chest} from "./Objects/chest.js";
+// import {board} from "./Objects/board.js";
+// import {chest} from "./Objects/chest.js";
 import {houses} from "./Objects/houses.js";
 import {decorations} from "./Objects/decorations.js";
-import {children_1} from "./Persons/children_1.js";
+// import {children_1} from "./Persons/children_1.js";
 import {all_enemies, enemies_fixed} from "./Persons/enemy.js";
-import {explorer} from "./Persons/explorer.js";
+// import {explorer} from "./Persons/explorer.js";
 import {master} from "./Persons/master.js";
-import {medicine_quest} from "./Persons/medicine_quest.js";
+// import {medicine_quest} from "./Persons/medicine_quest.js";
 import {player} from "./Persons/player.js";
 import {potions_salesman} from "./Persons/potions_salesman.js";
 import {weapon_salesman} from "./Persons/weapon_salesman.js";
 import {main} from "./worlds/main.js";
 import {home_master} from "./worlds/home_master.js";
+import {weapon_home} from "./worlds/weapon_home.js";
+import {potion_home} from "./worlds/potion_home.js";
 import {itens} from "./Itens.js";
 import {images} from "./Images.js";
 export let Variables = {
@@ -43,7 +45,9 @@ export let Variables = {
     "selected_world": "home_master",
     "Worlds": {
         "main": main,
-        "home_master": home_master
+        "home_master": home_master,
+        "weapon_home": weapon_home,
+        "potion_home": potion_home
     },
     "message": {
         "bool": false,
@@ -76,7 +80,7 @@ Variables.objects.push(...decorations);
 
 // Variables.NPCs.push(children_1);
 // Variables.NPCs.push(explorer);
-// Variables.NPCs.push(master);
+Variables.NPCs.push(master);
 // Variables.NPCs.push(medicine_quest);
-// Variables.NPCs.push(potions_salesman);
-// Variables.NPCs.push(weapon_salesman);
+Variables.NPCs.push(potions_salesman);
+Variables.NPCs.push(weapon_salesman);

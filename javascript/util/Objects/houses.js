@@ -19,7 +19,7 @@ const weapon_salesman_house_sprite = {
         height: 16*6
     }
 };
-const weapon_salesman_house = new Object("Weapon Salesman House", "house", "main", weapon_salesman_house_sprite, weapon_salesman_house_position, weapon_salesman_house_collision_mask);
+const weapon_salesman_house = new Object("Weapon Salesman House", "house", "main", weapon_salesman_house_sprite, weapon_salesman_house_position, weapon_salesman_house_collision_mask, false);
 
 const potion_salesman_house_position = {
     x: 1728, 
@@ -40,7 +40,7 @@ const potion_salesman_house_sprite = {
         height: 16*6
     }
 };
-const potion_salesman_house = new Object("Potion Salesman House", "house", "main", potion_salesman_house_sprite, potion_salesman_house_position, potion_salesman_house_collision_mask);
+const potion_salesman_house = new Object("Potion Salesman House", "house", "main", potion_salesman_house_sprite, potion_salesman_house_position, potion_salesman_house_collision_mask, false);
 
 const closed_house_position = {
     x: 1872, 
@@ -61,7 +61,7 @@ const closed_house_sprite = {
         height: 16*5
     }
 };
-const closed_house = new Object("Closed House", "house", "main", closed_house_sprite, closed_house_position, closed_house_collision_mask);
+const closed_house = new Object("Closed House", "house", "main", closed_house_sprite, closed_house_position, closed_house_collision_mask, false);
 const closed_house_position_2 = {
     x: 1712, 
     y: 1376
@@ -81,7 +81,7 @@ const closed_house_sprite_2 = {
         height: 16*5
     }
 };
-const closed_house_2 = new Object("Closed House 2", "house", "main", closed_house_sprite_2, closed_house_position_2, closed_house_collision_mask_2);
+const closed_house_2 = new Object("Closed House 2", "house", "main", closed_house_sprite_2, closed_house_position_2, closed_house_collision_mask_2, false);
 
 const master_house_position = {
     x: 1872, 
@@ -102,7 +102,7 @@ const master_house_sprite = {
         height: 16*5
     }
 };
-const master_house = new Object("Master House", "house", "main", master_house_sprite, master_house_position, master_house_collision_mask);
+const master_house = new Object("Master House", "house", "main", master_house_sprite, master_house_position, master_house_collision_mask, false);
 
 export const houses = [
     weapon_salesman_house,

@@ -1,10 +1,9 @@
 import World from "./../../class/World.js";
 import Block from "./../../class/Block.js";
-import {addToLoad} from "./../../function/LoadAssets.js";
 
-const background = new Image();
-background.src = "./img/world/Mapa.png";
-addToLoad(background);
+const sprite = {
+    file: "map_main"
+};
 
 const village_limits = [
     new Block(1693, 1149, 2000, 1149),
@@ -52,10 +51,12 @@ const village_houses = [
     new Block(1807, 1442, 1817, 1456),
 ];
 const village_doors = [
-    new Block(1733, 1181, 1745, 1181, "home_master", false, "door"),
+    new Block(1733, 1181.1, 1745, 1181.1, "weapon_home", false, "door", {x: 63, y: 74}),
+    new Block(1918, 1408.1, 1937, 1408.1, "home_master", false, "door", {x: 63, y: 74}),
+    new Block(1762, 1312, 1773, 1312.1, "potion_home", false, "door", {x: 63, y: 74}),
 ];
 const village_decoration = [
-    new Block(1858, 1265, 1869, 1277),
+    new Block(1859, 1266, 1869, 1276),
     new Block(1877, 1288, 1898, 1305),
     new Block(1955, 1315, 1964, 1324),
 ];
@@ -66,5 +67,5 @@ const blocks = [
     ...village_decoration,
     ...village_doors,
 ];
-export const main = new World("main", 2000, 1500, background, {x: 1930, y: 1415});
+export const main = new World("main", 2000, 1500, sprite, {x: 1930, y: 1415});
 main.add_blocks(blocks);

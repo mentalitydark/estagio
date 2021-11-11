@@ -1,9 +1,9 @@
 export default class World {
-    constructor(name, width, height, img, teleport = null) {
+    constructor(name, width, height, sprite, teleport = null) {
         this._name = name;
         this._width = width;
         this._height = height;
-        this._img = img;
+        this._sprite = sprite;
         this._teleport = teleport;
         this._blocks = [];
     }
@@ -15,7 +15,9 @@ export default class World {
     get blocks() { return this._blocks; }
     
     set teleport(teleport) { this._teleport = teleport; }
-    draw(context) { context.drawImage(this._img, 0, 0); }
+    draw(Variables) { 
+        Variables.context.drawImage(Variables.images[this._sprite.file], 0, 0); 
+    }
     add_blocks(array) {
         array.forEach((block) => {
             this._blocks.push(block);

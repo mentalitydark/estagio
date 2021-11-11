@@ -3,10 +3,6 @@ const con = window.indexedDB.open("Game", 3);
 let database;
 con.onsuccess = (event) => {
     database = event.target.result;
-    console.log("Sucesso ao criar o banco!" + database);
-};
-con.onerror = (event) => {
-    console.log("Erro ao criar o banco!" + event.target.errorCode);
 };
 con.onupgradeneeded  = (event) => {
     database = event.target.result;
@@ -21,6 +17,7 @@ export function save(Variables) {
     const save = {
         id: 1,
         Variables: {
+            selected_world: Variables.selected_world,
             player: Variables.player.save()
         }
     };
@@ -41,10 +38,9 @@ export function load(Variables) {
         let cursor = event.target.result;
         if(cursor) {
             saveDB = cursor.value;
-            console.log(saveDB);
             Variables.player.load(saveDB.Variables.player);
+            Variables.selected_world = saveDB.Variables.selected_world;
         } else {
-            console.log("Não há saves.");
             save(Variables);
         }
     };

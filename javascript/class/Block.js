@@ -1,5 +1,5 @@
 export default class Block {
-    constructor(x, y, endX, endY, to = "",collision = true, type = "block") {
+    constructor(x, y, endX, endY, to = "",collision = true, type = "block", teleport = null) {
         this._x = x;
         this._y = y;
         this._width = endX - x;
@@ -9,6 +9,7 @@ export default class Block {
         this._to = to;
         this._collision = collision;
         this._type = type;
+        this._teleport = teleport;
     }
     // Get
     get x() { return this._x; }
@@ -20,6 +21,7 @@ export default class Block {
     get to() { return this._to; }
     get collision() { return this._collision; }
     get type() { return this._type; }
+    get teleport() { return this._teleport; }
     // Set
     set visible(bool) { this._visible = bool; }
 

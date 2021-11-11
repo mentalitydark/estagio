@@ -50,4 +50,4 @@ const board_collision_mask = {
     width: 16,
     height: 4
 };
-export const board = new Object("Penhasco do Caído", "board", "main", sprite, board_position, board_collision_mask, null, quest, board_text);
+export const board = new Object("Penhasco do Caído", "board", "main", sprite, board_position, board_collision_mask, true, null, quest, board_text);

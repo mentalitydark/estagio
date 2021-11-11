@@ -1,7 +1,6 @@
 import Object from "../../class/Object.js";
 import Item from "../../class/Item.js";
 import {addToLoad} from "../../function/LoadAssets.js";
-import {player} from "./../Persons/player.js";
 
 const sprite = new Image();
 sprite.src = "./img/sprites/char.png";
@@ -20,4 +19,4 @@ const drop = {
         new Item("Ouro", "quest", 1, sprite, {type: "", value: 0}),
     ]
 };
-export const chest = new Object("Baú dos Bandidos", "chest", "main", sprite, position, collision_mask, drop);
+export const chest = new Object("Baú dos Bandidos", "chest", "main", sprite, position, collision_mask, true, drop);

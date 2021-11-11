@@ -8,29 +8,34 @@ const itens = new Image();
 itens.src = "./img/sprites/char.png";
 addToLoad(itens);
 
-const npc = new Image();
-npc.src = "./img/sprites/char.png";
-addToLoad(npc);
+const master = new Image();
+master.src = "./img/sprites/master.png";
+addToLoad(master);
+
+const potion_salesman = new Image();
+potion_salesman.src = "./img/sprites/potion_salesman.png";
+addToLoad(potion_salesman);
+
+const weapon_salesman = new Image();
+weapon_salesman.src = "./img/sprites/weapon_salesman.png";
+addToLoad(weapon_salesman);
 
 const enemies = new Image();
 enemies.src = "./img/sprites/char.png";
 addToLoad(enemies);
 
 const map_main = new Image();
-map_main.src = "./img/sprites/char.png";
+map_main.src = "./img/world/map.png";
 addToLoad(map_main);
 
 const map_master = new Image();
-map_master.src = "./img/sprites/char.png";
+map_master.src = "./img/world/map_master.png";
 addToLoad(map_master);
 
-const map_potions = new Image();
-map_potions.src = "./img/sprites/char.png";
-addToLoad(map_potions);
+const map_salesman = new Image();
+map_salesman.src = "./img/world/map_salesman.png";
+addToLoad(map_salesman);
 
-const map_weapons = new Image();
-map_weapons.src = "./img/sprites/char.png";
-addToLoad(map_weapons);
 
 const map_boss = new Image();
 map_boss.src = "./img/sprites/char.png";
@@ -43,12 +48,13 @@ addToLoad(tileset_village);
 export const images = {
     player,
     itens,
-    npc,
+    master,
+    potion_salesman,
+    weapon_salesman,
     enemies,
     map_main,
     map_master,
-    map_potions,
-    map_weapons,
+    map_salesman,
     map_boss,
     tileset_village,
 };

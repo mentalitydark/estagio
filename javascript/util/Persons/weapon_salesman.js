@@ -1,12 +1,9 @@
 import NPC from "../../class/NPC.js";
 import Item from "../../class/Item.js";
 import Quest from "../../class/Quest.js";
-import {addToLoad} from "../../function/LoadAssets.js";
 import {player} from "./player.js";
 
-const sprite = new Image();
-sprite.src = "./img/sprites/char.png";
-addToLoad(sprite);
+
 const dialog = {
     "start": {
         "text": `Olá, ${player.name}! Está procurando um cajado novo? Chegou uns novos cajados\nque você vai adorar!`,
@@ -63,4 +60,20 @@ const drop = {
 };
 const quest = new Quest("Cajado Químico", "delivery", quest_dialogs, quest_options, quest_callback, drop);
 const inventory = [];
-export const weapon_salesman = new NPC("Vendedor de Cajados", {x: 1700, y: 1250}, "main", sprite, quest, dialog, inventory);
+const sprite = {
+    file: "weapon_salesman",
+    offset: {
+        x: 0,
+        y: 0
+    },
+    size: {
+        width: 16,
+        height: 32
+    },
+    frame: 0
+};
+const dialog_hitbox = {
+    width: 30,
+    height: 60
+};
+export const weapon_salesman = new NPC("Vendedor de Cajados", {x: 50, y: 15}, "weapon_home", sprite, quest, dialog, dialog_hitbox,inventory);

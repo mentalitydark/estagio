@@ -11,6 +11,8 @@ let Vignette = true;
 let i = 0;
 let selected_world = Variables.selected_world;
 let world = Variables.Worlds[selected_world];
+let frameTime = 40;
+let time = 0;
 export async function GAME_update(camera) {
     selected_world = Variables.selected_world;
     world = Variables.Worlds[selected_world];
@@ -19,8 +21,6 @@ export async function GAME_update(camera) {
         if(!Variables["inventory"]) {
             if(!Variables["combat"]) {
                 if(!Variables["object_interaction"]) {
-                    if(Variables.keys.v)
-                        console.log(Variables);
                     move_player(Variables.player, Variables.keys);
                     // Movimentação da Camera
                     if(Variables.player.position.y < camera.topBorder()) camera.y = Variables.player.position.y-camera.height * 0.25;
@@ -75,6 +75,7 @@ export async function GAME_update(camera) {
                         Variables.keys.i = false;
                         change_variable("inventory", true);
                     }
+                    // Gerar inimigo aleatório
                     // if(Variables.enemy_spawn >= 750) {
                     //     const randomNumber = Math.random();
                     //     if(randomNumber <= 0.25) {
@@ -128,14 +129,22 @@ export function GAME_render(timeStamp, camera, canvas) {
         Variables.context.translate(-camera.x, -camera.y);
         Variables.context.clearRect(Variables.player.position.x-canvas.width/2, Variables.player.position.y-canvas.height/2, 900, 600);
         // Código
-        world.draw(Variables.context);
+        world.draw(Variables);
         Variables.player.draw(Variables);
         // Variables.Blocks.forEach( block => {
         //     block.draw(Variables.context);
         // });
         Variables.NPCs.forEach(NPC => {
-            if(NPC.map === world.name)
-                NPC.draw(Variables.context);
+            if(NPC.map === world.name) {
+                NPC.draw(Variables);
+                time++;
+                if(time >= frameTime/4) {
+                    NPC.sprite.frame = NPC.sprite.frame + 1;
+                    if(NPC.sprite.frame >= 3)
+                        NPC.sprite.frame = 0;
+                    time = 0;
+                }
+            }
         });
         Variables.objects.forEach(object => {
             if(object.map === world.name)

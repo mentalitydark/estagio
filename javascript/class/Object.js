@@ -1,5 +1,5 @@
 export default class Object {
-    constructor(name, type, map, sprite, position, mask,drop = null, quest = null, text = null) {
+    constructor(name, type, map, sprite, position, mask, collision = true,drop = null, quest = null, text = null) {
         this._name = name;
         this._type = type;
         this._map = map;
@@ -13,7 +13,7 @@ export default class Object {
         this._drop = drop;
         this._quest = quest;
         this._text = text;
-        this._collision = true;
+        this._collision = collision;
         this._open = false;
     }
     draw(Variables) {
@@ -34,6 +34,13 @@ export default class Object {
             );
         }
         if(this._type === "house") {
+            Variables.context.drawImage(
+                Variables.images[this._sprite.file],
+                this._sprite.offset.x,  this._sprite.offset.y, this._sprite.size.width, this._sprite.size.height,
+                this._position.x, this._position.y, this._sprite.size.width, this._sprite.size.height
+            );
+        }
+        if(this._type === "decoration") {
             Variables.context.drawImage(
                 Variables.images[this._sprite.file],
                 this._sprite.offset.x,  this._sprite.offset.y, this._sprite.size.width, this._sprite.size.height,

@@ -1,6 +1,5 @@
 import {Variables, change_variable} from "./../util/Variables.js";
 import {quest_update, quest_render} from "./Quest.js";
-import Message from "./Message.js";
 let alpha = 1;
 let positive = false;
 let object_selected;

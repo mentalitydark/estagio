@@ -27,10 +27,7 @@ export default class Item {
     set attributes(value) { this.attributes = value; }
     set price(value) { this.price = value; }
     set equipped(value) { this.equipped = value; }
-    
-    draw(Variables) {
-        
-    }
+
     add_quantity(quantity) { this._quantity += quantity; }
     remove_quantity(quantity) { this._quantity -= quantity; }
     save() {
