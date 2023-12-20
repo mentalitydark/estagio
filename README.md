@@ -1,4 +1,4 @@
-# The hero
+# The hero (não finalizado)
 
 Projeto feito como finalização do curso de Informática para Internet de IFRS. O projeto o professor Eduardo Wenzel Brião como supervisor.
 
